@@ -54,7 +54,7 @@ deploy:
 spike-nemotron:
     uv run spikes/nemotron_tools.py
 
-spike-photon:
+spike-photon-v1:
     cd spikes/photon && {{pm}} install --silent && npx tsx echo.ts
 
 # voice webhook on :8010; expose with: cloudflared tunnel --url http://localhost:8010
@@ -66,3 +66,7 @@ spike-photon-out:
 
 spike-call:
     uv run spikes/call_outbound.py
+
+# Photon 2.0 (beta) iMessage: assign line, echo, unprompted follow-up
+spike-photon:
+    uv run spikes/photon_beta.py
