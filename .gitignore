@@ -1,0 +1,40 @@
+# secrets
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+
+# node / next
+node_modules/
+.next/
+out/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# os / editor
+.DS_Store
+.idea/
+.vscode/
+
+# large media (keep demo video out of git; upload to YouTube/Drive)
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.zip
+*.tar.gz
+*.psd
+*.wav
+
+# logs
+*.log
+npm-debug.log*
