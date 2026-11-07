@@ -33,8 +33,8 @@ for i in ids:
     print("  ", i)
 prefer = [
     os.getenv("NEMOTRON_MODEL", ""),
-    "nvidia/nemotron-3-super-120b-a12b",
-    "nvidia/nemotron-3-nano-30b-a3b",
+    "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    "nvidia/nemotron-3.5-lightning-30b-a3b",
 ]
 model = next((p for p in prefer if p and p in ids), ids[0] if ids else None)
 if not model:
