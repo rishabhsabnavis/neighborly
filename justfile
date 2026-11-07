@@ -60,3 +60,9 @@ spike-photon:
 # voice webhook on :8010; expose with: cloudflared tunnel --url http://localhost:8010
 spike-voice:
     uv run spikes/voice_webhook.py
+
+spike-photon-out:
+    cd spikes/photon && {{pm}} install --silent && npx tsx outbound.ts
+
+spike-call:
+    uv run spikes/call_outbound.py
