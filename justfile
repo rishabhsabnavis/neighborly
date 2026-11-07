@@ -70,3 +70,7 @@ spike-call:
 # Photon 2.0 (beta) iMessage: assign line, echo, unprompted follow-up
 spike-photon:
     uv run spikes/photon_beta.py
+
+# Photon number -> ElevenLabs agent (re-runnable). Needs ELEVENLABS_API_KEY in backend/.env
+voice-setup:
+    PYTHONUNBUFFERED=1 uv run spikes/voice_setup.py
