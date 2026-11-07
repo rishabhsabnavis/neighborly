@@ -49,3 +49,14 @@ tunnel:
 
 deploy:
     cd frontend && {{vercel}} --prod
+
+# ---- first-hour spikes (keys go in spikes/.env) ----
+spike-nemotron:
+    uv run spikes/nemotron_tools.py
+
+spike-photon:
+    cd spikes/photon && {{pm}} install --silent && npx tsx echo.ts
+
+# voice webhook on :8010; expose with: cloudflared tunnel --url http://localhost:8010
+spike-voice:
+    uv run spikes/voice_webhook.py
