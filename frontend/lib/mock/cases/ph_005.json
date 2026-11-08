@@ -1,0 +1,84 @@
+{
+  "policyholder": {
+    "id": "ph_005",
+    "name": "Priya Shah",
+    "address": "165 Magnolia St, Quincy, FL",
+    "county": "Gadsden"
+  },
+  "policy": {
+    "number": "SF-HO-80005",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 165 Magnolia St"
+    ],
+    "coverages": {
+      "dwelling": 380000,
+      "contents": 190000,
+      "ale": 12000
+    },
+    "deductible": 2500,
+    "household": {
+      "size": 2,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_005_m1",
+      "ts": "2026-11-07T18:15:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Priya, this is State Farm. Hurricane Isaias hit Gadsden County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_005_m2",
+      "ts": "2026-11-07T18:16:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "The roof caved in. I want to talk to a person."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 3,
+    "label": "high",
+    "needs": [
+      "shelter"
+    ],
+    "summary": "Roof damage, asked for a person",
+    "action": "A person will call within 15 min",
+    "source": "seed"
+  },
+  "human_request": {
+    "requested": true,
+    "reason": "Asked for a person",
+    "ts": "2026-11-07T18:16:00Z"
+  },
+  "claim_draft": {
+    "claim_id": "SF-4955-0005",
+    "status": "draft",
+    "policy_number": "SF-HO-80005",
+    "date_of_loss": "2026-10-27",
+    "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+    "loss_location": "165 Magnolia St, Quincy, FL",
+    "damages": [
+      {
+        "item": "Roof",
+        "description": "Caved in",
+        "coverage": "dwelling",
+        "severity": "major"
+      }
+    ],
+    "ale_requested": false,
+    "injuries_or_medical": [],
+    "deductible": 2500,
+    "missing_info": [
+      "Photos of damage",
+      "Estimated repair cost"
+    ],
+    "evidence": [
+      "ph_005_m1",
+      "ph_005_m2"
+    ]
+  }
+}

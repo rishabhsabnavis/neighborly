@@ -1,0 +1,54 @@
+{
+  "policyholder": {
+    "id": "ph_032",
+    "name": "Malik Jordan",
+    "address": "516 Bayou Rd, Blountstown, FL",
+    "county": "Calhoun"
+  },
+  "policy": {
+    "number": "SF-HO-80032",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 516 Bayou Rd"
+    ],
+    "coverages": {
+      "dwelling": 280000,
+      "contents": 140000,
+      "ale": 16000
+    },
+    "deductible": 1000,
+    "household": {
+      "size": 1,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_032_m1",
+      "ts": "2026-11-07T19:36:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Malik, this is State Farm. Hurricane Isaias hit Calhoun County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_032_m2",
+      "ts": "2026-11-07T19:37:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "A small leak in the closet. We can stay and wait on repairs."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 2,
+    "label": "moderate",
+    "needs": [
+      "repairs"
+    ],
+    "summary": "Small closet leak, can stay",
+    "action": "Ask a follow-up",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": null
+}

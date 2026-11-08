@@ -1,0 +1,38 @@
+{
+  "policyholder": {
+    "id": "ph_009",
+    "name": "Grace Ibarra",
+    "address": "217 Cypress St, Monticello, FL",
+    "county": "Jefferson"
+  },
+  "policy": {
+    "number": "SF-HO-80009",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 217 Cypress St"
+    ],
+    "coverages": {
+      "dwelling": 300000,
+      "contents": 150000,
+      "ale": 20000
+    },
+    "deductible": 2500,
+    "household": {
+      "size": 2,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_009_m1",
+      "ts": "2026-11-07T18:27:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Grace, this is State Farm. Hurricane Isaias hit Jefferson County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    }
+  ],
+  "calls": [],
+  "triage": null,
+  "human_request": null,
+  "claim_draft": null
+}

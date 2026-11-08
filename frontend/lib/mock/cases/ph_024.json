@@ -1,0 +1,86 @@
+{
+  "policyholder": {
+    "id": "ph_024",
+    "name": "Pearl Donovan",
+    "address": "412 Cedar Ct, Monticello, FL",
+    "county": "Jefferson"
+  },
+  "policy": {
+    "number": "SF-HO-80024",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 412 Cedar Ct"
+    ],
+    "coverages": {
+      "dwelling": 280000,
+      "contents": 140000,
+      "ale": 20000
+    },
+    "deductible": 1000,
+    "household": {
+      "size": 1,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_024_m1",
+      "ts": "2026-11-07T19:12:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Pearl, this is State Farm. Hurricane Isaias hit Jefferson County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_024_m2",
+      "ts": "2026-11-07T19:13:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "A big section of roof is gone. Belongings are soaked. We need a hotel tonight."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 3,
+    "label": "high",
+    "needs": [
+      "shelter"
+    ],
+    "summary": "Roof gone, belongings soaked",
+    "action": "Offer a call and draft a claim",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": {
+    "claim_id": "SF-4955-0024",
+    "status": "draft",
+    "policy_number": "SF-HO-80024",
+    "date_of_loss": "2026-10-27",
+    "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+    "loss_location": "412 Cedar Ct, Monticello, FL",
+    "damages": [
+      {
+        "item": "Roof",
+        "description": "Caved in",
+        "coverage": "dwelling",
+        "severity": "major"
+      },
+      {
+        "item": "Living room contents",
+        "description": "Damaged belongings",
+        "coverage": "contents",
+        "severity": "moderate"
+      }
+    ],
+    "ale_requested": true,
+    "injuries_or_medical": [],
+    "deductible": 1000,
+    "missing_info": [
+      "Photos of damage",
+      "Estimated repair cost"
+    ],
+    "evidence": [
+      "ph_024_m1",
+      "ph_024_m2"
+    ]
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "policyholder": {
+    "id": "ph_028",
+    "name": "Colin Mercer",
+    "address": "464 Maple Ave, Crawfordville, FL",
+    "county": "Wakulla"
+  },
+  "policy": {
+    "number": "SF-AU-30028",
+    "type": "auto",
+    "covered_property": [
+      "2014 Honda Civic"
+    ],
+    "coverages": {
+      "auto": 15000
+    },
+    "deductible": 500,
+    "household": {
+      "size": 1,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_028_m1",
+      "ts": "2026-11-07T19:24:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Colin, this is State Farm. Hurricane Isaias hit Wakulla County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_028_m2",
+      "ts": "2026-11-07T19:25:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "A tree hit our Honda Civic and it will not start."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 2,
+    "label": "moderate",
+    "needs": [
+      "repairs"
+    ],
+    "summary": "Tree hit the Honda Civic",
+    "action": "Auto claim draft",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": {
+    "claim_id": "SF-4955-0028",
+    "status": "draft",
+    "policy_number": "SF-AU-30028",
+    "date_of_loss": "2026-10-27",
+    "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+    "loss_location": "464 Maple Ave, Crawfordville, FL",
+    "damages": [
+      {
+        "item": "Vehicle",
+        "description": "Vehicle damage",
+        "coverage": "auto",
+        "severity": "major"
+      }
+    ],
+    "ale_requested": false,
+    "injuries_or_medical": [],
+    "deductible": 500,
+    "missing_info": [
+      "Photos of damage",
+      "Estimated repair cost"
+    ],
+    "evidence": [
+      "ph_028_m1",
+      "ph_028_m2"
+    ]
+  }
+}

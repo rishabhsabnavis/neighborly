@@ -1,0 +1,91 @@
+import type { Case, Dashboard, StepPage } from "../types"
+import dashboardJson from "./dashboard.json"
+import stepsJson from "./steps.json"
+import c001 from "./cases/ph_001.json"
+import c002 from "./cases/ph_002.json"
+import c003 from "./cases/ph_003.json"
+import c004 from "./cases/ph_004.json"
+import c005 from "./cases/ph_005.json"
+import c006 from "./cases/ph_006.json"
+import c007 from "./cases/ph_007.json"
+import c008 from "./cases/ph_008.json"
+import c009 from "./cases/ph_009.json"
+import c010 from "./cases/ph_010.json"
+import c011 from "./cases/ph_011.json"
+import c012 from "./cases/ph_012.json"
+import c013 from "./cases/ph_013.json"
+import c014 from "./cases/ph_014.json"
+import c015 from "./cases/ph_015.json"
+import c016 from "./cases/ph_016.json"
+import c017 from "./cases/ph_017.json"
+import c018 from "./cases/ph_018.json"
+import c019 from "./cases/ph_019.json"
+import c020 from "./cases/ph_020.json"
+import c021 from "./cases/ph_021.json"
+import c022 from "./cases/ph_022.json"
+import c023 from "./cases/ph_023.json"
+import c024 from "./cases/ph_024.json"
+import c025 from "./cases/ph_025.json"
+import c026 from "./cases/ph_026.json"
+import c027 from "./cases/ph_027.json"
+import c028 from "./cases/ph_028.json"
+import c029 from "./cases/ph_029.json"
+import c030 from "./cases/ph_030.json"
+import c031 from "./cases/ph_031.json"
+import c032 from "./cases/ph_032.json"
+import c033 from "./cases/ph_033.json"
+import c034 from "./cases/ph_034.json"
+import c035 from "./cases/ph_035.json"
+import c036 from "./cases/ph_036.json"
+import c037 from "./cases/ph_037.json"
+import c038 from "./cases/ph_038.json"
+import c039 from "./cases/ph_039.json"
+import c040 from "./cases/ph_040.json"
+import c041 from "./cases/ph_041.json"
+import c042 from "./cases/ph_042.json"
+export const dashboard = dashboardJson as Dashboard
+export const steps = stepsJson as StepPage
+export const cases: Record<string, Case> = {
+  "ph_001": c001 as Case,
+  "ph_002": c002 as Case,
+  "ph_003": c003 as Case,
+  "ph_004": c004 as Case,
+  "ph_005": c005 as Case,
+  "ph_006": c006 as Case,
+  "ph_007": c007 as Case,
+  "ph_008": c008 as Case,
+  "ph_009": c009 as Case,
+  "ph_010": c010 as Case,
+  "ph_011": c011 as Case,
+  "ph_012": c012 as Case,
+  "ph_013": c013 as Case,
+  "ph_014": c014 as Case,
+  "ph_015": c015 as Case,
+  "ph_016": c016 as Case,
+  "ph_017": c017 as Case,
+  "ph_018": c018 as Case,
+  "ph_019": c019 as Case,
+  "ph_020": c020 as Case,
+  "ph_021": c021 as Case,
+  "ph_022": c022 as Case,
+  "ph_023": c023 as Case,
+  "ph_024": c024 as Case,
+  "ph_025": c025 as Case,
+  "ph_026": c026 as Case,
+  "ph_027": c027 as Case,
+  "ph_028": c028 as Case,
+  "ph_029": c029 as Case,
+  "ph_030": c030 as Case,
+  "ph_031": c031 as Case,
+  "ph_032": c032 as Case,
+  "ph_033": c033 as Case,
+  "ph_034": c034 as Case,
+  "ph_035": c035 as Case,
+  "ph_036": c036 as Case,
+  "ph_037": c037 as Case,
+  "ph_038": c038 as Case,
+  "ph_039": c039 as Case,
+  "ph_040": c040 as Case,
+  "ph_041": c041 as Case,
+  "ph_042": c042 as Case,
+}

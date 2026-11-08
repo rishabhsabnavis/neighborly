@@ -1,0 +1,30 @@
+{
+  "policyholder": {
+    "id": "ph_006",
+    "name": "Owen Blake",
+    "address": "178 Gulf Blvd, Port St. Joe, FL",
+    "county": "Gulf"
+  },
+  "policy": {
+    "number": "SF-HO-80006",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 178 Gulf Blvd"
+    ],
+    "coverages": {
+      "dwelling": 400000,
+      "contents": 200000,
+      "ale": 14000
+    },
+    "deductible": 1000,
+    "household": {
+      "size": 3,
+      "notes": []
+    }
+  },
+  "messages": [],
+  "calls": [],
+  "triage": null,
+  "human_request": null,
+  "claim_draft": null
+}

@@ -1,0 +1,54 @@
+{
+  "policyholder": {
+    "id": "ph_035",
+    "name": "Willa Grant",
+    "address": "555 Magnolia St, Quincy, FL",
+    "county": "Gadsden"
+  },
+  "policy": {
+    "number": "SF-HO-80035",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 555 Magnolia St"
+    ],
+    "coverages": {
+      "dwelling": 340000,
+      "contents": 170000,
+      "ale": 12000
+    },
+    "deductible": 2500,
+    "household": {
+      "size": 4,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_035_m1",
+      "ts": "2026-11-07T19:45:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Willa, this is State Farm. Hurricane Isaias hit Gadsden County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_035_m2",
+      "ts": "2026-11-07T19:46:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "Branches hit the porch. No water inside. We can stay."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 2,
+    "label": "moderate",
+    "needs": [
+      "repairs"
+    ],
+    "summary": "Porch damage, can stay",
+    "action": "Ask a follow-up",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": null
+}

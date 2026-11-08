@@ -1,0 +1,38 @@
+{
+  "policyholder": {
+    "id": "ph_004",
+    "name": "Marcus Hale",
+    "address": "152 Cedar Ct, Apalachicola, FL",
+    "county": "Franklin"
+  },
+  "policy": {
+    "number": "SF-HO-80004",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 152 Cedar Ct"
+    ],
+    "coverages": {
+      "dwelling": 360000,
+      "contents": 180000,
+      "ale": 20000
+    },
+    "deductible": 1000,
+    "household": {
+      "size": 1,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_004_m1",
+      "ts": "2026-11-07T18:12:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Marcus, this is State Farm. Hurricane Isaias hit Franklin County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    }
+  ],
+  "calls": [],
+  "triage": null,
+  "human_request": null,
+  "claim_draft": null
+}

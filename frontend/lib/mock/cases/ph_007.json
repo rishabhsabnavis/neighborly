@@ -1,0 +1,66 @@
+{
+  "policyholder": {
+    "id": "ph_007",
+    "name": "Nora Feldman",
+    "address": "191 Dogwood Dr, Bonifay, FL",
+    "county": "Holmes"
+  },
+  "policy": {
+    "number": "SF-HO-80007",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 191 Dogwood Dr"
+    ],
+    "coverages": {
+      "dwelling": 420000,
+      "contents": 210000,
+      "ale": 16000
+    },
+    "deductible": 2500,
+    "household": {
+      "size": 4,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_007_m1",
+      "ts": "2026-11-07T18:21:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Nora, this is State Farm. Hurricane Isaias hit Holmes County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_007_m2",
+      "ts": "2026-11-07T18:22:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "We're trapped upstairs and the water is rising."
+    }
+  ],
+  "calls": [
+    {
+      "call_id": "conv_ph_007",
+      "reason": "emergency",
+      "status": "calling",
+      "duration_s": null,
+      "transcript_summary": null
+    }
+  ],
+  "triage": {
+    "urgency": 4,
+    "label": "critical",
+    "needs": [
+      "trapped"
+    ],
+    "summary": "Trapped upstairs, water rising",
+    "action": "Emergency",
+    "source": "seed"
+  },
+  "human_request": {
+    "requested": true,
+    "reason": "Emergency",
+    "ts": "2026-11-07T18:22:00Z"
+  },
+  "claim_draft": null
+}

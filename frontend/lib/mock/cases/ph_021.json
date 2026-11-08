@@ -1,0 +1,30 @@
+{
+  "policyholder": {
+    "id": "ph_021",
+    "name": "Miles Abbott",
+    "address": "373 Palm Ave, Port St. Joe, FL",
+    "county": "Gulf"
+  },
+  "policy": {
+    "number": "SF-HO-80021",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 373 Palm Ave"
+    ],
+    "coverages": {
+      "dwelling": 380000,
+      "contents": 190000,
+      "ale": 14000
+    },
+    "deductible": 2500,
+    "household": {
+      "size": 2,
+      "notes": []
+    }
+  },
+  "messages": [],
+  "calls": [],
+  "triage": null,
+  "human_request": null,
+  "claim_draft": null
+}

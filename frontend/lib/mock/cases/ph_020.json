@@ -1,0 +1,80 @@
+{
+  "policyholder": {
+    "id": "ph_020",
+    "name": "Clara Singh",
+    "address": "360 Oak St, Quincy, FL",
+    "county": "Gadsden"
+  },
+  "policy": {
+    "number": "SF-HO-80020",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 360 Oak St"
+    ],
+    "coverages": {
+      "dwelling": 360000,
+      "contents": 180000,
+      "ale": 12000
+    },
+    "deductible": 1000,
+    "household": {
+      "size": 1,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_020_m1",
+      "ts": "2026-11-07T19:00:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Clara, this is State Farm. Hurricane Isaias hit Gadsden County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_020_m2",
+      "ts": "2026-11-07T19:01:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "Windows blew in and the roof is leaking into the living room. We need a hotel."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 3,
+    "label": "high",
+    "needs": [
+      "shelter"
+    ],
+    "summary": "Roof leak, needs a hotel",
+    "action": "Offer a call and draft a claim",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": {
+    "claim_id": "SF-4955-0020",
+    "status": "draft",
+    "policy_number": "SF-HO-80020",
+    "date_of_loss": "2026-10-27",
+    "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+    "loss_location": "360 Oak St, Quincy, FL",
+    "damages": [
+      {
+        "item": "Roof",
+        "description": "Caved in",
+        "coverage": "dwelling",
+        "severity": "major"
+      }
+    ],
+    "ale_requested": true,
+    "injuries_or_medical": [],
+    "deductible": 1000,
+    "missing_info": [
+      "Photos of damage",
+      "Estimated repair cost"
+    ],
+    "evidence": [
+      "ph_020_m1",
+      "ph_020_m2"
+    ]
+  }
+}
