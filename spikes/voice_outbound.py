@@ -203,6 +203,10 @@ PROMPT = (
     "If they ask for a person, say a State Farm agent will contact them within 15 minutes. "
     "Keep every reply under two sentences. Never promise claim payments."
 )
+VOICEMAIL_MESSAGE = (
+    "Hi {{first_name}}, this is State Farm checking on you after Hurricane Isaias. "
+    "Please text us back, or call us at 7 0 1, 8 8 8, 0 2 8 2. If you are in danger, call 9 1 1."
+)
 DEFAULTS = {
     "first_name": "there",
     "case_opening": "We're checking on everyone affected by Hurricane Isaias.",
@@ -216,9 +220,33 @@ check(
             "conversation_config": {
                 "agent": {
                     "first_message": FIRST_MESSAGE,
-                    "prompt": {"prompt": PROMPT},
+                    "prompt": {
+                        "prompt": PROMPT
+                        + " If you reach voicemail or an automated menu, do not converse with it.",
+                        # Unanswered calls hit voicemail: leave one line and hang up instead of
+                        # talking to the greeting (seen in test: 263s with a voicemail menu).
+                        "built_in_tools": {
+                            "voicemail_detection": {
+                                "type": "system",
+                                "name": "voicemail_detection",
+                                "description": "Use when the call reaches voicemail or an answering machine.",
+                                "params": {
+                                    "system_tool_type": "voicemail_detection",
+                                    "voicemail_message": VOICEMAIL_MESSAGE,
+                                },
+                            },
+                            "end_call": {
+                                "type": "system",
+                                "name": "end_call",
+                                "description": "End the call when the conversation is finished or nobody is responding.",
+                                "params": {"system_tool_type": "end_call"},
+                            },
+                        },
+                    },
                     "dynamic_variables": {"dynamic_variable_placeholders": DEFAULTS},
-                }
+                },
+                "turn": {"silence_end_call_timeout": 20},
+                "conversation": {"max_duration_seconds": 240},
             }
         },
     ),
