@@ -362,6 +362,13 @@ class NemotronBrain:
             needs = needs + [n for n in extra if n not in needs]
         else:
             self.last_floor_reason = None
+        # A 4 never goes down automatically (docs/CONTEXT.md "Danger (urgency) levels"):
+        # only a person in the console clears it, so keep it and any needs already recorded.
+        prev = c.get("triage") or {}
+        if prev.get("urgency") == 4 and urgency < 4:
+            urgency = 4
+            needs = needs + [n for n in prev.get("needs") or [] if n not in needs]
+            self.last_floor_reason = "stays critical: urgency 4 only clears by a person"
         return Triage(
             urgency=urgency,
             label=URGENCY_LABEL[urgency],

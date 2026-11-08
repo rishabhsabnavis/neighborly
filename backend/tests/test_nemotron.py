@@ -294,3 +294,43 @@ def test_safety_floor_ignores_negations_and_bare_menu_is_2():
         )
     )
     assert t.urgency == 2
+
+
+def test_critical_never_downgrades_automatically():
+    case = {
+        **MARIA,
+        "triage": {
+            "urgency": 4,
+            "needs": ["medical", "power"],
+            "summary": "s",
+            "action": "a",
+        },
+        "messages": MARIA["messages"]
+        + [
+            {
+                "id": "m_9",
+                "from": "policyholder",
+                "channel": "imessage",
+                "text": "power is back, we are ok now",
+            }
+        ],
+    }
+    b = brain_with(
+        {
+            "urgency": 2,
+            "needs": ["repairs"],
+            "summary": "Power restored",
+            "action": "Check in later",
+        }
+    )
+    t = run(b.triage(case))
+    assert t.urgency == 4 and t.label == "critical"
+    assert {"medical", "power", "repairs"} <= set(t.needs)
+    assert "stays critical" in b.last_floor_reason
+    # a 3 can still go down
+    t3 = run(
+        brain_with({"urgency": 2, "needs": [], "summary": "s", "action": "a"}).triage(
+            {**case, "triage": {"urgency": 3}}
+        )
+    )
+    assert t3.urgency == 2
