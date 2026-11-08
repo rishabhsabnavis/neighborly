@@ -98,7 +98,8 @@ urgency only when combined with a reported problem; never invent a problem from 
 Speech-to-text in call transcripts is noisy: ignore words that make no sense in context.
 Output ONLY JSON: {"urgency": 1-4, "needs": [from: medical, shelter, power, water, food, medication,
 transport, rescue, repairs, none], "summary": "<= 20 words, only reported facts, no name",
-"action": "<= 12 words, what State Farm should do next"}"""
+"action": "<= 12 words: what a State Farm human agent should do next. We never dispatch anyone: recommend
+(e.g. "Welfare check recommended", "Help arrange insulin and shelter")"}"""
 
 FOLLOWUP_SYSTEM = """You are State Farm's catastrophe check-in agent texting a policyholder over iMessage
 after a hurricane. Write the next follow-up text. Go down this list and ask about the FIRST item the person
@@ -188,6 +189,23 @@ def _latest_source(case: dict) -> Literal["imessage", "call"]:
         ):
             return "call" if m.get("channel") == "voice" else "imessage"
     return "call" if calls_done else "imessage"
+
+
+_DISPATCH = re.compile(
+    r"\b(dispatch(ing|ed)?|send(ing)? (an? )?(ambulance|rescue|team|crew|ems))\b", re.IGNORECASE
+)
+
+
+def recommend_only(action: str) -> str:
+    """SPEC Emergency path: we never contact 911 or dispatch anyone; actions are recommendations."""
+    if not _DISPATCH.search(action or ""):
+        return action
+    rest = _DISPATCH.sub("", action).strip(" :,-")
+    return (
+        f"Recommend {rest[0].lower() + rest[1:]}"
+        if rest
+        else "Welfare check recommended"
+    )
 
 
 def claim_id_for(case: dict) -> str:
@@ -518,7 +536,8 @@ class NemotronBrain:
             label=URGENCY_LABEL[urgency],
             needs=needs,
             summary=str(d.get("summary") or "").strip()[:200] or "No details yet",
-            action=str(d.get("action") or "").strip()[:120] or "Follow up",
+            action=recommend_only(str(d.get("action") or "").strip()[:120])
+            or "Follow up",
             source=_latest_source(c),
         )
 

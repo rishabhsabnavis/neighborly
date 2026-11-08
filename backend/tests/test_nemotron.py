@@ -433,3 +433,25 @@ def test_claim_coverage_comes_from_code_and_uncovered_goes_to_review():
 def test_follow_up_done_leaves_no_dropped():
     b = brain_with({"done": True, "question": ""})
     assert run(b.follow_up(MARIA)) is None and b.last_dropped == []
+
+
+def test_actions_are_recommendations_never_dispatch():
+    from app.integrations.nemotron import recommend_only
+
+    assert (
+        recommend_only("Dispatch emergency medical assistance immediately")
+        == "Recommend emergency medical assistance immediately"
+    )
+    assert recommend_only("Send an ambulance") == "Welfare check recommended"
+    assert recommend_only("Welfare check recommended") == "Welfare check recommended"
+    t = run(
+        brain_with(
+            {
+                "urgency": 4,
+                "needs": ["medical"],
+                "summary": "s",
+                "action": "Dispatch rescue team",
+            }
+        ).triage(MARIA)
+    )
+    assert "dispatch" not in t.action.lower()
