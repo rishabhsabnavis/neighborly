@@ -74,3 +74,17 @@ spike-photon:
 # Photon number -> ElevenLabs agent (re-runnable). Needs ELEVENLABS_API_KEY in backend/.env
 voice-setup:
     PYTHONUNBUFFERED=1 uv run spikes/voice_setup.py
+
+# save live backend responses as frontend mock fixtures (backend must be running; API_PORT=8001 if needed)
+snapshot:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    base="http://localhost:{{api_port}}"
+    out=frontend/lib/mock
+    mkdir -p "$out/cases"
+    curl -sf "$base/dashboard" | jq . > "$out/dashboard.json"
+    curl -sf "$base/steps" | jq . > "$out/steps.json"
+    for id in $(jq -r '.policyholders[].id' "$out/dashboard.json"); do
+      curl -sf "$base/cases/$id" | jq . > "$out/cases/$id.json"
+    done
+    echo "snapshot: $(ls "$out/cases" | wc -l | tr -d ' ') cases -> $out"

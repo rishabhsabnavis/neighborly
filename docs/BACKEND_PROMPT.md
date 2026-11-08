@@ -79,4 +79,10 @@ Add these to `backend/.env.example` with placeholders and comments: `MESSENGER`,
 3. Live smoke test with all fakes (`API_PORT=8001 just api`): `curl` every endpoint in the table, and the shapes match SPEC. After `POST /checkins/run` and `POST /dev/simulate-reply` with "4", `GET /steps` shows a `place_call` step, and within ~15s `GET /cases/ph_017` shows a finished call with transcript lines.
 4. With `NVIDIA_API_KEY` and every live key unset, nothing crashes, and live selections that fail show `error` steps and fall back.
 
-Work in this order and commit after each: models → seed + store → read endpoints (`/dashboard`, `/cases`, `/steps`) → integration interfaces + fakes + fallbacks → flow + `/dev/simulate-reply` → agent loop + pollers → `/checkins/run`, `/call`, `/demo/reset` → tests and smoke run. Once the read endpoints work, push and tell the owner, so they can start wiring the live integrations against them. Ask before adding a database, auth, websockets, or anything not listed here.
+Work in this order and commit after each: models → seed + store → read endpoints (`/dashboard`, `/cases`, `/steps`) → integration interfaces + fakes + fallbacks → flow + `/dev/simulate-reply` → agent loop + pollers → `/checkins/run`, `/call`, `/demo/reset` → tests and smoke run. Ask before adding a database, auth, websockets, or anything not listed here.
+
+## Checkpoints and what comes next
+- **~7pm: read endpoints live** (`/dashboard`, `/cases/{id}`, `/steps` on seed data). Push and tell the owner (who wires live integrations against them). Then switch to **frontend plumbing: `docs/FRONTEND_PROMPT.md`**. Start with `frontend/lib/types.ts` + `just snapshot` mocks, because Designer 1 builds components on them.
+- **By ~9pm:** finish the rest of this backend core (flow, fakes, agent loop, remaining endpoints) alongside the unstyled console. Goal: a real phone texts "2" and it shows up ranked on the console.
+- Keep the backend seed and the frontend mocks in sync: re-run `just snapshot` after any seed or model change.
+- **Contract freeze:** SPEC "Data contracts" is the agreement with the owner and Designer 1. Don't rename or reshape a field without agreeing first, then update SPEC in the same commit.
