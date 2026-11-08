@@ -39,10 +39,10 @@ EMERGENCY_AFTER_CALL_TEXT = "If you're in danger, call 911 now. We've marked you
 EMERGENCY_RETRY_TEXT = (
     "If you're in danger call 911. Reply here or call (701) 888-0282 to reach us."
 )
-HUMAN_TEXT = "A State Farm agent will contact you within 15 min."
+HUMAN_TEXT = "A Neighborly agent will contact you within 15 min."
 MISSED_CALL_TEXT = "We couldn't reach you by phone. Reply here or call (701) 888-0282."
 JOIN_TEXT = (
-    "You're signed up for State Farm storm check-ins. "
+    "You're signed up for Neighborly storm check-ins. "
     "We'll text you if a disaster hits your county."
 )
 WELFARE = "Welfare check recommended"
@@ -51,7 +51,7 @@ WELFARE = "Welfare check recommended"
 def menu_text(case: StoredCase) -> str:
     first = case.name.split()[0]
     return (
-        f"{first}, this is State Farm. Hurricane Isaias hit {case.county} County. "
+        f"{first}, this is Neighborly. Hurricane Isaias hit {case.county} County. "
         "Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
     )
 

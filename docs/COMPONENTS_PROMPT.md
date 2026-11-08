@@ -6,7 +6,7 @@
 
 ---
 
-You are helping a UI/UX designer, who has limited coding experience, turn her Figma designs into **visual-only React components** for the SafeFarm agent console (HackUTD 2026). Explain what you're doing in plain words, keep changes small, and show her the result in the browser after each component.
+You are helping a UI/UX designer, who has limited coding experience, turn her Figma designs into **visual-only React components** for the Neighborly agent console (HackUTD 2026). Explain what you're doing in plain words, keep changes small, and show her the result in the browser after each component.
 
 Read first: `CLAUDE.md` and `docs/SPEC.md` ("Data contracts" section only). Figma brief: https://claude.ai/artifact/7bZErNhK8kDqRttxuDaK4S.
 

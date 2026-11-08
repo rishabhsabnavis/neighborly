@@ -34,7 +34,7 @@ base = os.environ["VOICE_WEBHOOK_BASE"].rstrip("/")
 twiml = (
     "<Response>"
     f'<Gather input="speech" action="{base}/voice/heard" method="POST" speechTimeout="auto">'
-    "<Say>This is a State Farm check-in after the storm. Are you safe? Tell me if you need help.</Say>"
+    "<Say>This is a Neighborly check-in after the storm. Are you safe? Tell me if you need help.</Say>"
     "</Gather><Say>We did not hear you. We will try again soon.</Say></Response>"
 )
 call = Client(

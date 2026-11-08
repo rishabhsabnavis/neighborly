@@ -27,7 +27,7 @@ ANSWERED = {  # conv_6701m6wjc13xfhpty77105bddcqr (trimmed)
     "transcript": [
         {
             "role": "agent",
-            "message": "Hi Maria, this is State Farm's storm check-in line. You texted us that your roof caved in.",
+            "message": "Hi Maria, this is Neighborly's storm check-in line. You texted us that your roof caved in.",
         },
         {"role": "user", "message": "No."},
         {
@@ -53,12 +53,12 @@ VOICEMAIL_DETECTED = {  # conv_1401m6wjmpzyejhvksy68yg5xp9t (trimmed)
     "transcript": [
         {
             "role": "agent",
-            "message": "Hi Maria, this is State Farm's storm check-in line.",
+            "message": "Hi Maria, this is Neighborly's storm check-in line.",
         },
         {"role": "user", "message": "Message for 5555550100."},
         {
             "role": "agent",
-            "message": "Hi Maria, this is State Farm checking on you after Hurricane Isaias.",
+            "message": "Hi Maria, this is Neighborly checking on you after Hurricane Isaias.",
         },
         {
             "role": "agent",
@@ -87,7 +87,7 @@ VOICEMAIL_UNDETECTED = {  # conv_5701m6wj7pjwe55s0n4b564gn0bd, before the fix (t
     "transcript": [
         {
             "role": "agent",
-            "message": "Hi Maria, this is State Farm's storm check-in line.",
+            "message": "Hi Maria, this is Neighborly's storm check-in line.",
         },
         {"role": "user", "message": "Message for 5555550100."},
         {"role": "user", "message": "..."},
@@ -150,7 +150,7 @@ def test_dynamic_variables_per_reason():
         "call_reason",
         "case_summary",
     }
-    assert v["first_message"].startswith("Hi Maria, this is State Farm")
+    assert v["first_message"].startswith("Hi Maria, this is Neighborly")
     assert (
         build_dynamic_variables(CallContext(name="", reason="requested"))[
             "case_summary"

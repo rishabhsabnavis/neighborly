@@ -4,10 +4,10 @@ Paste everything below the line into your coding agent, started from the repo ro
 
 ---
 
-You are building the **SafeFarm backend core**, a FastAPI service for our HackUTD 2026 project (24h hackathon, State Farm track). Read these first, in order: `CLAUDE.md` (rules and commands), `docs/CONTEXT.md` (status), `docs/SPEC.md` (scope, demo script, **data contracts**). SPEC.md is the source of truth. If something here conflicts with it, SPEC wins. Don't build anything in SPEC's "Not doing" list.
+You are building the **Neighborly backend core**, a FastAPI service for our HackUTD 2026 project (24h hackathon, State Farm track). Read these first, in order: `CLAUDE.md` (rules and commands), `docs/CONTEXT.md` (status), `docs/SPEC.md` (scope, demo script, **data contracts**). SPEC.md is the source of truth. If something here conflicts with it, SPEC wins. Don't build anything in SPEC's "Not doing" list.
 
 ## What it is
-After Hurricane Isaias (FEMA-4955, 15 FL panhandle counties), an AI agent texts every opted-in State Farm policyholder an iMessage menu, asks follow-ups based on their policy, calls them by voice on request or after silence, flags people who ask for a human, and writes a claim draft from the whole case. A Next.js console (built later, after the Figma design) polls this API to show the map, the priority queue, each case, and the agent's step log.
+After Hurricane Isaias (FEMA-4955, 15 FL panhandle counties), an AI agent texts every opted-in Neighborly policyholder an iMessage menu, asks follow-ups based on their policy, calls them by voice on request or after silence, flags people who ask for a human, and writes a claim draft from the whole case. A Next.js console (built later, after the Figma design) polls this API to show the map, the priority queue, each case, and the agent's step log.
 
 ## Ownership (important: two people work in `backend/` at once)
 - **You own:** `app/models.py`, `app/store.py`, `app/steps.py`, `app/flow.py`, `app/agent.py` (loop + rule-based planner), `app/fallbacks.py`, `app/integrations/base.py`, `app/integrations/fake.py`, `app/routes/*`, `app/seed/*`, `app/main.py`, and `tests/*` for those.
@@ -51,12 +51,12 @@ class Brain(Protocol):              # LLM (live = Nemotron)
 
 ## Conversation flow (`app/flow.py`), driven by inbound messages
 - Inbound "JOIN" from a live phone → mark opted in, reply with a short confirmation. Check-in only texts opted-in live policyholders (the seeded ones are simulated). Allow `DEMO_ASSUME_OPTED_IN=1` to skip this during development.
-- Check-in text: "{first name}, this is State Farm. Hurricane Isaias hit {county} County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+- Check-in text: "{first name}, this is Neighborly. Hurricane Isaias hit {county} County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
 - **1** → status `safe`, urgency 1, thank-you reply, case closed.
 - **2** → ask up to 2 `brain.follow_up` questions (one per reply). After each reply: `brain.triage`. Once the follow-ups are done (or after any reply with enough detail): `brain.draft_claim`, then text "We started claim {claim_id} for you. Reply YES to confirm."
 - **3** (or triage urgency 4 with a life-safety need, from text or a call transcript) → the **emergency path** in SPEC: the 911 text right away with no LLM call, urgency 4, `human_request` (reason "Emergency"), call with `reason: "emergency"` unless already on a call. If the call is unanswered: follow-up text, retry once after 60s, then `unreachable` + action "Welfare check recommended" (human flag stays).
 - **4** or text containing "call" → place a call with `reason: "requested"`.
-- **0** or "agent/person/human" → set `human_request` and reply "A State Farm agent will contact you within 15 min."
+- **0** or "agent/person/human" → set `human_request` and reply "A Neighborly agent will contact you within 15 min."
 - **YES** while a claim draft exists → `claim_draft.status = "confirmed"`.
 - Free text at any point → triage it. If the case is still on the menu, treat it as a "2".
 - When a call finishes: merge the transcript into `messages` (`from: "voice_agent"/"policyholder"`, `channel: "voice"`), re-triage, draft or refresh the claim, and set `human_request` if the caller asked for a person.

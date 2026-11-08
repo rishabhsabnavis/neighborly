@@ -327,7 +327,7 @@ def stamp(index: int, extra: int = 0) -> str:
 def menu(case: StoredCase) -> str:
     first = case.name.split()[0]
     return (
-        f"{first}, this is State Farm. Hurricane Isaias hit {case.county} County. "
+        f"{first}, this is Neighborly. Hurricane Isaias hit {case.county} County. "
         "Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
     )
 

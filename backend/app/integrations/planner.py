@@ -45,17 +45,17 @@ ToolName = Literal["send_imessage", "place_call", "request_human", "draft_claim"
 MAX_ACTIONS = 5
 MAX_ROWS_TO_MODEL = 25
 
-PLANNER_SYSTEM = """You are SafeFarm's disaster-response planner for State Farm after Hurricane Isaias.
+PLANNER_SYSTEM = """You are Neighborly's disaster-response planner after Hurricane Isaias.
 Every 15 seconds you get the live open policyholder cases and a list of actions our rules say are DUE.
 Decide what to do THIS round, using the tools. Priorities, in order:
-1. Life safety: urgency 4 first. Make sure every urgency-4 case has a human State Farm agent (request_human).
+1. Life safety: urgency 4 first. Make sure every urgency-4 case has a human Neighborly agent (request_human).
    Emergencies (call_reason emergency) that went unanswered: retry the call once, then text and get a human.
 2. Silence is a warning sign: anyone texted who has not replied within no_reply_seconds gets a call
    (place_call reason=no_reply). If a call failed or went to voicemail, send one short iMessage instead.
 3. Paperwork last: draft_claim for cases that have triage but no claim yet.
 Do every DUE action unless there is a clear reason not to, and do not invent actions for people who
 are fine. Never act on someone who is "calling" right now. Keep iMessage texts under 250 characters,
-calm and plain, and say this is State Farm. If nothing is needed, call `wait`.
+calm and plain, and say this is Neighborly. If nothing is needed, call `wait`.
 Before acting, think briefly about who is most at risk."""
 
 TOOLS = [
@@ -101,7 +101,7 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "request_human",
-            "description": "Put this case in the human State Farm agent queue.",
+            "description": "Put this case in the human Neighborly agent queue.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -253,7 +253,7 @@ def due_actions(rows: list[dict], now: datetime, no_reply_seconds: int) -> list[
                 text = (
                     "If you're in danger call 911. Reply here or call (701) 888-0282 to reach us."
                     if emergency
-                    else "This is State Farm. We tried to call you after Hurricane Isaias. "
+                    else "This is Neighborly. We tried to call you after Hurricane Isaias. "
                     "Please reply 1 if you're safe or 2 if you need help, or call (701) 888-0282. "
                     "If you are in danger, call 911."
                 )

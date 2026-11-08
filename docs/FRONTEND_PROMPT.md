@@ -4,7 +4,7 @@ Start this once the backend's read endpoints (`/dashboard`, `/cases/{id}`, `/ste
 
 ---
 
-You are building the **technical layer of the SafeFarm agent console** (Next.js frontend) for our HackUTD 2026 project. Read these first: `CLAUDE.md`, `docs/CONTEXT.md`, `docs/SPEC.md` (**data contracts** = the source of truth). Figma brief: https://claude.ai/artifact/7bZErNhK8kDqRttxuDaK4S.
+You are building the **technical layer of the Neighborly agent console** (Next.js frontend) for our HackUTD 2026 project. Read these first: `CLAUDE.md`, `docs/CONTEXT.md`, `docs/SPEC.md` (**data contracts** = the source of truth). Figma brief: https://claude.ai/artifact/7bZErNhK8kDqRttxuDaK4S.
 
 ## Who does what in `frontend/`
 - **You own:** `frontend/lib/*` (types, API client, polling, mocks), `frontend/app/page.tsx` (the console), `frontend/components/map/*` (Leaflet), `frontend/components/raw/*` (temporary unstyled pieces), and all data wiring and state.

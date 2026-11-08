@@ -4,7 +4,7 @@
 # ///
 """One-shot, re-runnable inbound voice setup: Photon number -> ElevenLabs agent.
 
-1. ElevenLabs: create (or reuse) agent "SafeFarm Check-in".
+1. ElevenLabs: create (or reuse) agent "Neighborly Check-in".
 2. ElevenLabs: import the Photon number as a SIP-trunk number, assigned to the agent.
 3. Photon: ensure default Voice profile (SIP); set inbound destination to ElevenLabs.
 4. Write ELEVENLABS_AGENT_ID / ELEVENLABS_PHONE_NUMBER_ID into backend/.env.
@@ -34,7 +34,7 @@ PH_PROJECT = (
 ).strip()
 NUMBER = os.getenv("PHOTON_VOICE_NUMBER", "+17018880282").strip()
 EL_SIP = os.getenv("ELEVENLABS_SIP_URI", "sips:sip.rtc.elevenlabs.io:5061").strip()
-AGENT_NAME = "SafeFarm Check-in"
+AGENT_NAME = "Neighborly Check-in"
 
 missing = [
     n
@@ -48,9 +48,9 @@ missing = [
 if missing:
     sys.exit(f"FAIL: missing {', '.join(missing)} (backend/.env or spikes/.env)")
 
-FIRST_MESSAGE = "Hi, this is SafeFarm checking on you after Hurricane Isaias. Are you and everyone with you safe right now?"
+FIRST_MESSAGE = "Hi, this is Neighborly checking on you after Hurricane Isaias. Are you and everyone with you safe right now?"
 PROMPT = (
-    "You are a calm, brief disaster check-in agent for SafeFarm insurance. Ask whether the person is safe, "
+    "You are a calm, brief disaster check-in agent for Neighborly insurance. Ask whether the person is safe, "
     "whether anyone is injured or trapped, whether they have power, water and needed medication, and their "
     "address or nearest cross street. Ask one question at a time. If anyone is in immediate danger, tell them "
     "to hang up and call 911 now. Keep every reply under two sentences. Never promise claim payments."
@@ -112,7 +112,7 @@ else:
             "/v1/convai/phone-numbers",
             json={
                 "provider": "sip_trunk",
-                "label": "Photon SafeFarm",
+                "label": "Photon Neighborly",
                 "phone_number": NUMBER,
                 "agent_id": agent_id,
                 "inbound_trunk_config": {"media_encryption": "allowed"},

@@ -113,7 +113,7 @@ export function DetailPanel({
           </p>
           {row.human_requested ? (
             <p className="mt-2 text-sm font-medium text-zinc-700">
-              Asked for a State Farm agent.
+              Asked for a Neighborly agent.
             </p>
           ) : null}
         </section>

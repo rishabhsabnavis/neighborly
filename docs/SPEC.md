@@ -1,9 +1,9 @@
-# SPEC: SafeFarm (working name)
+# SPEC: Neighborly
 
 > If it's not in here, we're not building it.
 
 ## Problem
-When a publicly declared catastrophe hits, a policyholder needs help right away and doesn't know how to ask for it. Weeks later they still have to file a claim from memory. **Who has it:** State Farm policyholders in a disaster zone (and the CAT agents serving them). Today they cope by waiting on hold in an overloaded call center, then retelling everything again to file a claim.
+When a publicly declared catastrophe hits, a policyholder needs help right away and doesn't know how to ask for it. Weeks later they still have to file a claim from memory. **Who has it:** Neighborly policyholders in a disaster zone (and the CAT agents serving them). Today they cope by waiting on hold in an overloaded call center, then retelling everything again to file a claim.
 
 **Principle:** victim safety first, the claim second. Every conversation, whether text, voice or human, adds to one case record, and that record becomes a claim draft.
 
@@ -18,15 +18,15 @@ When a publicly declared catastrophe hits, a policyholder needs help right away 
 
 ## 2-minute demo script
 Cast: 2 people. Phone A = an iPhone, the victim. Phone B = any phone, the silent policyholder (gets a call only; no iMessage needed). Presenter drives the agent console.
-1. (0:00-0:20) Problem: Hurricane Isaias (FEMA-4955) just hit 15 FL panhandle counties. Maria, a State Farm homeowner, is flooded, and the call center has a 3-hour hold.
-2. (0:20-0:35) Solution: SafeFarm texts every policyholder in the zone, knows their policy, gets them help over text, voice or a human, and turns the conversation into a claim draft.
-3. (0:35-1:35) Live demo: click **Run check-in**. Phone A gets: "Maria, this is State Farm. Hurricane Isaias hit Bay County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person." She replies **2**. Nemotron uses her policy for the follow-ups: "Is there damage to your home at 412 Harbor Dr? Your policy covers up to $18,000 in hotel costs. Do you need a place to stay tonight?" She replies "roof caved in, water in the living room, yes need hotel", then **4**. **Phone A rings within seconds (wow moment)**, and the voice agent already knows what she said. She adds "my mom's on oxygen and the power is out." Hang up. The console shows urgency 4, the step log, and a **claim draft** (dwelling roof, contents water damage, ALE hotel, medical-needs flag). She gets "We started claim SF-4955-0017. Reply YES to confirm." Meanwhile phone B never answered, so after 60s the agent logs "no reply, calling" and phone B rings.
-4. (1:35-1:50) Impact: help in minutes instead of hours on hold, the victim never tells their story twice, and State Farm gets a structured first notice of loss on day 0.
+1. (0:00-0:20) Problem: Hurricane Isaias (FEMA-4955) just hit 15 FL panhandle counties. Maria, a Neighborly policyholder, is flooded, and the call center has a 3-hour hold.
+2. (0:20-0:35) Solution: Neighborly texts every policyholder in the zone, knows their policy, gets them help over text, voice or a human, and turns the conversation into a claim draft.
+3. (0:35-1:35) Live demo: click **Run check-in**. Phone A gets: "Maria, this is Neighborly. Hurricane Isaias hit Bay County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person." She replies **2**. Nemotron uses her policy for the follow-ups: "Is there damage to your home at 412 Harbor Dr? Your policy covers up to $18,000 in hotel costs. Do you need a place to stay tonight?" She replies "roof caved in, water in the living room, yes need hotel", then **4**. **Phone A rings within seconds (wow moment)**, and the voice agent already knows what she said. She adds "my mom's on oxygen and the power is out." Hang up. The console shows urgency 4, the step log, and a **claim draft** (dwelling roof, contents water damage, ALE hotel, medical-needs flag). She gets "We started claim SF-4955-0017. Reply YES to confirm." Meanwhile phone B never answered, so after 60s the agent logs "no reply, calling" and phone B rings.
+4. (1:35-1:50) Impact: help in minutes instead of hours on hold, the victim never tells their story twice, and Neighborly gets a structured first notice of loss on day 0.
 5. (1:50-2:00) Tech: Nemotron agent + triage, Photon iMessage + SIP voice, ElevenLabs voice agent, FastAPI, Next.js. Hardest part: one case record shared across text, voice and human.
 
 ## MVP features (max 3)
 1. **Policy-aware iMessage check-in**: the agent clicks "Run check-in". Each opted-in policyholder in the zone gets the menu (1 Safe / 2 Need help / 3 Emergency / 4 Call me / 0 Talk to a person). Nemotron reads their seeded policy (type, covered property, coverages and deductible, household and vulnerability notes) and asks at most 2 tailored follow-ups. Any coverage fact it mentions (limit, deductible, covered or not) must come from the deterministic `check_coverage` tool (see "Policy coverage"). Every reply is triaged into urgency 1-4 with needs, a summary and an action. **3** runs the emergency path (see "Emergency path"). **1** closes the case as safe.
-2. **Escalation ladder: voice, then human**: replying **4** (or "call") makes the ElevenLabs agent call the phone over Photon SIP. The call is seeded with the case so far, and its transcript is merged back into the case. Policyholders who don't reply within `NO_REPLY_SECONDS` (60 in the demo) are called automatically. Replying **0**, or asking for a person on the call, sets `human_requested` and gets the reply "A State Farm agent will contact you within 15 min." The case jumps up the human queue in the console.
+2. **Escalation ladder: voice, then human**: replying **4** (or "call") makes the ElevenLabs agent call the phone over Photon SIP. The call is seeded with the case so far, and its transcript is merged back into the case. Policyholders who don't reply within `NO_REPLY_SECONDS` (60 in the demo) are called automatically. Replying **0**, or asking for a person on the call, sets `human_requested` and gets the reply "A Neighborly agent will contact you within 15 min." The case jumps up the human queue in the console.
 3. **Claim draft + agent console**: after enough context (or at the end of a call), Nemotron writes a structured claim draft from the case and policy. The policyholder gets a short text summary with the claim # and can reply YES to confirm. Next.js console: county map with pins colored by urgency, a ranked queue (human-requested first, then urgency, then time waiting), a case panel (policy, full text and call transcript, triage, claim draft) and a live Nemotron step log.
 
 ## Policy coverage (how "policy-aware" works)
@@ -57,7 +57,7 @@ Decided 2026-11-07. **We never contact 911 or dispatch anyone.** We tell the per
 
 pytest: `3` -> 911 text sent, urgency 4, `human_requested: true`, a `place_call` step with `reason: "emergency"`; "I'm trapped, water rising" free text -> same; a fake voicemail call -> a follow-up text, one retry, then `unreachable` + "Welfare check recommended".
 
-**Stretch (only after all 3 pass verification):** a live human handoff, where the voice call is transferred to the teammate playing the State Farm agent, or that teammate replies to the victim's iMessage from the case panel.
+**Stretch (only after all 3 pass verification):** a live human handoff, where the voice call is transferred to the teammate playing the Neighborly agent, or that teammate replies to the victim's iMessage from the case panel.
 
 ## Not doing
 - Filing real claims or any real State Farm system, policy data or integration (policies are synthetic seed data)

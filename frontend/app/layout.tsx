@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Response Console",
-  description: "State Farm disaster check-in console",
+  description: "Neighborly disaster check-in console",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

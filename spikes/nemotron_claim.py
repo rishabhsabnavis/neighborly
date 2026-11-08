@@ -58,7 +58,7 @@ CASE = {
             "id": "m_1",
             "from": "agent",
             "channel": "imessage",
-            "text": "Maria, this is State Farm. Hurricane Isaias hit Bay County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person.",
+            "text": "Maria, this is Neighborly. Hurricane Isaias hit Bay County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person.",
         },
         {"id": "m_2", "from": "policyholder", "channel": "imessage", "text": "2"},
         {
@@ -81,7 +81,7 @@ CASE = {
             "transcript": [
                 [
                     "agent",
-                    "Hi Maria, this is State Farm's storm check-in line. You texted us that your roof caved in and there's water in the living room. Are you and everyone with you safe right now?",
+                    "Hi Maria, this is Neighborly's storm check-in line. You texted us that your roof caved in and there's water in the living room. Are you and everyone with you safe right now?",
                 ],
                 ["user", "No."],
                 ["agent", "I'm sorry to hear that. Is anyone injured or trapped?"],
@@ -95,7 +95,7 @@ CASE = {
     ],
 }
 
-CLAIM_SYSTEM = """You are a State Farm catastrophe claims assistant. Write a FIRST NOTICE OF LOSS claim draft
+CLAIM_SYSTEM = """You are a Neighborly catastrophe claims assistant. Write a FIRST NOTICE OF LOSS claim draft
 from the case JSON. Use ONLY facts stated in the messages or call transcript. Never invent damage, items,
 injuries or amounts. Map each damage to one policy coverage: dwelling (the structure: roof, walls, floors),
 contents (belongings: furniture, electronics, clothing), auto (a covered vehicle), or ale (additional living
@@ -107,7 +107,7 @@ object with exactly these keys:
  "ale_requested": bool, "injuries_or_medical": [str], "deductible": number, "missing_info": [str],
  "evidence": [message or call ids the facts came from]}"""
 
-FOLLOWUP_SYSTEM = """You are a State Farm catastrophe check-in agent texting a policyholder over iMessage.
+FOLLOWUP_SYSTEM = """You are a Neighborly catastrophe check-in agent texting a policyholder over iMessage.
 They replied "2" (need help). Using their policy, write ONE short follow-up question (under 300 characters,
 plain words, no emoji) that helps us help them tonight: ask about damage to their covered home and mention
 the exact dollar limit their policy has for hotel / temporary housing (ALE). Output only the message text."""

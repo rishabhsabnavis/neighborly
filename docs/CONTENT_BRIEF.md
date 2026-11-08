@@ -1,6 +1,6 @@
 # Brief for Designer 2: story, copy, and pitch
 
-No code. Everything here goes into a shared doc (Google Doc or Claude Doc). The developers copy it into the product. SafeFarm in one line: after Hurricane Isaias hits the Florida panhandle, an AI agent texts State Farm policyholders, gets them help by text, voice or a human, and turns what they said into a claim draft. Read `docs/SPEC.md` (the demo script) and the Figma brief (https://claude.ai/artifact/7bZErNhK8kDqRttxuDaK4S) first.
+No code. Everything here goes into a shared doc (Google Doc or Claude Doc). The developers copy it into the product. Neighborly in one line: after Hurricane Isaias hits the Florida panhandle, an AI agent texts Neighborly policyholders, gets them help by text, voice or a human, and turns what they said into a claim draft. Read `docs/SPEC.md` (the demo script) and the Figma brief (https://claude.ai/artifact/7bZErNhK8kDqRttxuDaK4S) first.
 
 ## Tonight (by ~10pm Saturday)
 1. **Message copy (to the owner).** Every text the agent sends: the check-in menu, the reply for each option (1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Person), the policy-based follow-up questions, the claim-started text, and the JOIN confirmation. Rules: under 300 characters, calm, plain words, no jargon. Option 3 must say "call 911".

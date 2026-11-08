@@ -1,5 +1,5 @@
 // Spike: can the agent START a conversation (no inbound message first)?
-// State Farm flow depends on this: we text policyholders in a disaster zone.
+// Neighborly flow depends on this: we text policyholders in a disaster zone.
 // PASS = each number in OUTBOUND_TO gets the check-in text, and a reply
 // ("1", "2", anything) is printed here within the listen window.
 // Run: just spike-photon-out

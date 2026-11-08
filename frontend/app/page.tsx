@@ -4,7 +4,7 @@ import { DashboardTable } from "@/components/raw/DashboardTable";
 import { useConsole } from "@/components/raw/ConsoleApp";
 
 const OFFLINE_TEXT =
-  "Can't reach the SafeFarm backend. Retrying every 2 seconds...";
+  "Can't reach the Neighborly backend. Retrying every 2 seconds...";
 
 export default function HomePage() {
   const { rows, selectedId, select, offline } = useConsole();

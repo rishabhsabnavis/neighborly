@@ -47,7 +47,7 @@ def test_agent_words_do_not_trigger_emergency_or_human(client) -> None:
         [
             CallTurn(
                 role="agent",
-                text="Is anyone injured or trapped? A State Farm agent can help.",
+                text="Is anyone injured or trapped? A Neighborly agent can help.",
             ),
             CallTurn(role="user", text="The roof is leaking and we need a hotel."),
         ],
@@ -63,7 +63,7 @@ def test_life_safety_on_answered_call_flags_without_redialing(client) -> None:
         client,
         "ph_017",
         [
-            CallTurn(role="agent", text="Hi Maria, this is State Farm."),
+            CallTurn(role="agent", text="Hi Maria, this is Neighborly."),
             CallTurn(role="user", text="My mom's on oxygen and the power is out."),
         ],
     )

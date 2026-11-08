@@ -115,10 +115,10 @@ def build_dynamic_variables(ctx: CallContext) -> dict[str, str]:
     name = first_name(ctx.name)
     if ctx.reason == "emergency":
         # SPEC Emergency path step 4: the 911 line comes first.
-        first = f"If you're in danger, hang up and call 911 now. {name}, this is State Farm. Is anyone hurt or trapped?"
+        first = f"If you're in danger, hang up and call 911 now. {name}, this is Neighborly. Is anyone hurt or trapped?"
     else:
         hi = f"Hi {name}," if name != "there" else "Hi,"
-        first = f"{hi} this is State Farm's storm check-in line. {opening} Are you and everyone with you safe right now?"
+        first = f"{hi} this is Neighborly's storm check-in line. {opening} Are you and everyone with you safe right now?"
     return {
         "first_message": first,
         "first_name": name,

@@ -1,4 +1,4 @@
-# <Project name> (State Farm disaster check-in agent)
+# Neighborly (disaster check-in agent)
 
 > <One-line pitch: what it does, for whom.>
 
