@@ -47,8 +47,10 @@ build:
 tunnel:
     cloudflared tunnel --url http://localhost:{{web_port}}
 
+# Vercel builds frontend/ from GitHub on every push to main. A CLI deploy from
+# frontend/ fails now that the project's Root Directory is frontend.
 deploy:
-    cd frontend && {{vercel}} --prod
+    @echo "Production deploys on push to main: verify, then git push origin main"
 
 # ---- first-hour spikes (keys go in spikes/.env) ----
 spike-nemotron:

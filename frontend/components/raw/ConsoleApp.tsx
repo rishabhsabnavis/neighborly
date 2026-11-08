@@ -1,6 +1,11 @@
 "use client";
 
-import { LayoutDashboard, Map as MapIcon, Shield, SlidersHorizontal } from "lucide-react";
+import {
+  LayoutDashboard,
+  Map as MapIcon,
+  SlidersHorizontal,
+} from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -64,7 +69,10 @@ export function ConsoleApp({ children }: { children: ReactNode }) {
   usePoll(async () => {
     const page = await getSteps(since.current || undefined);
     if (page.steps.length === 0) return page;
-    since.current = Math.max(since.current, page.steps[page.steps.length - 1].id);
+    since.current = Math.max(
+      since.current,
+      page.steps[page.steps.length - 1].id,
+    );
     setSteps((current) => {
       const seen = new Set(current.map((step) => step.id));
       const added = page.steps.filter((step) => !seen.has(step.id));
@@ -103,19 +111,31 @@ export function ConsoleApp({ children }: { children: ReactNode }) {
   return (
     <ConsoleContext.Provider value={value}>
       <div className="flex h-screen min-w-[1100px] flex-col bg-[#F4F5F7] text-[15px] text-zinc-900">
-        <header className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 border-b-2 border-[#D92D20] bg-white px-4 py-2.5">
+        <header className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 border-b-2 border-[#D92D20] bg-zinc-900 px-4 py-2.5">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 font-semibold">
-              <span className="grid h-8 w-8 place-items-center rounded-lg border border-zinc-200">
-                <Shield className="h-4 w-4" aria-hidden />
-              </span>
+            <div className="flex items-center gap-2 font-semibold text-white">
+              <Image
+                src="/logo.png"
+                alt="Neighborly"
+                width={32}
+                height={32}
+                priority
+              />
               Response Console
             </div>
             <nav className="flex items-center gap-1" aria-label="Pages">
-              <PageLink href="/" active={pathname === "/"} icon={<LayoutDashboard className="h-4 w-4" />}>
+              <PageLink
+                href="/"
+                active={pathname === "/"}
+                icon={<LayoutDashboard className="h-4 w-4" />}
+              >
                 Dashboard
               </PageLink>
-              <PageLink href="/map" active={pathname === "/map"} icon={<MapIcon className="h-4 w-4" />}>
+              <PageLink
+                href="/map"
+                active={pathname === "/map"}
+                icon={<MapIcon className="h-4 w-4" />}
+              >
                 Map
               </PageLink>
             </nav>
@@ -126,17 +146,19 @@ export function ConsoleApp({ children }: { children: ReactNode }) {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Find instance"
-              className="w-full rounded-lg bg-zinc-100 px-3 py-2 text-[15px] text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+              className="w-full rounded-lg bg-zinc-800 px-3 py-2 text-[15px] text-white placeholder:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-zinc-500"
             />
           </label>
           <div className="relative flex items-center justify-end gap-3">
             {value.reconnecting ? (
-              <span className="rounded bg-amber-100 px-2 py-1 text-sm text-amber-800">Reconnecting...</span>
+              <span className="rounded bg-amber-100 px-2 py-1 text-sm text-amber-800">
+                Reconnecting...
+              </span>
             ) : null}
             <button
               type="button"
               aria-expanded={filtersOpen}
-              className="inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium"
+              className="inline-flex items-center gap-2 rounded-md border border-zinc-600 bg-zinc-800 px-3 py-1.5 text-sm font-medium text-white"
               onClick={() => setFiltersOpen((open) => !open)}
             >
               <SlidersHorizontal className="h-4 w-4" aria-hidden />
@@ -146,7 +168,9 @@ export function ConsoleApp({ children }: { children: ReactNode }) {
               <FilterPanel
                 risks={risks}
                 sort={sort}
-                onToggle={(key) => setRisks((current) => ({ ...current, [key]: !current[key] }))}
+                onToggle={(key) =>
+                  setRisks((current) => ({ ...current, [key]: !current[key] }))
+                }
                 onSort={setSort}
                 onClose={() => setFiltersOpen(false)}
               />
@@ -157,13 +181,19 @@ export function ConsoleApp({ children }: { children: ReactNode }) {
         <div className="flex items-end justify-between gap-6 px-6 py-4">
           <div>
             <div className="flex items-center gap-2">
-              <p className="text-[11px] font-semibold tracking-[0.14em] text-zinc-500">ACTIVE INCIDENT</p>
+              <p className="text-[11px] font-semibold tracking-[0.14em] text-zinc-500">
+                ACTIVE INCIDENT
+              </p>
               <span className="rounded-full border border-zinc-300 bg-white px-2 py-0.5 text-xs text-zinc-500">
                 Simulated incident
               </span>
             </div>
-            <h1 className="mt-1 text-[28px] font-semibold tracking-tight">{value.disasterName}</h1>
-            {toast ? <p className="mt-1 text-sm text-zinc-600">{toast}</p> : null}
+            <h1 className="mt-1 text-[28px] font-semibold tracking-tight">
+              {value.disasterName}
+            </h1>
+            {toast ? (
+              <p className="mt-1 text-sm text-zinc-600">{toast}</p>
+            ) : null}
           </div>
           <div className="flex items-center gap-4 pb-1">
             <p className="text-sm text-zinc-500">
@@ -183,13 +213,21 @@ export function ConsoleApp({ children }: { children: ReactNode }) {
                         since.current = 0;
                         setSelectedId(null);
                       })
-                      .catch((err: unknown) => setToast(err instanceof Error ? err.message : "Reset failed"))
+                      .catch((err: unknown) =>
+                        setToast(
+                          err instanceof Error ? err.message : "Reset failed",
+                        ),
+                      )
                       .finally(() => setConfirmReset(false));
                   }}
                 >
                   Reset
                 </button>
-                <button type="button" className="underline" onClick={() => setConfirmReset(false)}>
+                <button
+                  type="button"
+                  className="underline"
+                  onClick={() => setConfirmReset(false)}
+                >
                   Cancel
                 </button>
               </div>
@@ -202,14 +240,28 @@ export function ConsoleApp({ children }: { children: ReactNode }) {
                   onClick={() => {
                     setRunning(true);
                     void runCheckin()
-                      .then((result) => setToast(`Queued ${result.queued}, live ${result.live}`))
-                      .catch((err: unknown) => setToast(err instanceof Error ? err.message : "Check-in failed"))
+                      .then((result) =>
+                        setToast(
+                          `Queued ${result.queued}, live ${result.live}`,
+                        ),
+                      )
+                      .catch((err: unknown) =>
+                        setToast(
+                          err instanceof Error
+                            ? err.message
+                            : "Check-in failed",
+                        ),
+                      )
                       .finally(() => setRunning(false));
                   }}
                 >
                   {running ? "Running..." : "Run check-in"}
                 </button>
-                <button type="button" className="text-sm text-zinc-600 underline" onClick={() => setConfirmReset(true)}>
+                <button
+                  type="button"
+                  className="text-sm text-zinc-600 underline"
+                  onClick={() => setConfirmReset(true)}
+                >
                   Reset demo
                 </button>
               </>
@@ -217,7 +269,9 @@ export function ConsoleApp({ children }: { children: ReactNode }) {
           </div>
         </div>
 
-        <div className="min-h-0 flex-1 border-t border-zinc-200 bg-white">{children}</div>
+        <div className="min-h-0 flex-1 border-t border-zinc-200 bg-white">
+          {children}
+        </div>
 
         <button
           type="button"
@@ -236,13 +290,20 @@ export function ConsoleApp({ children }: { children: ReactNode }) {
             ) : (
               [...steps].reverse().map((step) => (
                 <li key={step.id} className="py-1 text-zinc-700">
-                  <span className="text-zinc-400">{step.ts}</span> {step.kind} {step.text}
+                  <span className="text-zinc-400">{step.ts}</span> {step.kind}{" "}
+                  {step.text}
                 </li>
               ))
             )}
           </ol>
         ) : null}
-        {selected ? <DetailPanel key={selected.id} row={selected} onClose={() => setSelectedId(null)} /> : null}
+        {selected ? (
+          <DetailPanel
+            key={selected.id}
+            row={selected}
+            onClose={() => setSelectedId(null)}
+          />
+        ) : null}
       </div>
     </ConsoleContext.Provider>
   );
@@ -263,7 +324,9 @@ function PageLink({
     <Link
       href={href}
       className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium ${
-        active ? "border border-zinc-300 bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-800"
+        active
+          ? "border border-zinc-600 bg-zinc-800 text-white shadow-sm"
+          : "text-white hover:bg-zinc-800"
       }`}
       aria-current={active ? "page" : undefined}
     >
@@ -288,17 +351,31 @@ function FilterPanel({
 }) {
   return (
     <>
-      <button type="button" aria-label="Close filters" className="fixed inset-0 z-20 cursor-default" onClick={onClose} />
+      <button
+        type="button"
+        aria-label="Close filters"
+        className="fixed inset-0 z-20 cursor-default"
+        onClick={onClose}
+      />
       <div className="absolute top-11 right-0 z-30 w-72 rounded-lg border border-zinc-200 bg-white p-4 shadow-lg">
-        <p className="text-[11px] font-semibold tracking-[0.12em] text-zinc-500">RISK LEVEL</p>
+        <p className="text-[11px] font-semibold tracking-[0.12em] text-zinc-500">
+          RISK LEVEL
+        </p>
         <ul className="mt-2 space-y-2">
           {RISK_ORDER.map((key) => (
             <li key={key}>
               <label className="flex items-center gap-2 text-sm">
-                <input type="checkbox" checked={risks[key]} onChange={() => onToggle(key)} />
+                <input
+                  type="checkbox"
+                  checked={risks[key]}
+                  onChange={() => onToggle(key)}
+                />
                 <span
                   className="inline-flex rounded px-2 py-0.5 text-[13px] font-semibold"
-                  style={{ backgroundColor: RISK_STYLE[key].bg, color: RISK_STYLE[key].fg }}
+                  style={{
+                    backgroundColor: RISK_STYLE[key].bg,
+                    color: RISK_STYLE[key].fg,
+                  }}
                 >
                   {RISK_STYLE[key].label}
                 </span>
@@ -306,7 +383,9 @@ function FilterPanel({
             </li>
           ))}
         </ul>
-        <p className="mt-4 text-[11px] font-semibold tracking-[0.12em] text-zinc-500">SORT BY LAST RESPONSE</p>
+        <p className="mt-4 text-[11px] font-semibold tracking-[0.12em] text-zinc-500">
+          SORT BY LAST RESPONSE
+        </p>
         <ul className="mt-2 space-y-2 text-sm">
           {(
             [
@@ -317,7 +396,12 @@ function FilterPanel({
           ).map(([id, label]) => (
             <li key={id}>
               <label className="flex items-center gap-2">
-                <input type="radio" name="sort" checked={sort === id} onChange={() => onSort(id)} />
+                <input
+                  type="radio"
+                  name="sort"
+                  checked={sort === id}
+                  onChange={() => onSort(id)}
+                />
                 {label}
               </label>
             </li>

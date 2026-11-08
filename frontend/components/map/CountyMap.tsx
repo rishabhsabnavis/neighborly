@@ -4,7 +4,14 @@ import type { GeoJsonObject } from "geojson";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Fragment, useEffect } from "react";
-import { CircleMarker, GeoJSON, MapContainer, Popup, TileLayer, useMap } from "react-leaflet";
+import {
+  CircleMarker,
+  GeoJSON,
+  MapContainer,
+  Popup,
+  TileLayer,
+  useMap,
+} from "react-leaflet";
 
 import { RiskChip } from "@/components/raw/RiskChip";
 import { pinColor } from "@/lib/display";
@@ -33,7 +40,7 @@ export default function CountyMap({
   onSelect: (id: string) => void;
 }) {
   return (
-    <div className="relative h-full w-full">
+    <div className="relative isolate h-full w-full">
       <MapContainer
         center={[30.45, -85.6]}
         zoom={8}
@@ -122,7 +129,9 @@ function Pins({
                     <strong>{row.name}</strong>
                     <RiskChip row={row} />
                   </div>
-                  <p className="mt-1 text-zinc-600">{row.summary || "No details yet"}</p>
+                  <p className="mt-1 text-zinc-600">
+                    {row.summary || "No details yet"}
+                  </p>
                   <button
                     type="button"
                     className="mt-2 text-sm font-medium text-zinc-900 underline"
@@ -143,7 +152,10 @@ function Pins({
 function Legend({ color, label }: { color: string; label: string }) {
   return (
     <li className="flex items-center gap-2">
-      <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} />
+      <span
+        className="h-2.5 w-2.5 rounded-full"
+        style={{ backgroundColor: color }}
+      />
       {label}
     </li>
   );
