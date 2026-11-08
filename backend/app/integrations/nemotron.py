@@ -134,7 +134,14 @@ def as_dict(case: Any) -> dict:
         return case
     dump = getattr(case, "model_dump", None)
     if callable(dump):
-        return dump(mode="json")
+        # by_alias: messages must say "from" (not "from_") or the safety floor sees no policyholder text.
+        out = dump(mode="json", by_alias=True)
+        to_case = getattr(
+            case, "to_case", None
+        )  # core StoredCase -> SPEC Case shape (adds "policyholder")
+        if callable(to_case):
+            out = {**out, **to_case().model_dump(mode="json", by_alias=True)}
+        return out
     raise TypeError(f"case must be a dict or Pydantic model, got {type(case).__name__}")
 
 

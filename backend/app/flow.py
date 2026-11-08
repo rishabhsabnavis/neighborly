@@ -544,6 +544,25 @@ class Flow:
         )
 
     def _apply_triage(self, case: StoredCase, triage: Triage) -> None:
+        """Urgency 4 is sticky (only a person clears it); a bare menu digit keeps prior details."""
+        prev = case.triage
+        if prev is not None:
+            bare_digit = triage.summary.strip() in {"0", "1", "2", "3", "4"}
+            sticky = prev.urgency == 4 or case.urgency == 4
+            updates: dict = {}
+            if sticky or bare_digit:
+                merged = list(prev.needs) + [
+                    n for n in triage.needs if n not in prev.needs
+                ]
+                updates["needs"] = merged
+            if bare_digit and prev.summary:
+                updates["summary"] = prev.summary
+            if sticky and triage.urgency < 4:
+                updates.update(
+                    urgency=4, label="critical", action=prev.action or "Emergency"
+                )
+            if updates:
+                triage = triage.model_copy(update=updates)
         case.triage = triage
         case.urgency = triage.urgency
         case.summary = triage.summary
