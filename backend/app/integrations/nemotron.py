@@ -104,12 +104,13 @@ FOLLOWUP_SYSTEM = """You are State Farm's catastrophe check-in agent texting a p
 after a hurricane. Write the next follow-up text. Go down this list and ask about the FIRST item the person
 has NOT already answered anywhere in their texts or call transcripts:
 1. Damage: what is damaged at their covered home (say the street address) or covered vehicle. If ale_limit is
-   given, in the SAME text say their policy covers up to <ale_limit> for a hotel or temporary housing and ask
-   if they need a place to stay tonight.
+   given and shelter is not already answered, in the SAME text say their policy covers up to <ale_limit> for a
+   hotel or temporary housing and ask if they need a place to stay tonight. Only quote dollar amounts given as
+   ale_limit; never any other number.
 2. Safety: is anyone hurt or trapped; if household notes mention medical equipment (e.g. oxygen), ask about it
    specifically.
 3. Shelter (only if still unanswered): do they need a place to stay tonight (mention ale_limit if given).
-Something counts as answered if they said it at all ("need hotel" answers shelter; "roof caved in" answers damage).
+Something counts as answered if they said it at all ("need hotel" answers shelter; "roof caved in" answers damage). already_answered lists topics our code detected as answered: never ask about those again.
 If all three are answered, set done to true.
 Rules: under 280 characters, plain warm words, no emoji, no greeting name repeated every time, max 2 questions.
 Output ONLY JSON: {"done": true|false, "question": "<the text>"}"""
@@ -196,6 +197,146 @@ def claim_id_for(case: dict) -> str:
     return f"SF-{disaster}-{num}"
 
 
+# ---------- coverage (SPEC "Policy coverage": code decides, Nemotron only phrases) ----------
+# Dev B owns app/coverage.py. Use it when present; until then use this copy of the same SPEC rules.
+_CATEGORY = [
+    ("auto", re.compile(r"\b(car|truck|vehicle|suv|van|camry|auto)\b", re.IGNORECASE)),
+    (
+        "ale",
+        re.compile(
+            r"\b(hotel|motel|shelter|place to stay|temporary housing|displaced|can'?t stay|cannot stay|ale)\b",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "contents",
+        re.compile(
+            r"\b(furniture|couch|sofa|tv|television|electronics?|clothes|clothing|belongings|contents|appliances?|bed|mattress|computer|laptop)\b",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "dwelling",
+        re.compile(
+            r"\b(roof|shingles?|walls?|windows?|ceiling|floors?|structure|foundation|siding|house|home|dwelling|living room|kitchen|bedroom|basement|garage|water inside|water in the)\b",
+            re.IGNORECASE,
+        ),
+    ),
+]
+_DOLLARS = re.compile(r"\$\s?([0-9][0-9,]*(?:\.[0-9]{2})?)\s?(k\b)?", re.IGNORECASE)
+
+
+def _local_check_coverage(case: dict, item: str) -> dict:
+    policy = case.get("policy") or {}
+    coverages = policy.get("coverages") or {}
+    key = next((k for k, pat in _CATEGORY if pat.search(item or "")), None)
+    base = {"item": item, "coverage": key, "deductible": policy.get("deductible")}
+    if key is None:
+        return {
+            **base,
+            "covered": False,
+            "limit": None,
+            "reason": "No matching coverage category",
+        }
+    if key == "auto":
+        cars = [
+            p
+            for p in policy.get("covered_property") or []
+            if not str(p).lower().startswith("dwelling")
+        ]
+        if not cars or "auto" not in coverages and policy.get("type") != "auto":
+            return {
+                **base,
+                "covered": False,
+                "limit": None,
+                "reason": "No covered vehicle on this policy",
+            }
+        return {
+            **base,
+            "covered": True,
+            "limit": coverages.get("auto"),
+            "reason": f"Vehicle: {cars[0]}",
+        }
+    if key not in coverages:
+        why = (
+            "The building is covered by your landlord's policy"
+            if key == "dwelling" and policy.get("type") == "renters"
+            else f"No {key} coverage on this policy"
+        )
+        return {**base, "covered": False, "limit": None, "reason": why}
+    reason = {
+        "dwelling": f"Dwelling: {(case.get('policyholder') or {}).get('address', '')}".strip(),
+        "contents": "Personal property",
+        "ale": "Additional living expenses (hotel / temporary housing)",
+    }[key]
+    return {**base, "covered": True, "limit": coverages.get(key), "reason": reason}
+
+
+def _allowed_amounts(policy: dict) -> set[int]:
+    vals = [*(policy.get("coverages") or {}).values(), policy.get("deductible")]
+    return {int(v) for v in vals if isinstance(v, (int, float))}
+
+
+def _local_validate_amounts(text: str, policy: dict) -> tuple[str, list[str]]:
+    """Drop any sentence quoting a $ amount that is not in the policy."""
+    allowed = _allowed_amounts(policy)
+    kept, dropped = [], []
+    for sent in re.split(r"(?<=[.!?])\s+", (text or "").strip()):
+        bad = False
+        for m in _DOLLARS.finditer(sent):
+            n = float(m.group(1).replace(",", "")) * (1000 if m.group(2) else 1)
+            if int(n) not in allowed:
+                bad = True
+        (dropped if bad else kept).append(sent)
+    return " ".join(kept).strip(), dropped
+
+
+def check_coverage(case: dict, item: str) -> dict:
+    try:
+        from app.coverage import (
+            check_coverage as core_check,
+        )  # Dev B's module, when present
+    except ImportError:
+        return _local_check_coverage(case, item)
+    r = core_check(case, item)
+    return r if isinstance(r, dict) else as_dict(r)
+
+
+def validate_amounts(text: str, policy: dict) -> tuple[str, list[str]]:
+    try:
+        from app.coverage import validate_amounts as core_validate
+    except ImportError:
+        return _local_validate_amounts(text, policy)
+    r = core_validate(text, policy)
+    return r if isinstance(r, tuple) else (r, [])
+
+
+_ANSWERED = {
+    "shelter": re.compile(
+        r"\b(hotel|motel|place to stay|shelter|staying (with|at)|temporary housing|need a room|can'?t stay)\b",
+        re.IGNORECASE,
+    ),
+    "damage": re.compile(
+        r"\b(roof|window|wall|ceiling|floor|water|flood|tree|damage|damaged|ruined|broken|destroyed|leak|car|truck|fence|shingles?)\b",
+        re.IGNORECASE,
+    ),
+    "safety": re.compile(
+        r"\b(hurt|injur\w*|trapped|safe|ok|okay|fine|nobody|no one|oxygen|bleeding)\b",
+        re.IGNORECASE,
+    ),
+}
+
+
+def answered_topics(case: dict) -> list[str]:
+    """Which follow-up topics the policyholder already covered (deterministic hint for the prompt)."""
+    said = " ".join(
+        str(m.get("text") or "")
+        for m in case.get("messages") or []
+        if m.get("from") == "policyholder"
+    )
+    return [k for k, pat in _ANSWERED.items() if pat.search(said)]
+
+
 # ---------- safety floor (deterministic; the model may under-triage life safety) ----------
 _NEGATIONS = re.compile(
     r"\b(no ?one|nobody|not|isn'?t|aren'?t|wasn'?t|no)\s+(is\s+|are\s+|was\s+|got\s+)?"
@@ -264,9 +405,11 @@ def safety_floor(case: dict) -> tuple[int, list[str], str | None]:
 
 
 def ale_limit_text(case: dict) -> str | None:
-    ale = ((case.get("policy") or {}).get("coverages") or {}).get("ale")
+    """The hotel/ALE limit as text, from check_coverage (never read by the model directly)."""
+    r = check_coverage(case, "hotel")
+    lim = r.get("limit")
     try:
-        return f"${int(ale):,}" if ale else None
+        return f"${int(lim):,}" if r.get("covered") and lim else None
     except (TypeError, ValueError):
         return None
 
@@ -304,9 +447,10 @@ class NemotronBrain:
             transport=transport,
         )
         self.last_ms: int | None = None  # latency of the last call, for the step log
-        self.last_floor_reason: str | None = (
-            None  # set when the safety floor raised urgency
-        )
+        # set when the safety floor raised urgency
+        self.last_floor_reason: str | None = None
+        # sentences validate_amounts removed from the last follow-up (log as an error step)
+        self.last_dropped: list[str] = []
 
     async def _chat(
         self, model: str, system: str, user: str, max_tokens: int, timeout: float
@@ -380,10 +524,15 @@ class NemotronBrain:
 
     async def follow_up(self, case: Any) -> str | None:
         c = as_dict(case)
-        payload = {**compact_case(c), "ale_limit": ale_limit_text(c)}
+        payload = {
+            **compact_case(c),
+            "ale_limit": ale_limit_text(c),
+            "already_answered": answered_topics(c),
+        }
         d = await self._chat(
             self.followup_model, FOLLOWUP_SYSTEM, json.dumps(payload), 300, 6.0
         )
+        self.last_dropped = []
         q = str(d.get("question") or "").strip()
         if d.get("done") is True or not q:
             return None
@@ -391,7 +540,9 @@ class NemotronBrain:
         half = len(q) // 2
         if len(q) > 40 and q[:half].strip() == q[half:].strip():
             q = q[:half].strip()
-        return q[:300]
+        # SPEC rule 3: drop any sentence with a $ amount that isn't in the policy.
+        q, self.last_dropped = validate_amounts(q, c.get("policy") or {})
+        return q[:300] or None
 
     async def draft_claim(self, case: Any) -> ClaimDraft:
         c = as_dict(case)
@@ -405,16 +556,31 @@ class NemotronBrain:
             k.get("call_id") for k in c.get("calls") or []
         }
         damages = []
+        review: list[str] = []
         for x in d.get("damages") or []:
-            cov = str(x.get("coverage", "")).lower()
-            if cov not in COVERAGES or cov == "ale":
+            item = str(x.get("item", "")).strip()[:60] or "Unspecified"
+            desc = str(x.get("description", "")).strip()[:160]
+            # SPEC rule 2: coverage comes from check_coverage, not the model. The model's own
+            # label is only a hint for items the category map doesn't recognize.
+            r = check_coverage(c, f"{item} {desc}")
+            if r.get("coverage") is None:
+                hint = str(x.get("coverage", "")).lower()
+                if hint in ("dwelling", "contents", "auto"):
+                    r = check_coverage(c, hint)
+            cov = r.get("coverage")
+            if cov == "ale":
+                continue  # hotel/temporary housing is ale_requested, not a damage line
+            if not r.get("covered") or cov not in COVERAGES:
+                review.append(
+                    f"Coverage review: {item}"
+                )  # SPEC rule 4: never say "denied"
                 continue
             sev = str(x.get("severity", "moderate")).lower()
             try:
                 damages.append(
                     Damage(
-                        item=str(x.get("item", "")).strip()[:60] or "Unspecified",
-                        description=str(x.get("description", "")).strip()[:160],
+                        item=item,
+                        description=desc,
                         coverage=cov,
                         severity=sev
                         if sev in {"minor", "moderate", "major"}
@@ -423,6 +589,11 @@ class NemotronBrain:
                 )
             except ValidationError:
                 continue
+        ale = bool(d.get("ale_requested")) and bool(
+            check_coverage(c, "hotel").get("covered")
+        )
+        if bool(d.get("ale_requested")) and not ale:
+            review.append("Coverage review: temporary housing")
         existing = c.get("claim_draft") or {}
         try:
             return ClaimDraft(
@@ -436,12 +607,14 @@ class NemotronBrain:
                 or f"{disaster.get('name', 'Hurricane Isaias')} (FEMA-{disaster.get('number', 4955)})",
                 loss_location=ph.get("address") or "",
                 damages=damages,
-                ale_requested=bool(d.get("ale_requested")),
+                ale_requested=ale,
                 injuries_or_medical=[
                     str(x) for x in d.get("injuries_or_medical") or []
                 ][:6],
                 deductible=policy.get("deductible"),
-                missing_info=[str(x) for x in d.get("missing_info") or []][:8],
+                missing_info=(review + [str(x) for x in d.get("missing_info") or []])[
+                    :10
+                ],
                 evidence=[str(e) for e in d.get("evidence") or [] if e in known_ids],
             )
         except ValidationError as e:

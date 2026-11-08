@@ -334,3 +334,102 @@ def test_critical_never_downgrades_automatically():
         )
     )
     assert t3.urgency == 2
+
+
+# ---------- SPEC "Policy coverage" ----------
+def test_check_coverage_maria_roof_and_renters_roof():
+    from app.integrations.nemotron import check_coverage
+
+    r = check_coverage(MARIA, "roof")
+    assert (r["coverage"], r["covered"], r["limit"], r["deductible"]) == (
+        "dwelling",
+        True,
+        320000,
+        2500,
+    )
+    renters = {
+        **MARIA,
+        "policy": {
+            **MARIA["policy"],
+            "type": "renters",
+            "coverages": {"contents": 30000, "ale": 6000},
+        },
+    }
+    r2 = check_coverage(renters, "roof")
+    assert r2["covered"] is False and "landlord" in r2["reason"]
+    assert check_coverage(MARIA, "couch")["coverage"] == "contents"
+    assert check_coverage(MARIA, "need a hotel")["limit"] == 18000
+
+
+def test_validate_amounts_strips_wrong_dollar_sentence():
+    from app.integrations.nemotron import validate_amounts
+
+    text, dropped = validate_amounts(
+        "Your policy covers up to $25,000 for a hotel. Do you need a place tonight?",
+        MARIA["policy"],
+    )
+    assert text == "Do you need a place tonight?" and len(dropped) == 1
+    ok, none = validate_amounts(
+        "Your policy covers up to $18,000 for a hotel.", MARIA["policy"]
+    )
+    assert none == [] and "$18,000" in ok
+
+
+def test_follow_up_strips_hallucinated_amount_and_sends_answered_hints():
+    seen: list = []
+    b = brain_with(
+        {
+            "done": False,
+            "question": "Your policy covers $50,000 for a hotel. Is anyone hurt?",
+        },
+        seen,
+    )
+    q = run(b.follow_up(MARIA))
+    assert q == "Is anyone hurt?" and b.last_dropped
+    sent = json.loads(seen[0]["messages"][1]["content"])
+    assert (
+        "shelter" in sent["already_answered"] and "damage" in sent["already_answered"]
+    )
+
+
+def test_claim_coverage_comes_from_code_and_uncovered_goes_to_review():
+    renters = {
+        **MARIA,
+        "policy": {
+            **MARIA["policy"],
+            "type": "renters",
+            "covered_property": [],
+            "coverages": {"contents": 30000},
+        },
+    }
+    reply = {
+        "damages": [
+            {
+                "item": "Roof",
+                "description": "Caved in",
+                "coverage": "contents",
+                "severity": "major",
+            },  # wrong label
+            {
+                "item": "TV",
+                "description": "Water damage",
+                "coverage": "dwelling",
+                "severity": "moderate",
+            },  # wrong label
+        ],
+        "ale_requested": True,
+        "missing_info": ["Photos"],
+    }
+    c = run(brain_with(reply).draft_claim(renters))
+    assert [(d.item, d.coverage) for d in c.damages] == [("TV", "contents")]
+    assert (
+        "Coverage review: Roof" in c.missing_info
+        and "Coverage review: temporary housing" in c.missing_info
+    )
+    assert c.ale_requested is False
+    assert not any("denied" in m.lower() for m in c.missing_info)
+
+
+def test_follow_up_done_leaves_no_dropped():
+    b = brain_with({"done": True, "question": ""})
+    assert run(b.follow_up(MARIA)) is None and b.last_dropped == []

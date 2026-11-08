@@ -204,3 +204,53 @@ def test_unanswered_call_gets_one_followup_text():
     due = due_actions([vm], NOW, 60)
     assert [a.tool for a in due] == ["send_imessage"] and "911" in due[0].args["text"]
     assert due_actions([{**vm, "followups_sent": 1}], NOW, 60) == []
+
+
+def test_emergency_call_unanswered_retries_once_then_texts_and_gets_human():
+    em = {
+        **SILENT,
+        "status": "unreachable",
+        "call_status": "done",
+        "call_answered": False,
+        "call_reason": "emergency",
+        "last_contact_at": ago(70),
+    }
+    first = due_actions([em], NOW, 60)
+    assert [(a.tool, a.args.get("reason")) for a in first] == [
+        ("place_call", "emergency")
+    ]
+    after = due_actions([{**em, "call_attempts": 2}], NOW, 60)
+    tools = {a.tool: a for a in after}
+    assert "911" in tools["send_imessage"].args["text"]
+    assert tools["request_human"].args["reason"] == "Welfare check recommended"
+
+
+def test_planner_text_with_unverified_amount_is_cleaned():
+    p = planner_replying(
+        [
+            (
+                "send_imessage",
+                {
+                    "policyholder_id": "ph_017",
+                    "text": "We approved $5,000 for you. Reply 2 if you need help.",
+                },
+            )
+        ]
+    )
+    acts = run(
+        p.plan(
+            snap(
+                [
+                    {
+                        **MARIA,
+                        "urgency": 2,
+                        "human_requested": True,
+                        "claim_id": "SF-4955-0017",
+                    }
+                ]
+            )
+        )
+    )
+    msg = next(a for a in acts if a.tool == "send_imessage")
+    assert "$" not in msg.args["text"] and "Reply 2" in msg.args["text"]
+    assert any("unverified $" in d for d in p.last.dropped)

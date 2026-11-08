@@ -19,7 +19,8 @@ How it works (hybrid, so the demo never depends on the model getting it right):
 The snapshot is a dict {"now": iso, "no_reply_seconds": int, "policyholders": [rows]} or just the
 list of rows. Rows use SPEC's PolicyholderRow fields (id, name, status, channel, human_requested,
 urgency, summary, claim_id, last_contact_at, live). Optional extras the core may add: "opted_in",
-"call_status" ("calling"|"done"|"failed"), "call_answered" (bool), "followups_sent" (int).
+"call_status" ("calling"|"done"|"failed"), "call_answered" (bool), "followups_sent" (int), "call_reason" (requested|no_reply|emergency), "call_attempts" (int),
+"policy" (only used to check $ amounts in texts).
 """
 
 from __future__ import annotations
@@ -33,7 +34,12 @@ from typing import Any, Literal
 
 import httpx
 
-from app.integrations.nemotron import BASE_URL, DEFAULT_AGENT_MODEL, as_dict
+from app.integrations.nemotron import (
+    BASE_URL,
+    DEFAULT_AGENT_MODEL,
+    as_dict,
+    validate_amounts,
+)
 
 ToolName = Literal["send_imessage", "place_call", "request_human", "draft_claim"]
 MAX_ACTIONS = 5
@@ -43,6 +49,7 @@ PLANNER_SYSTEM = """You are SafeFarm's disaster-response planner for State Farm 
 Every 15 seconds you get the live open policyholder cases and a list of actions our rules say are DUE.
 Decide what to do THIS round, using the tools. Priorities, in order:
 1. Life safety: urgency 4 first. Make sure every urgency-4 case has a human State Farm agent (request_human).
+   Emergencies (call_reason emergency) that went unanswered: retry the call once, then text and get a human.
 2. Silence is a warning sign: anyone texted who has not replied within no_reply_seconds gets a call
    (place_call reason=no_reply). If a call failed or went to voicemail, send one short iMessage instead.
 3. Paperwork last: draft_claim for cases that have triage but no claim yet.
@@ -225,26 +232,47 @@ def due_actions(rows: list[dict], now: datetime, no_reply_seconds: int) -> list[
                 )
             )
             continue
-        if (
-            live
-            and (r.get("call_status") == "failed" or r.get("call_answered") is False)
-            and status
-            in (
-                "unreachable",
-                "called",
-            )
-        ):
+        unanswered = r.get("call_status") == "failed" or r.get("call_answered") is False
+        if live and unanswered and status in ("unreachable", "called"):
+            emergency = r.get("call_reason") == "emergency"
+            attempts = int(r.get("call_attempts") or 1)
+            if emergency and attempts < 2:
+                # SPEC Emergency path step 5: retry the call once after 60s.
+                if age is not None and age >= no_reply_seconds:
+                    out.append(
+                        Action(
+                            "place_call",
+                            pid,
+                            {"reason": "emergency"},
+                            "emergency call unanswered, retrying once",
+                            "rules",
+                        )
+                    )
+                continue
             if int(r.get("followups_sent") or 0) == 0:
+                text = (
+                    "If you're in danger call 911. Reply here or call (701) 888-0282 to reach us."
+                    if emergency
+                    else "This is State Farm. We tried to call you after Hurricane Isaias. "
+                    "Please reply 1 if you're safe or 2 if you need help, or call (701) 888-0282. "
+                    "If you are in danger, call 911."
+                )
                 out.append(
                     Action(
                         "send_imessage",
                         pid,
-                        {
-                            "text": "This is State Farm. We tried to call you after Hurricane Isaias. "
-                            "Please reply 1 if you're safe or 2 if you need help, or call (701) 888-0282. "
-                            "If you are in danger, call 911."
-                        },
+                        {"text": text},
                         "call not answered",
+                        "rules",
+                    )
+                )
+            if emergency and not r.get("human_requested"):
+                out.append(
+                    Action(
+                        "request_human",
+                        pid,
+                        {"reason": "Welfare check recommended"},
+                        "emergency, unreachable",
                         "rules",
                     )
                 )
@@ -463,11 +491,18 @@ class NemotronPlanner:
             ):
                 note = f"too early for a no-reply call ({_age(r, now)}s < {nrs}s)"
             elif a.tool == "send_imessage":
-                text = str(a.args.get("text") or "").strip()
+                # SPEC coverage rule 3: no $ amount that isn't in the policy (no policy = none allowed).
+                text, bad = validate_amounts(
+                    str(a.args.get("text") or ""), r.get("policy") or {}
+                )
                 if not text:
                     note = "empty text"
                 else:
                     a.args["text"] = text[:300]
+                    if bad:
+                        dropped.append(
+                            f"send_imessage({a.policyholder_id}): removed unverified $ amount"
+                        )
             elif a.tool == "request_human" and r.get("human_requested"):
                 note = "human already requested"
             elif a.tool == "draft_claim" and r.get("claim_id"):
