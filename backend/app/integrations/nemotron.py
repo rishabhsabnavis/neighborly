@@ -314,24 +314,49 @@ def _local_validate_amounts(text: str, policy: dict) -> tuple[str, list[str]]:
     return " ".join(kept).strip(), dropped
 
 
+def _core_policy(policy: Any) -> Any | None:
+    """Dev B's coverage.py takes a models.Policy. None = no core module or a partial policy dict."""
+    try:
+        from app.models import Policy
+    except ImportError:
+        return None
+    if isinstance(policy, Policy):
+        return policy
+    try:
+        return Policy.model_validate(policy or {})
+    except Exception:  # noqa: BLE001 - partial policy (tests, odd seed rows): use the local copy
+        return None
+
+
 def check_coverage(case: dict, item: str) -> dict:
-    try:
-        from app.coverage import (
-            check_coverage as core_check,
-        )  # Dev B's module, when present
-    except ImportError:
+    """Core check_coverage (source of truth) when the policy is complete, else the local copy."""
+    policy = _core_policy(case.get("policy"))
+    if policy is None:
         return _local_check_coverage(case, item)
-    r = core_check(case, item)
-    return r if isinstance(r, dict) else as_dict(r)
+    from types import SimpleNamespace
+
+    from app.coverage import check_coverage as core_check
+
+    return as_dict(core_check(SimpleNamespace(policy=policy), item))
 
 
-def validate_amounts(text: str, policy: dict) -> tuple[str, list[str]]:
-    try:
-        from app.coverage import validate_amounts as core_validate
-    except ImportError:
-        return _local_validate_amounts(text, policy)
-    r = core_validate(text, policy)
-    return r if isinstance(r, tuple) else (r, [])
+def validate_amounts(text: str, policy: Any) -> tuple[str, list[str]]:
+    """Returns (kept text, dropped sentences). Core returns only the kept text, so diff it."""
+    core_policy = _core_policy(policy)
+    if core_policy is None:
+        return _local_validate_amounts(
+            text, policy if isinstance(policy, dict) else as_dict(policy)
+        )
+    from app.coverage import validate_amounts as core_validate
+
+    kept = core_validate(text or "", core_policy)
+    kept_set = set(re.split(r"(?<=[.!?])\s+", kept)) if kept else set()
+    dropped = [
+        s
+        for s in re.split(r"(?<=[.!?])\s+", (text or "").strip())
+        if s and s not in kept_set
+    ]
+    return kept, dropped
 
 
 _ANSWERED = {
