@@ -25,9 +25,37 @@ Cast: 2 people. Phone A = an iPhone, the victim. Phone B = any phone, the silent
 5. (1:50-2:00) Tech: Nemotron agent + triage, Photon iMessage + SIP voice, ElevenLabs voice agent, FastAPI, Next.js. Hardest part: one case record shared across text, voice and human.
 
 ## MVP features (max 3)
-1. **Policy-aware iMessage check-in**: the agent clicks "Run check-in". Each opted-in policyholder in the zone gets the menu (1 Safe / 2 Need help / 3 Emergency / 4 Call me / 0 Talk to a person). Nemotron reads their seeded policy (type, covered property, coverages and deductible, household and vulnerability notes) and asks at most 2 tailored follow-ups. Every reply is triaged into urgency 1-4 with needs, a summary and an action. **3** also replies "If you're in danger, call 911 now", sets urgency 4 and places a call. **1** closes the case as safe.
+1. **Policy-aware iMessage check-in**: the agent clicks "Run check-in". Each opted-in policyholder in the zone gets the menu (1 Safe / 2 Need help / 3 Emergency / 4 Call me / 0 Talk to a person). Nemotron reads their seeded policy (type, covered property, coverages and deductible, household and vulnerability notes) and asks at most 2 tailored follow-ups. Any coverage fact it mentions (limit, deductible, covered or not) must come from the deterministic `check_coverage` tool (see "Policy coverage"). Every reply is triaged into urgency 1-4 with needs, a summary and an action. **3** runs the emergency path (see "Emergency path"). **1** closes the case as safe.
 2. **Escalation ladder: voice, then human**: replying **4** (or "call") makes the ElevenLabs agent call the phone over Photon SIP. The call is seeded with the case so far, and its transcript is merged back into the case. Policyholders who don't reply within `NO_REPLY_SECONDS` (60 in the demo) are called automatically. Replying **0**, or asking for a person on the call, sets `human_requested` and gets the reply "A State Farm agent will contact you within 15 min." The case jumps up the human queue in the console.
 3. **Claim draft + agent console**: after enough context (or at the end of a call), Nemotron writes a structured claim draft from the case and policy. The policyholder gets a short text summary with the claim # and can reply YES to confirm. Next.js console: county map with pins colored by urgency, a ranked queue (human-requested first, then urgency, then time waiting), a case panel (policy, full text and call transcript, triage, claim draft) and a live Nemotron step log.
+
+## Policy coverage (how "policy-aware" works)
+Decided 2026-11-07. Coverage is decided by **code, not the LLM**. Nemotron only phrases what code returns.
+
+- Policies are synthetic seed data (Dev B, see BACKEND_PROMPT "Data and state"). Coverage keys: `dwelling`, `contents`, `ale` (hotel / temporary housing), `auto`. A key that's missing from `policy.coverages` means not covered.
+- `app/coverage.py` has a fixed category map:
+  | Damage / need (from triage) | Coverage key |
+  |---|---|
+  | roof, walls, windows, structure, water inside the house | `dwelling` |
+  | furniture, electronics, clothes, belongings | `contents` |
+  | hotel, shelter, "can't stay here", displaced | `ale` |
+  | car, truck, vehicle | `auto` (only if the vehicle is in `covered_property`) |
+- Tool `check_coverage(id, item)` -> `{"item": "roof", "coverage": "dwelling", "covered": true, "limit": 320000, "deductible": 2500, "reason": "Dwelling: 412 Harbor Dr"}`. When `covered` is false, `reason` says why (e.g. renters policy has no dwelling: "the building is covered by your landlord's policy").
+- **Rules:** (1) Nemotron must call `check_coverage` before a follow-up or claim mentions a dollar figure or says something is covered. (2) Every `claim_draft.damages[].coverage` is set from `check_coverage`, not from the model. (3) A validator compares every `$` amount in an outgoing text against the policy; if one doesn't match, it drops the sentence and logs an `error` step. (4) The policyholder is never told a claim is denied; uncovered items go to `missing_info` as "Coverage review: <item>".
+- **Flood is out of scope for the demo.** We don't model exclusions (real homeowners policies exclude flood). Seed stories describe wind/roof damage with rain coming in, so "water in the living room" maps to `dwelling`/`contents`.
+- pytest: `check_coverage` for Maria's roof returns dwelling 320000/2500; a renters policy roof returns `covered: false`; a follow-up with a wrong `$` amount is stripped.
+
+## Emergency path (reply 3, or an emergency detected anywhere)
+Decided 2026-11-07. **We never contact 911 or dispatch anyone.** We tell the person to call 911 and get a human looking at the case.
+
+1. **Trigger:** reply `3`, OR triage returns urgency 4 with a life-safety need (`medical`, `trapped`, `injured`, "can't breathe", "water rising") in free text or in a call transcript. The same path runs either way.
+2. **Right away (under 2s, no LLM in the path):** text "If you're in danger, call 911 now. We've marked you top priority and are calling you." Set urgency 4, `label: "critical"`, and **set `human_request`** (`reason: "Emergency"`) so the case is at the top of the queue. Log a `triage` step "EMERGENCY".
+3. **Call:** place a call with `reason: "emergency"`, unless the person is already on a call (then the in-call agent switches to the emergency script).
+4. **Emergency call script** (dynamic variable `call_reason=emergency`): the first line is "If you're in danger, hang up and call 911 now." If they stay on, it asks only safety questions (who is hurt, exact location, medical needs such as oxygen or power, can they get out) and keeps the call short. No claim or coverage talk. The transcript is merged and re-triaged as usual.
+5. **No answer** (voicemail detected or no real user turns): voicemail line, then text "If you're in danger call 911. Reply here or call (701) 888-0282 to reach us." Retry the call **once** after 60s. If that also fails: status `unreachable`, `human_request` stays true, and triage `action: "Welfare check recommended"` for the human agent.
+6. The **human** (the teammate in the console) sees the case first. The live human handoff (call transfer / replying from the case panel) is still a stretch goal; for the MVP the human's "handoff" is that they see the case top of queue with the action.
+
+pytest: `3` -> 911 text sent, urgency 4, `human_requested: true`, a `place_call` step with `reason: "emergency"`; "I'm trapped, water rising" free text -> same; a fake voicemail call -> a follow-up text, one retry, then `unreachable` + "Welfare check recommended".
 
 **Stretch (only after all 3 pass verification):** a live human handoff, where the voice call is transferred to the teammate playing the State Farm agent, or that teammate replies to the victim's iMessage from the case panel.
 
@@ -38,6 +66,7 @@ Cast: 2 people. Phone A = an iPhone, the victim. Phone B = any phone, the silent
 - SMS (10DLC approval takes days); group chats; iMessage polls/mini apps/tapbacks (not in the beta)
 - Auth / accounts, multi-tenant setup, settings pages, admin panels, mobile app
 - Live NWS/FEMA fetching during the demo (the scenario is seeded from FEMA-4955)
+- Coverage decisions, denials, flood/exclusion logic (code reports limits from the synthetic policy; an adjuster decides the rest)
 - Multiple languages; claim PDF export; payments/payouts; adjuster scheduling
 
 ## Architecture and data flow
@@ -48,9 +77,11 @@ Cast: 2 people. Phone A = an iPhone, the victim. Phone B = any phone, the silent
 FastAPI: case store (in-memory) + agent loop (15s tick + on every inbound event) --> Nemotron super (plan, tool calls, claim draft)
                                                                                  --> Nemotron lightning (triage)
 ```
+**Scenario check (2026-11-07):** FEMA-4955 is a real declaration, verified against OpenFEMA `DisasterDeclarationsSummaries`: Hurricane Isaias, FL, type DR (major disaster), declared 2026-10-27, incident began 2026-10-06, same 15 counties as below. Only the disaster is real; every policyholder, policy and case is synthetic. **Team decision:** `date_of_loss` in claim drafts uses the declaration date 2026-10-27 (known simplification; the real incident start is 10-06). Say "declared" not "hit on" in the pitch.
+
 State is in memory and seeded from `backend/app/seed/isaias.json` (~40 synthetic policyholders with policies, lat/lng across the FEMA-4955 counties, and pre-triaged cases, some with claim drafts) plus a local FL county GeoJSON. Only the demo phones are live. Phone A opts in by texting JOIN first (a Photon shared line can't send the first message). Phone B only gets calls. We poll instead of using webhooks, so no tunnel is needed. Every external call has a 10s timeout: on failure the step is logged as `error` and the demo continues (heuristic keyword triage; template claim draft from the case fields).
 
-Nemotron agent tools (internal): `get_case(id)` (policy + history), `send_imessage(id, text)`, `place_call(id, context)`, `record_triage(id, urgency, needs[], summary, action)`, `request_human(id, reason)`, `draft_claim(id)`, `list_due_policyholders()`.
+Nemotron agent tools (internal): `get_case(id)` (policy + history), `check_coverage(id, item)` (deterministic, see "Policy coverage"), `send_imessage(id, text)`, `place_call(id, context)`, `record_triage(id, urgency, needs[], summary, action)`, `request_human(id, reason)`, `draft_claim(id)`, `list_due_policyholders()`.
 
 ## Data contracts
 ### `GET /health` -> `{"status":"ok"}`
@@ -125,8 +156,8 @@ Request: `{"policyholder_id":"ph_017","text":"2"}` · Response 200: `{"ok":true}
 | Feature | Pass/fail check |
 |---|---|
 | Backend up | `curl localhost:8000/health` returns `{"status":"ok"}` |
-| Policy-aware check-in | pytest: menu parser maps 1/2/3/4/0 + free text; follow-up for a homeowners policy with ALE mentions the ALE limit (mocked Nemotron); live: `POST /checkins/run`, phone A gets the menu, replies 2, gets a policy-specific follow-up, and `GET /cases/ph_017` shows the triage within 15s |
-| Voice + human ladder | live: reply 4, phone A rings within 20s, the agent references the case, and after hangup `calls[0].status:"done"` and the transcript is merged into `messages`; the silent phone B rings within 90s with `reason:"no_reply"`; reply 0 sets `human_requested:true` and sorts the case to the top of `/dashboard` |
+| Policy-aware check-in | pytest: menu parser maps 1/2/3/4/0 + free text; follow-up for a homeowners policy with ALE mentions the ALE limit (mocked Nemotron); `check_coverage` tests from "Policy coverage"; live: `POST /checkins/run`, phone A gets the menu, replies 2, gets a policy-specific follow-up, and `GET /cases/ph_017` shows the triage within 15s |
+| Voice + human ladder | live: reply 4, phone A rings within 20s, the agent references the case, and after hangup `calls[0].status:"done"` and the transcript is merged into `messages`; the silent phone B rings within 90s with `reason:"no_reply"`; reply 0 sets `human_requested:true` and sorts the case to the top of `/dashboard`; emergency path tests from "Emergency path" |
 | Claim draft + console | pytest: claim draft from the fixture validates against the Pydantic model, `missing_info` is non-empty when there are no photos; live: the YES reply sets `status:"confirmed"`; `just build` exits 0; screenshot of the console with map pins, queue, case panel with claim draft, and step log updating |
 | Demo resilience | Nemotron key unset -> `/dashboard` and `/cases/{id}` still return seeded data, and the step log shows `error` steps instead of a crash |
 | Deployed | production URL returns 200 and the happy path works there |
