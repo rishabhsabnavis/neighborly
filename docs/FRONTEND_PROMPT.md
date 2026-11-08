@@ -1,4 +1,6 @@
-# Prompt for the web-app coding agent
+# Prompt for the frontend coding agent
+
+> **On hold:** start this only after Figma frames 1 (main console) and 2 (case panel) are shared. Build to the Figma design instead of the shadcn-default fallback described below. The backend (docs/BACKEND_PROMPT.md) should be serving `/dashboard`, `/cases/{id}` and `/steps` by then. Point at it instead of mocks where it's ready, and keep mock mode for anything missing.
 
 Paste everything below the line into your coding agent, started from the repo root.
 
@@ -10,10 +12,10 @@ You are building the **SafeFarm agent console**, the web frontend for our HackUT
 After Hurricane Isaias (FEMA-4955, 15 FL panhandle counties), a Nemotron AI agent texts every State Farm policyholder over iMessage, escalates to a voice call or a human, and writes a claim draft. This console is what a State Farm CAT agent (and the judges) watch: who needs help, the full conversation for each person, the claim draft, and the AI agent's steps as they happen. It runs on the presenting laptop (1440x900, also on a projector), so text must be readable from across a room.
 
 ## Ownership and boundaries
-- You own `frontend/` only. The backend (`backend/`, FastAPI) is built in parallel by someone else and may not exist yet, so **build against mock data first** (see Mock mode).
+- You own `frontend/` only. The backend (`backend/`, FastAPI) is built by someone else. Build against mock data first (see Mock mode) so missing endpoints never block you; `POST /dev/simulate-reply` lets you drive a case without a phone.
 - Stack already set up: Next.js 16 App Router, TypeScript, Tailwind v4, shadcn/ui (base-ui). Add shadcn components with `npx shadcn@latest add <name>` and never hand-edit `components/ui/*`. Package manager: pnpm.
 - Backend base URL: `process.env.NEXT_PUBLIC_API_URL` (default `http://localhost:8000`). Never hardcode it.
-- Design comes from our Figma (the designer is working on it now). Until it lands, use clean shadcn defaults with the layout and color system below, and keep styling in a few components so restyling later is cheap.
+- Design comes from our Figma (brief: https://claude.ai/artifact/7bZErNhK8kDqRttxuDaK4S). Match the frames; where they're silent, fall back to the layout and color system below.
 - New deps: justify each in one line and add it to README.md "Built with". Expected: `leaflet` + `react-leaflet` + `@types/leaflet` (county map; nothing installed does maps). Avoid anything else unless needed.
 - Commit small working steps with plain imperative messages. **No AI attribution in commits** (no Co-Authored-By trailer). Before each push run `just test && just lint && just build` (a hook enforces it in Claude Code).
 

@@ -114,6 +114,9 @@ Response 200: `{"call_id":"conv_abc","status":"calling"}` · Errors: `404 {"deta
 
 ### `POST /demo/reset` -> `{"ok": true}` (reloads the seed, clears live state)
 
+### `POST /dev/simulate-reply` (dev + demo backup)
+Request: `{"policyholder_id":"ph_017","text":"2"}` · Response 200: `{"ok":true}` (runs the text through the real inbound flow, as if it came over iMessage) · `404 {"detail":"unknown policyholder"}`
+
 ## Riskiest part (test first)
 1. **Outbound call over Photon SIP -> ElevenLabs, with case context.** Inbound calls pass, but outbound hasn't been tried. **Spike:** run `configure_voice_profile_outbound`, put the creds on the ElevenLabs number's outbound trunk, then `POST /v1/convai/sip-trunk/outbound-call` to phone A, passing `conversation_initiation_client_data.dynamic_variables` (name and case summary) so the agent greets with context, then fetch the transcript. **Pass** = the phone rings, the agent mentions the policyholder's issue, and the transcript comes back over the API. **Fallback:** text "Call us now at (701) 888-0282" (the inbound path already passes); we lose the auto-call wow moment and probably the Photon Voice prize.
 2. **Claim draft quality.** Spike: feed one fixture case (policy + 4 messages + a transcript) to Nemotron super with the `claim_draft` JSON schema. Pass = valid JSON, correct coverages mapped, no invented damages, in under 8s. Fallback: template fill from triage fields.
