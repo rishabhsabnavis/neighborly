@@ -8,10 +8,12 @@ export function DashboardTable({
   rows,
   selectedId,
   onSelect,
+  emptyText,
 }: {
   rows: PolicyholderRow[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  emptyText?: string;
 }) {
   return (
     <div className="h-full overflow-auto bg-white">
@@ -33,7 +35,7 @@ export function DashboardTable({
           {rows.length === 0 ? (
             <tr>
               <td colSpan={7} className="px-6 py-16 text-center text-zinc-500">
-                No policyholders match this search or filter.
+                {emptyText ?? "No policyholders match this search or filter."}
               </td>
             </tr>
           ) : (

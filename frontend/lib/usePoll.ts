@@ -15,9 +15,12 @@ export function usePoll<T>(fn: () => Promise<T>, ms: number) {
   useEffect(() => {
     let stop = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
+    let loaded = false;
 
     const tick = async () => {
-      if (typeof document !== "undefined" && document.hidden) {
+      // Skip polls in a hidden tab, but never the first load: a console opened in a
+      // background tab (or captured by screen share) must not sit on "Loading...".
+      if (loaded && typeof document !== "undefined" && document.hidden) {
         timer = setTimeout(() => void tick(), ms);
         return;
       }
@@ -25,6 +28,7 @@ export function usePoll<T>(fn: () => Promise<T>, ms: number) {
         const next = await fnRef.current();
         if (stop) return;
         setData(next);
+        loaded = true;
         setError(null);
         setStale(false);
       } catch (err) {

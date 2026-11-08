@@ -32,6 +32,8 @@ type ConsoleValue = {
   disasterName: string;
   loading: boolean;
   reconnecting: boolean;
+  /** True when the backend has never answered (no data yet and the last request failed). */
+  offline: boolean;
   selectedId: string | null;
   select: (id: string | null) => void;
 };
@@ -93,6 +95,7 @@ export function ConsoleApp({ children }: { children: ReactNode }) {
     disasterName: dashboard.data?.disaster.name ?? "Loading incident...",
     loading: !dashboard.data,
     reconnecting: Boolean(dashboard.stale || dashboard.error),
+    offline: Boolean(dashboard.error && !dashboard.data),
     selectedId,
     select: setSelectedId,
   };
