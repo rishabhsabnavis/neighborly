@@ -102,11 +102,13 @@ Request: `{"disaster_number": 4955}` · Response 200: `{"run_id":"run_01","queue
      "human_requested": false,
      "urgency": 4, "summary": "Roof caved in, water inside, mother on oxygen, no power",
      "claim_id": "SF-4955-0017",
-     "last_contact_at": "2026-11-07T23:41:02Z"}
+     "last_contact_at": "2026-11-07T23:41:02Z",
+     "address": "412 Harbor Dr, Panama City, FL",
+     "policy_type": "homeowners"}
   ]
 }
 ```
-Sorted by `human_requested` first, then urgency (descending), then `last_contact_at` (oldest first). `urgency` and `claim_id` may be null.
+Sorted by `human_requested` first, then urgency (descending), then `last_contact_at` (oldest first). `urgency` and `claim_id` may be null. `address` and `policy_type` are included for the console table; older payloads may omit them.
 
 ### `GET /cases/{id}`
 ```json
