@@ -88,3 +88,7 @@ snapshot:
       curl -sf "$base/cases/$id" | jq . > "$out/cases/$id.json"
     done
     echo "snapshot: $(ls "$out/cases" | wc -l | tr -d ' ') cases -> $out"
+
+# outbound call spike: Photon SIP -> ElevenLabs agent with case context (--setup = no call)
+voice-outbound *args:
+    PYTHONUNBUFFERED=1 uv run spikes/voice_outbound.py {{args}}
