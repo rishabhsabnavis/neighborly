@@ -1,7 +1,14 @@
-import { cases, dashboard as mockDashboard, steps as mockSteps } from "@/lib/mock";
+import {
+  cases,
+  dashboard as mockDashboard,
+  steps as mockSteps,
+} from "@/lib/mock";
 import type { Case, CheckinRun, Dashboard, Step, StepPage } from "@/lib/types";
 
-const BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const BASE =
+  process.env.NEXT_PUBLIC_USE_API_PROXY === "1"
+    ? "/backend"
+    : (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000");
 const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === "1";
 
 const extraSteps: Step[] = [];
@@ -40,7 +47,8 @@ export function getDashboard(): Promise<Dashboard> {
 export function getCase(id: string): Promise<Case> {
   if (USE_MOCK) {
     const found = cases[id];
-    if (!found) return Promise.reject(new ApiError(404, "unknown policyholder"));
+    if (!found)
+      return Promise.reject(new ApiError(404, "unknown policyholder"));
     return Promise.resolve(found);
   }
   return request<Case>(`/cases/${id}`);
@@ -66,7 +74,8 @@ export function getSteps(since?: number): Promise<StepPage> {
 }
 
 export function runCheckin(): Promise<CheckinRun> {
-  if (USE_MOCK) return Promise.resolve({ run_id: "run_mock", queued: 42, live: 2 });
+  if (USE_MOCK)
+    return Promise.resolve({ run_id: "run_mock", queued: 42, live: 2 });
   return request<CheckinRun>("/checkins/run", {
     method: "POST",
     body: JSON.stringify({ disaster_number: 4955 }),
@@ -78,7 +87,10 @@ export function resetDemo(): Promise<{ ok: true }> {
   return request<{ ok: true }>("/demo/reset", { method: "POST" });
 }
 
-export function callPolicyholder(id: string): Promise<{ call_id: string; status: "calling" }> {
-  if (USE_MOCK) return Promise.resolve({ call_id: "conv_mock", status: "calling" });
+export function callPolicyholder(
+  id: string,
+): Promise<{ call_id: string; status: "calling" }> {
+  if (USE_MOCK)
+    return Promise.resolve({ call_id: "conv_mock", status: "calling" });
   return request(`/policyholders/${id}/call`, { method: "POST" });
 }

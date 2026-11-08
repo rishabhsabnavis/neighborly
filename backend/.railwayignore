@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+.photon_routes.json
+.photon_routes.tmp
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+tests/

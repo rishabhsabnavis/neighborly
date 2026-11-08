@@ -20,7 +20,7 @@ Every framework, library, API, and service used (hackathon rule: keep this compl
 | Frontend | Next.js, React, TypeScript, Tailwind CSS, shadcn/ui, Leaflet, React Leaflet |
 | Backend | Python 3.12, FastAPI, Uvicorn, Pydantic, python-dotenv, httpx, fpdf2 |
 | Tooling | uv, pnpm, Ruff, Prettier, ESLint, pytest, just, PostCSS (@tailwindcss/postcss) |
-| Hosting | Vercel, Cloudflare Tunnel |
+| Hosting | Vercel, Railway, Docker, Cloudflare Tunnel |
 | APIs / AI | NVIDIA Nemotron (nemotron-3.5-super-vl, nemotron-3.5-lightning), OpenFEMA API, OpenStreetMap tiles, plotly county GeoJSON |
 | Sponsor tech | NVIDIA Nemotron, Photon 2.0 (photonhq-api Python SDK: iMessage + Voice SIP), ElevenLabs Agents |
 | Dev assistance | Claude Code |
