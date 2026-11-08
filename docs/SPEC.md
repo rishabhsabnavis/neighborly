@@ -67,7 +67,7 @@ pytest: `3` -> 911 text sent, urgency 4, `human_requested: true`, a `place_call`
 - Auth / accounts, multi-tenant setup, settings pages, admin panels, mobile app
 - Live NWS/FEMA fetching during the demo (the scenario is seeded from FEMA-4955)
 - Coverage decisions, denials, flood/exclusion logic (code reports limits from the synthetic policy; an adjuster decides the rest)
-- Multiple languages; claim PDF export; payments/payouts; adjuster scheduling
+- Multiple languages; payments/payouts; adjuster scheduling
 
 ## Architecture and data flow
 ```
@@ -144,6 +144,9 @@ Sorted by `human_requested` first (live cases ahead of seeded ones within that g
 
 ### `POST /policyholders/{id}/call` (manual backup button)
 Response 200: `{"call_id":"conv_abc","status":"calling"}` · Errors: `404 {"detail":"unknown policyholder"}`, `502 {"detail":"call failed: ..."}`
+
+### `GET /claims/{token}.pdf` (added 2026-11-08, owner decision)
+Response 200: a one-page `application/pdf` of the claim, marked demo-only · Unknown token -> `404 {"detail":"unknown claim"}`. The token is created when a claim is confirmed with `CLAIM_LINK_BASE_URL` set, and the confirmation text links to `<CLAIM_LINK_BASE_URL>/claims/<token>`: a frontend route that embeds the PDF. Only the frontend is tunneled; the backend stays private.
 
 ### `POST /demo/reset` -> `{"ok": true}` (reloads the seed, clears live state)
 

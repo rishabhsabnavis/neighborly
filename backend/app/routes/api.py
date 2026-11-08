@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Response
 
 from app import runtime
+from app.claim_pdf import render_claim_pdf
 from app.models import (
     CallStartResponse,
     CaseResponse,
@@ -19,6 +20,20 @@ router = APIRouter()
 
 def _ready() -> None:
     runtime.init()
+
+
+@router.get("/claims/{token}.pdf")
+async def claim_pdf(token: str) -> Response:
+    _ready()
+    assert runtime.store is not None
+    case = runtime.store.by_claim_token(token)
+    if case is None or case.claim_draft is None:
+        raise HTTPException(status_code=404, detail="unknown claim")
+    return Response(
+        render_claim_pdf(case.name, case.claim_draft),
+        media_type="application/pdf",
+        headers={"content-disposition": 'inline; filename="claim.pdf"'},
+    )
 
 
 @router.get("/dashboard", response_model=DashboardResponse)

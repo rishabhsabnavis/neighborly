@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import re
+import secrets
 import time
 
 from app.fallbacks import (
@@ -27,6 +28,7 @@ from app.models import (
     Triage,
     TriageSource,
 )
+from app.settings import env
 from app.steps import StepLog
 from app.store import Store, StoredCase, mask_phone, touch
 from app.timeutil import now_iso, plus_seconds
@@ -281,7 +283,11 @@ class Flow:
                 policyholder_id=case.id,
                 tool="draft_claim",
             )
-            await self._say(case, f"Confirmed claim {case.claim_draft.claim_id}.")
+            confirmed = f"Confirmed claim {case.claim_draft.claim_id}."
+            link = self._claim_link(case)
+            await self._say(
+                case, f"{confirmed} View it here: {link}" if link else confirmed
+            )
             return
         if choice == "0":
             await self._human(case, "Asked for a person")
@@ -296,6 +302,14 @@ class Flow:
             await self._safe(case)
             return
         await self._help(case, body, source)
+
+    def _claim_link(self, case: StoredCase) -> str | None:
+        """Unguessable link to the claim PDF, or None when no public URL is set."""
+        base = env("CLAIM_LINK_BASE_URL").rstrip("/")
+        if not base:
+            return None
+        case.claim_token = case.claim_token or secrets.token_urlsafe(18)
+        return f"{base}/claims/{case.claim_token}"
 
     async def _safe(self, case: StoredCase) -> None:
         triage = Triage(

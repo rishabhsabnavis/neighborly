@@ -87,6 +87,7 @@ class StoredCase(APIModel):
     emergency_retry_at: str | None = None
     active_call_id: str | None = None
     claim_announced: bool = False
+    claim_token: str | None = None
 
     def collecting_details(self) -> bool:
         """Follow-up questions are open or a call is live: too early to draft a claim."""
@@ -210,6 +211,11 @@ class Store:
             if case.phone == phone:
                 return case
         return None
+
+    def by_claim_token(self, token: str) -> StoredCase | None:
+        return next(
+            (case for case in self.cases.values() if case.claim_token == token), None
+        )
 
     async def dashboard(self) -> DashboardResponse:
         async with self.lock:

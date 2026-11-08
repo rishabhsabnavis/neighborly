@@ -14,6 +14,7 @@ def _defaults() -> None:
     os.environ["BRAIN"] = "heuristic"
     os.environ["PLANNER"] = "rules"
     os.environ["DEMO_ASSUME_OPTED_IN"] = "1"
+    os.environ["CLAIM_LINK_BASE_URL"] = ""
     os.environ.pop("DEMO_PHONE_A", None)
     os.environ.pop("DEMO_PHONE_B", None)
 
