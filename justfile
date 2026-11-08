@@ -92,3 +92,7 @@ snapshot:
 # outbound call spike: Photon SIP -> ElevenLabs agent with case context (--setup = no call)
 voice-outbound *args:
     PYTHONUNBUFFERED=1 uv run spikes/voice_outbound.py {{args}}
+
+# Nemotron claim-draft + policy-aware follow-up quality (SPEC risk #2)
+spike-claim:
+    PYTHONUNBUFFERED=1 uv run spikes/nemotron_claim.py
