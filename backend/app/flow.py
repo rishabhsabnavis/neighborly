@@ -6,7 +6,13 @@ import asyncio
 import re
 import time
 
-from app.fallbacks import classify, follow_up_text, life_safety, template_claim
+from app.fallbacks import (
+    HeuristicBrain,
+    classify,
+    follow_up_text,
+    life_safety,
+    template_claim,
+)
 from app.integrations.base import CallContext, CallResult
 from app.integrations.fake import FakeMessenger
 from app.models import (
@@ -14,6 +20,7 @@ from app.models import (
     Call,
     CallReason,
     CheckinRunResponse,
+    ClaimDraft,
     HumanRequest,
     MenuChoice,
     Message,
@@ -95,6 +102,12 @@ class Flow:
         self.brain = brain
         self.fake = fake
         self.placed: set[str] = set()
+        # The heuristic brain is instant and offline, so it runs inline (tests, no-key demo).
+        # A live brain (Nemotron) gets timeouts, a heuristic fallback and background claim drafts.
+        self.live_brain = not isinstance(brain, HeuristicBrain)
+        self._drafting: set[str] = set()
+        self._redraft: set[str] = set()
+        self._tasks: set[asyncio.Task] = set()
 
     async def run_checkin(self, disaster_number: int) -> CheckinRunResponse:
         del disaster_number
@@ -223,7 +236,7 @@ class Flow:
                 "triage", "Call ended with no reply", policyholder_id=case.id
             )
             return
-        triage = classify(spoken, "call")
+        triage = await self._triage(case, spoken, "call")
         self._apply_triage(case, triage)
         self.steps.add(
             "triage",
@@ -299,18 +312,20 @@ class Flow:
         )
 
     async def _help(self, case: StoredCase, text: str, source: TriageSource) -> None:
-        triage = classify(text, source)
+        was_critical = case.urgency == 4
+        triage = await self._triage(case, text, source)
         self._apply_triage(case, triage)
         if case.status in {"pending", "texted"}:
             case.status = "replied"
         self.steps.add(
             "triage", triage.summary, policyholder_id=case.id, tool="record_triage"
         )
-        if triage.urgency == 4 and life_safety(text):
-            await self._emergency(case, source)
+        # Heuristic life-safety words, or the brain newly reaching 4 (its safety floor
+        # catches e.g. "oxygen + power out"), take the emergency path.
+        if triage.urgency == 4 and (life_safety(text) or not was_critical):
+            await self._emergency(case, source, case.triage)
             return
-        detailed = text.strip() not in {"2", "0"} and not text.strip().isdigit()
-        question = None if detailed else follow_up_text(case)
+        question = await self._follow_up(case, text)
         if question and case.followups_sent < 2:
             await self._say(case, question)
             case.followups_sent += 1
@@ -336,11 +351,13 @@ class Flow:
         )
         await self._say(case, EMERGENCY_TEXT)
 
-    async def _emergency(self, case: StoredCase, source: TriageSource) -> None:
+    async def _emergency(
+        self, case: StoredCase, source: TriageSource, triage: Triage | None = None
+    ) -> None:
         already = bool(case.active_call_id)
-        await self._flag_emergency(
-            case, classify(_latest_policyholder_text(case), source)
-        )
+        if triage is None:
+            triage = classify(_latest_policyholder_text(case), source)
+        await self._flag_emergency(case, triage.model_copy())
         if already:
             self.steps.add(
                 "plan",
@@ -363,17 +380,157 @@ class Flow:
         )
         await self._say(case, HUMAN_TEXT)
 
-    async def _draft(self, case: StoredCase, announce: bool) -> None:
+    async def _triage(
+        self, case: StoredCase, text: str, source: TriageSource
+    ) -> Triage:
+        """Brain triage (Nemotron) with the heuristic as the fallback. Caller holds the lock."""
+        if not self.live_brain:
+            return classify(text, source)
+        started = time.perf_counter()
         try:
-            draft = await asyncio.wait_for(self.brain.draft_claim(case), 10)  # type: ignore[attr-defined]
-        except Exception as exc:  # noqa: BLE001 - template claim is the demo fallback
+            raw = await asyncio.wait_for(self.brain.triage(case), 9)  # type: ignore[attr-defined]
+            triage = Triage.model_validate(
+                {**_plain(raw), "source": source if source != "seed" else "imessage"}
+            )
+        except Exception as exc:  # noqa: BLE001 - the heuristic keeps the demo moving
             self.steps.add(
                 "error",
-                f"draft_claim failed: {type(exc).__name__}",
+                f"Nemotron triage failed ({type(exc).__name__}); heuristic used",
                 policyholder_id=case.id,
-                tool="draft_claim",
+                tool="record_triage",
+                ms=_ms(started),
             )
-            draft = template_claim(case)
+            return classify(text, source)
+        floor = getattr(self.brain, "last_floor_reason", None)
+        self.steps.add(
+            "tool_result",
+            f"Nemotron triage: urgency {triage.urgency}"
+            + (f" (safety floor: {floor})" if floor else ""),
+            policyholder_id=case.id,
+            tool="record_triage",
+            ms=_ms(started),
+        )
+        return triage
+
+    async def _follow_up(self, case: StoredCase, text: str) -> str | None:
+        """Next policy-aware question, or None when it's time to draft the claim."""
+        bare = text.strip().isdigit()
+        if case.followups_sent >= 2:
+            return None
+        if not self.live_brain:
+            return follow_up_text(case) if bare else None
+        started = time.perf_counter()
+        try:
+            question = await asyncio.wait_for(self.brain.follow_up(case), 7)  # type: ignore[attr-defined]
+        except Exception as exc:  # noqa: BLE001
+            self.steps.add(
+                "error",
+                f"Nemotron follow-up failed ({type(exc).__name__}); template used",
+                policyholder_id=case.id,
+                tool="send_imessage",
+                ms=_ms(started),
+            )
+            return follow_up_text(case) if bare else None
+        if getattr(self.brain, "last_dropped", None):
+            self.steps.add(
+                "error",
+                "Nemotron follow-up: dropped a sentence with an unverified dollar amount",
+                policyholder_id=case.id,
+                tool="send_imessage",
+            )
+        self.steps.add(
+            "tool_result",
+            "Nemotron follow-up: " + ("asked" if question else "no more questions"),
+            policyholder_id=case.id,
+            tool="send_imessage",
+            ms=_ms(started),
+        )
+        return question
+
+    async def _draft(self, case: StoredCase, announce: bool) -> None:
+        """Draft (or silently refresh) the claim. A confirmed claim is final."""
+        if case.claim_draft is not None and case.claim_draft.status == "confirmed":
+            return
+        announce = announce and case.claim_draft is None
+        if not self.live_brain:
+            try:
+                draft = self._as_claim(case, await self.brain.draft_claim(case))  # type: ignore[attr-defined]
+            except Exception as exc:  # noqa: BLE001 - template claim is the demo fallback
+                self.steps.add(
+                    "error",
+                    f"draft_claim failed: {type(exc).__name__}",
+                    policyholder_id=case.id,
+                    tool="draft_claim",
+                )
+                draft = template_claim(case)
+            await self._apply_draft(case, draft, announce)
+            return
+        # Live brain: the reply text has already gone out; draft off the lock (up to 15s).
+        if case.id in self._drafting:
+            self._redraft.add(case.id)
+            return
+        self._drafting.add(case.id)
+        task = asyncio.create_task(self._draft_in_background(case.id, announce))
+        self._tasks.add(task)
+        task.add_done_callback(self._tasks.discard)
+
+    async def _draft_in_background(self, policyholder_id: str, announce: bool) -> None:
+        try:
+            while True:
+                case = self.store.cases.get(policyholder_id)
+                if case is None:
+                    return
+                started = time.perf_counter()
+                try:
+                    raw = await asyncio.wait_for(self.brain.draft_claim(case), 15)  # type: ignore[attr-defined]
+                    draft = self._as_claim(case, raw)
+                except Exception as exc:  # noqa: BLE001 - template claim is the demo fallback
+                    self.steps.add(
+                        "error",
+                        f"Nemotron draft_claim failed ({type(exc).__name__}); template used",
+                        policyholder_id=policyholder_id,
+                        tool="draft_claim",
+                        ms=_ms(started),
+                    )
+                    draft = template_claim(case)
+                async with self.store.lock:
+                    current = self.store.cases.get(policyholder_id)
+                    confirmed = (
+                        current is not None
+                        and current.claim_draft is not None
+                        and current.claim_draft.status == "confirmed"
+                    )
+                    if current is case and not confirmed:  # skip after a demo reset
+                        await self._apply_draft(
+                            case,
+                            draft,
+                            announce and case.claim_draft is None,
+                            _ms(started),
+                        )
+                if policyholder_id not in self._redraft:
+                    return
+                self._redraft.discard(policyholder_id)
+                announce = False
+        finally:
+            self._drafting.discard(policyholder_id)
+
+    def _as_claim(self, case: StoredCase, raw: object) -> ClaimDraft:
+        if isinstance(raw, ClaimDraft):
+            return raw
+        data = _plain(raw)
+        deductible = data.get("deductible")
+        data["deductible"] = int(
+            deductible if deductible is not None else case.policy.deductible
+        )
+        return ClaimDraft.model_validate(data)
+
+    async def _apply_draft(
+        self,
+        case: StoredCase,
+        draft: ClaimDraft,
+        announce: bool,
+        ms: int | None = None,
+    ) -> None:
         case.claim_draft = draft
         case.claim_id = draft.claim_id
         case.phase = "claim_confirm"
@@ -382,6 +539,7 @@ class Flow:
             f"Drafted {draft.claim_id}",
             policyholder_id=case.id,
             tool="draft_claim",
+            ms=ms,
         )
         if announce:
             await self._say(
@@ -471,6 +629,16 @@ class Flow:
 
     async def _say(self, case: StoredCase, text: str) -> None:
         from app.coverage import validate_amounts
+
+        if case.call_only:
+            # Phone B has no iMessage line: a text would fail (or reach the wrong person).
+            self.steps.add(
+                "plan",
+                "Call-only line; text skipped",
+                policyholder_id=case.id,
+                tool="send_imessage",
+            )
+            return
 
         clean = validate_amounts(text, case.policy)
         if clean != text:
@@ -566,6 +734,20 @@ class Flow:
         case.triage = triage
         case.urgency = triage.urgency
         case.summary = triage.summary
+
+
+def _plain(obj: object) -> dict:
+    """Pydantic model / dataclass / dict -> dict (brain modules use their own result models)."""
+    if isinstance(obj, dict):
+        return dict(obj)
+    dump = getattr(obj, "model_dump", None)
+    if callable(dump):
+        return dump(mode="json")
+    from dataclasses import asdict, is_dataclass
+
+    if is_dataclass(obj) and not isinstance(obj, type):
+        return asdict(obj)
+    raise TypeError(f"unexpected brain result {type(obj).__name__}")
 
 
 def _latest_policyholder_text(case: StoredCase) -> str:
