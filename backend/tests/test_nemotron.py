@@ -455,3 +455,35 @@ def test_actions_are_recommendations_never_dispatch():
         ).triage(MARIA)
     )
     assert "dispatch" not in t.action.lower()
+
+
+def test_floor_collects_all_needs_and_replaces_closing_action():
+    from app.integrations.nemotron import safety_floor
+
+    case = {
+        "policy": {},
+        "messages": [
+            {
+                "from": "policyholder",
+                "text": "my husband fell and he's bleeding, we're stuck upstairs",
+            }
+        ],
+    }
+    u, needs, why = safety_floor(case)
+    assert (
+        u == 4
+        and set(needs) == {"rescue", "medical"}
+        and "stuck" in why
+        and "bleeding" in why
+    )
+    t = run(
+        brain_with(
+            {
+                "urgency": 1,
+                "needs": [],
+                "summary": "says fine",
+                "action": "Confirm safety and close case",
+            }
+        ).triage({**MARIA, **case, "policy": MARIA["policy"]})
+    )
+    assert t.urgency == 4 and t.action == "Welfare check recommended"

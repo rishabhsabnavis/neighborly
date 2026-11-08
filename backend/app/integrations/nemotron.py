@@ -191,8 +191,13 @@ def _latest_source(case: dict) -> Literal["imessage", "call"]:
     return "call" if calls_done else "imessage"
 
 
+_CLOSING = re.compile(
+    r"\b(close|closed|no (further |immediate )?action|none needed|resolved|no follow.?up)\b",
+    re.IGNORECASE,
+)
 _DISPATCH = re.compile(
-    r"\b(dispatch(ing|ed)?|send(ing)? (an? )?(ambulance|rescue|team|crew|ems))\b", re.IGNORECASE
+    r"\b(dispatch(ing|ed)?|send(ing)? (an? )?(ambulance|rescue|team|crew|ems))\b",
+    re.IGNORECASE,
 )
 
 
@@ -412,13 +417,21 @@ def safety_floor(case: dict) -> tuple[int, list[str], str | None]:
         for n in ((case.get("policy") or {}).get("household") or {}).get("notes") or []
     )
     clean = _NEGATIONS.sub(" ", said)
-    for pat, need in _LIFE_SAFETY:
-        if pat.search(clean):
-            return 4, [need], f"reported: {pat.search(clean).group(0)!r}"
+    needs: list[str] = []
+    reasons: list[str] = []
+    for pat, need in _LIFE_SAFETY:  # collect every match, e.g. "stuck" AND "bleeding"
+        m = pat.search(clean)
+        if m:
+            reasons.append(f"reported {m.group(0)!r}")
+            if need not in needs:
+                needs.append(need)
     if _NO_POWER.search(said) and (_DEVICE.search(said) or _DEVICE.search(notes)):
-        return 4, ["medical", "power"], "medical equipment without power"
+        reasons.append("medical equipment without power")
+        needs += [n for n in ("medical", "power") if n not in needs]
     if "3" in menu:
-        return 4, [], "chose 3 (emergency)"
+        reasons.append("chose 3 (emergency)")
+    if reasons:
+        return 4, needs, "; ".join(reasons)
     return 1, [], None
 
 
@@ -531,13 +544,16 @@ class NemotronBrain:
             urgency = 4
             needs = needs + [n for n in prev.get("needs") or [] if n not in needs]
             self.last_floor_reason = "stays critical: urgency 4 only clears by a person"
+        action = recommend_only(str(d.get("action") or "").strip()[:120]) or "Follow up"
+        if self.last_floor_reason and _CLOSING.search(action):
+            # Code raised this to 4, so a "close the case" action from the model is stale.
+            action = "Welfare check recommended"
         return Triage(
             urgency=urgency,
             label=URGENCY_LABEL[urgency],
             needs=needs,
             summary=str(d.get("summary") or "").strip()[:200] or "No details yet",
-            action=recommend_only(str(d.get("action") or "").strip()[:120])
-            or "Follow up",
+            action=action,
             source=_latest_source(c),
         )
 
