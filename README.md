@@ -2,7 +2,7 @@
 
 Neighborly is a check-in and claim-starting agent for State Farm policyholders. Our demo uses Hurricane Isaias (FEMA declaration 4955, fifteen Florida panhandle counties). A coordinator clicks "Run check-in," and every opted-in policyholder in the zone gets an iMessage: reply 1 for Safe, 2 for Need help, 3 for Emergency, 4 for Call me, 0 to talk to a person.
 
-**Live demo:**  · **Video:** · **Devpost:** 
+**Live demo:** https://neighborly-ecru-two.vercel.app/  · **Video:**  · **Devpost:** https://devpost.com/software/neighborly-p5zh8b?ref_content=user-portfolio&ref_feature=in_progress 
 
 ![demo](<path or URL to GIF/screenshot>)
 
