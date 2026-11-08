@@ -191,6 +191,7 @@ def planner_snapshot(cases: list[StoredCase], moment: datetime) -> dict:
         )
         row.update(
             opted_in=case.opted_in,
+            collecting_details=case.collecting_details(),
             # The core already texts after an unanswered call, so count that text.
             followups_sent=max(case.followups_sent, 1 if unanswered else 0),
             call_status=last.status if last else None,

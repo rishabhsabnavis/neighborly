@@ -291,6 +291,7 @@ def due_actions(rows: list[dict], now: datetime, no_reply_seconds: int) -> list[
             r.get("urgency")
             and not r.get("claim_id")
             and status in ("replied", "called")
+            and not r.get("collecting_details")
         ):
             out.append(Action("draft_claim", pid, {}, "triaged, no claim yet", "rules"))
     return out

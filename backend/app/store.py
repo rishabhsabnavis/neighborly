@@ -86,6 +86,13 @@ class StoredCase(APIModel):
     emergency_attempts: int = 0
     emergency_retry_at: str | None = None
     active_call_id: str | None = None
+    claim_announced: bool = False
+
+    def collecting_details(self) -> bool:
+        """Follow-up questions are open or a call is live: too early to draft a claim."""
+        if self.active_call_id:
+            return True
+        return self.phase == "followup" and self.status != "called"
 
     def to_row(self) -> PolicyholderRow:
         urgency = self.urgency if self.urgency in (1, 2, 3, 4) else None

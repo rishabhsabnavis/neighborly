@@ -33,6 +33,7 @@ from app.timeutil import now_iso, plus_seconds
 
 MENU_CHOICES = {"1", "2", "3", "4", "0"}
 EMERGENCY_TEXT = "If you're in danger, call 911 now. We've marked you top priority and are calling you."
+EMERGENCY_AFTER_CALL_TEXT = "If you're in danger, call 911 now. We've marked you top priority and a person is reviewing your case."
 EMERGENCY_RETRY_TEXT = (
     "If you're in danger call 911. Reply here or call (701) 888-0282 to reach us."
 )
@@ -189,7 +190,8 @@ class Flow:
             elif action.tool == "request_human":
                 await self._human(case, action.text or "Asked for a person")
             elif action.tool == "draft_claim":
-                await self._draft(case, announce=True)
+                if not case.collecting_details():
+                    await self._draft(case, announce=True)
             elif action.tool == "record_triage" and action.urgency:
                 triage = classify(action.summary or action.text or "", "imessage")
                 if action.summary:
@@ -246,7 +248,7 @@ class Flow:
         )
         if life_safety(spoken) and call.reason != "emergency":
             # They just answered, so flag and text 911 guidance instead of dialing again.
-            await self._flag_emergency(case, triage)
+            await self._flag_emergency(case, triage, EMERGENCY_AFTER_CALL_TEXT)
         if any(parse_menu(line) == "0" for line in spoken.splitlines()):
             await self._human(case, "Asked for a person on the call")
         if call.reason != "emergency":
@@ -266,7 +268,12 @@ class Flow:
         if choice == "3" or (choice == "free" and life_safety(body)):
             await self._emergency(case, source)
             return
-        if choice == "yes" and case.claim_draft is not None:
+        if (
+            choice == "yes"
+            and case.claim_draft is not None
+            and case.claim_announced
+            and case.phase == "claim_confirm"
+        ):
             case.claim_draft.status = "confirmed"
             self.steps.add(
                 "claim",
@@ -332,10 +339,14 @@ class Flow:
             case.phase = "followup"
             case.status = "replied"
             return
+        if case.active_call_id:
+            return  # the end of the call drafts the claim from the full case
         case.status = "replied"
         await self._draft(case, announce=True)
 
-    async def _flag_emergency(self, case: StoredCase, triage: Triage) -> None:
+    async def _flag_emergency(
+        self, case: StoredCase, triage: Triage, text: str = EMERGENCY_TEXT
+    ) -> None:
         if triage.urgency < 4:
             triage.urgency = 4
             triage.label = "critical"
@@ -349,7 +360,7 @@ class Flow:
         self.steps.add(
             "triage", "EMERGENCY", policyholder_id=case.id, tool="record_triage"
         )
-        await self._say(case, EMERGENCY_TEXT)
+        await self._say(case, text)
 
     async def _emergency(
         self, case: StoredCase, source: TriageSource, triage: Triage | None = None
@@ -453,7 +464,7 @@ class Flow:
         """Draft (or silently refresh) the claim. A confirmed claim is final."""
         if case.claim_draft is not None and case.claim_draft.status == "confirmed":
             return
-        announce = announce and case.claim_draft is None
+        announce = announce and not case.claim_announced
         if not self.live_brain:
             try:
                 draft = self._as_claim(case, await self.brain.draft_claim(case))  # type: ignore[attr-defined]
@@ -506,13 +517,12 @@ class Flow:
                         await self._apply_draft(
                             case,
                             draft,
-                            announce and case.claim_draft is None,
+                            announce and not case.claim_announced,
                             _ms(started),
                         )
                 if policyholder_id not in self._redraft:
                     return
                 self._redraft.discard(policyholder_id)
-                announce = False
         finally:
             self._drafting.discard(policyholder_id)
 
@@ -535,7 +545,8 @@ class Flow:
     ) -> None:
         case.claim_draft = draft
         case.claim_id = draft.claim_id
-        case.phase = "claim_confirm"
+        if draft.damages:
+            case.phase = "claim_confirm"
         self.steps.add(
             "claim",
             f"Drafted {draft.claim_id}",
@@ -543,7 +554,8 @@ class Flow:
             tool="draft_claim",
             ms=ms,
         )
-        if announce:
+        if announce and draft.damages:
+            case.claim_announced = True
             await self._say(
                 case,
                 f"We started claim {draft.claim_id} for you. Reply YES to confirm.",

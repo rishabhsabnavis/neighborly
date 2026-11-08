@@ -12,7 +12,7 @@ from app.integrations import nemotron as nem
 from app.integrations import planner as pl
 from app.integrations.base import CallResult, CallTurn
 from app.integrations.nemotron import as_dict, safety_floor
-from app.models import Message, Triage
+from app.models import Action, Message, Triage
 from tests.helpers import maria_case
 from tests.test_behavior import run_async
 
@@ -99,9 +99,14 @@ class StubBrain:
     """Returns nemotron.py's own result models, like the real NemotronBrain."""
 
     def __init__(
-        self, urgency: int = 3, question: str | None = None, fail: bool = False
+        self,
+        urgency: int = 3,
+        question: str | None = None,
+        fail: bool = False,
+        empty_claim: bool = False,
     ):
         self.urgency, self.question, self.fail = urgency, question, fail
+        self.empty_claim = empty_claim
         self.last_floor_reason = None
         self.last_dropped: list[str] = []
         self.claims = 0
@@ -131,7 +136,9 @@ class StubBrain:
             date_of_loss="2026-10-27",
             cause_of_loss="Hurricane Isaias",
             loss_location="412 Harbor Dr",
-            damages=[
+            damages=[]
+            if self.empty_claim
+            else [
                 nem.Damage(
                     item="Roof",
                     description="leaking",
@@ -243,6 +250,97 @@ def test_confirmed_claim_is_not_redrafted(client) -> None:
     case = client.get("/cases/ph_017").json()
     assert case["claim_draft"]["status"] == "confirmed"
     assert sum("Reply YES" in m["text"] for m in case["messages"]) == 1
+
+
+def _reply(client, text: str) -> None:
+    client.post("/dev/simulate-reply", json={"policyholder_id": "ph_017", "text": text})
+
+
+def _settle(client) -> dict:
+    for _ in range(15):
+        run_async(client, lambda: asyncio.sleep(0.02))
+    return client.get("/cases/ph_017").json()
+
+
+def test_no_claim_while_follow_ups_are_open(client, monkeypatch) -> None:
+    _use(monkeypatch, StubBrain(urgency=2, question="What is damaged at your home?"))
+    _reply(client, "2")
+    planner = StubPlanner(
+        [pl.Action("draft_claim", "ph_017", {}, "triaged, no claim yet")]
+    )
+    _tick(client, monkeypatch, planner)
+    assert planner.calls == 0  # nothing due, so no model call either
+
+    action = Action(tool="draft_claim", policyholder_id="ph_017")
+    run_async(client, lambda: runtime.flow.execute(action))
+    case = _settle(client)
+    assert case["claim_draft"] is None
+    assert not any("Reply YES" in m["text"] for m in case["messages"])
+
+
+def test_details_texted_during_a_call_do_not_draft_a_claim(client, monkeypatch) -> None:
+    _use(monkeypatch, StubBrain(urgency=3))
+    monkeypatch.setattr(runtime.store.cases["ph_017"], "active_call_id", "conv_live")
+    _reply(client, "roof caved in, need hotel")
+    case = _settle(client)
+    assert case["claim_draft"] is None
+    assert not any("Reply YES" in m["text"] for m in case["messages"])
+
+
+def test_yes_to_a_question_does_not_confirm_then_real_claim_does(
+    client, monkeypatch
+) -> None:
+    _use(monkeypatch, StubBrain(urgency=3, question="Is anyone hurt?"))
+    _reply(client, "2")
+    _reply(client, "YES")
+    assert _settle(client)["claim_draft"] is None
+    runtime.flow.brain.question = None
+    _reply(client, "roof caved in, need hotel")
+    case = _wait_claim(client)
+    assert case["claim_draft"]["status"] == "draft"
+    assert sum("Reply YES" in m["text"] for m in case["messages"]) == 1
+    _reply(client, "YES")
+    assert _settle(client)["claim_draft"]["status"] == "confirmed"
+
+
+def test_empty_claim_is_not_announced_or_confirmable(client, monkeypatch) -> None:
+    _use(monkeypatch, StubBrain(urgency=2, empty_claim=True))
+    _reply(client, "2")
+    case = _wait_claim(client)
+    assert case["claim_draft"]["damages"] == []
+    assert not any("Reply YES" in m["text"] for m in case["messages"])
+    _reply(client, "YES")
+    assert _settle(client)["claim_draft"]["status"] == "draft"
+
+
+def test_emergency_found_on_a_finished_call_does_not_promise_a_call(client) -> None:
+    store, flow = runtime.store, runtime.flow
+    assert client.post("/policyholders/ph_017/call").status_code == 200
+    call_id = store.cases["ph_017"].active_call_id
+
+    async def finish():
+        async with store.lock:
+            await flow.resolve_call(
+                store.cases["ph_017"],
+                CallResult(
+                    call_id=call_id,
+                    status="done",
+                    answered=True,
+                    transcript=[
+                        CallTurn(
+                            role="user", text="My mom's on oxygen and the power is out."
+                        )
+                    ],
+                ),
+            )
+
+    run_async(client, finish)
+    case = client.get("/cases/ph_017").json()
+    texts = [m["text"] for m in case["messages"] if m["channel"] == "imessage"]
+    assert case["triage"]["urgency"] == 4
+    assert any("a person is reviewing your case" in text for text in texts)
+    assert not any("are calling you" in text for text in texts)
+    assert len(case["calls"]) == 1
 
 
 def test_call_only_case_gets_no_imessages(client, monkeypatch) -> None:
