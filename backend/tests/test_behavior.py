@@ -225,6 +225,28 @@ def test_silence_places_no_reply_call(client, monkeypatch) -> None:
     )
 
 
+def test_human_request_counts_as_a_reply(client, monkeypatch) -> None:
+    monkeypatch.setenv("NO_REPLY_SECONDS", "0")
+    client.post("/checkins/run", json={"disaster_number": 4955})
+    client.post("/dev/simulate-reply", json={"policyholder_id": "ph_017", "text": "0"})
+    rows = client.get("/dashboard").json()["policyholders"]
+    maria = next(row for row in rows if row["id"] == "ph_017")
+    assert maria["status"] == "replied"
+
+    async def tick():
+        assert runtime.agent is not None
+        await runtime.agent.tick()
+
+    run_async(client, tick)
+    steps = client.get("/steps").json()["steps"]
+    assert not any(
+        step["tool"] == "place_call"
+        and "no_reply" in step["text"]
+        and step["policyholder_id"] == "ph_017"
+        for step in steps
+    )
+
+
 def test_emergency_digit_and_free_text(client) -> None:
     first = client.post(
         "/dev/simulate-reply", json={"policyholder_id": "ph_017", "text": "3"}

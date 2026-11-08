@@ -3,9 +3,18 @@ import type { PolicyholderRow, PolicyType, Status, Urgency } from "@/lib/types";
 export type RiskKey = "critical" | "high" | "moderate" | "safe" | "none";
 export type SortMode = "priority" | "latest" | "earliest";
 
-export const RISK_ORDER: RiskKey[] = ["critical", "high", "moderate", "safe", "none"];
+export const RISK_ORDER: RiskKey[] = [
+  "critical",
+  "high",
+  "moderate",
+  "safe",
+  "none",
+];
 
-export const RISK_STYLE: Record<RiskKey, { label: string; bg: string; fg: string }> = {
+export const RISK_STYLE: Record<
+  RiskKey,
+  { label: string; bg: string; fg: string }
+> = {
   critical: { label: "Critical", bg: "#D92D20", fg: "#FFFFFF" },
   high: { label: "High", bg: "#F79009", fg: "#FFFFFF" },
   moderate: { label: "Moderate", bg: "#EAB308", fg: "#1D2939" },
@@ -37,13 +46,23 @@ export function pinColor(urgency: Urgency | null): string {
   return RISK_STYLE[riskKey(urgency)].bg;
 }
 
-export function chipFor(row: { urgency: Urgency | null; status: Status }): { label: string; bg: string; fg: string } {
+export function chipFor(row: {
+  urgency: Urgency | null;
+  status: Status;
+  human_requested: boolean;
+}): { label: string; bg: string; fg: string } {
   if (row.urgency != null) {
     const style = RISK_STYLE[riskKey(row.urgency)];
     return { label: style.label, bg: style.bg, fg: style.fg };
   }
-  if (row.status === "calling") return { label: "Calling", bg: "#175CD3", fg: "#FFFFFF" };
-  if (row.status === "pending") return { label: "Pending", bg: "#E4E7EC", fg: "#344054" };
+  if (row.status === "calling")
+    return { label: "Calling", bg: "#175CD3", fg: "#FFFFFF" };
+  if (row.human_requested)
+    return { label: "Human requested", bg: "#7F56D9", fg: "#FFFFFF" };
+  if (row.status === "replied")
+    return { label: "Replied", bg: "#E4E7EC", fg: "#344054" };
+  if (row.status === "pending")
+    return { label: "Pending", bg: "#E4E7EC", fg: "#344054" };
   return { label: "No reply", bg: "#E4E7EC", fg: "#344054" };
 }
 
@@ -64,7 +83,8 @@ function ago(iso: string, now: number): string {
 
 function lineFor(status: Status, rel: string | null): string {
   if (status === "pending") return "Not contacted yet";
-  if (status === "texted") return rel ? `No reply, texted ${rel}` : "No reply yet";
+  if (status === "texted")
+    return rel ? `No reply, texted ${rel}` : "No reply yet";
   if (status === "calling") return rel ? `On a call, ${rel}` : "On a call";
   if (status === "unreachable") return rel ? `No answer, ${rel}` : "No answer";
   if (status === "called") return rel ? `Called ${rel}` : "Called";
@@ -105,7 +125,9 @@ export function filterRows(
   risks: Record<RiskKey, boolean>,
   sort: SortMode,
 ): PolicyholderRow[] {
-  const matched = rows.filter((row) => risks[riskKey(row.urgency)] && matchesQuery(row, query));
+  const matched = rows.filter(
+    (row) => risks[riskKey(row.urgency)] && matchesQuery(row, query),
+  );
   if (sort === "priority") return matched;
   return [...matched].sort((a, b) => {
     const ta = a.last_contact_at ?? "";

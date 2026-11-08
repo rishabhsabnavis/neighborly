@@ -1,7 +1,11 @@
 import { chipFor } from "@/lib/display";
 import type { PolicyholderRow } from "@/lib/types";
 
-export function RiskChip({ row }: { row: Pick<PolicyholderRow, "urgency" | "status"> }) {
+export function RiskChip({
+  row,
+}: {
+  row: Pick<PolicyholderRow, "urgency" | "status" | "human_requested">;
+}) {
   const chip = chipFor(row);
   return (
     <span

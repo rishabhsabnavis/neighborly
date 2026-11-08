@@ -10,12 +10,20 @@ import { URGENCY_LABEL } from "@/lib/types";
 import type {
   Call,
   Case,
+  CoverageKey,
   Message,
   PolicyholderRow,
   Triage,
   TriageSource,
 } from "@/lib/types";
 import { usePoll } from "@/lib/usePoll";
+
+const COVERAGE_LABEL: Record<CoverageKey, string> = {
+  dwelling: "Dwelling",
+  contents: "Contents",
+  ale: "Hotel (ALE)",
+  auto: "Auto",
+};
 
 const TRIAGE_SOURCE: Record<TriageSource, string> = {
   imessage: "iMessage replies",
@@ -183,16 +191,44 @@ function Facts({ item, claimId }: { item: Case; claimId: string | null }) {
       </section>
       {item.claim_draft ? (
         <section className="overflow-hidden rounded-md border border-zinc-200">
-          <h3 className="border-b border-zinc-200 px-4 py-2 text-[13px] font-semibold text-zinc-800">
-            Claim {item.claim_draft.claim_id}
+          <h3 className="flex items-center justify-between border-b border-zinc-200 px-4 py-2 text-[13px] font-semibold text-zinc-800">
+            <span>Claim {item.claim_draft.claim_id}</span>
+            <span className="font-medium text-zinc-500">
+              {item.claim_draft.status === "confirmed" ? "Confirmed" : "Draft"}
+            </span>
           </h3>
-          <ul className="space-y-1 px-4 py-3 text-[14px] text-zinc-800">
-            {item.claim_draft.damages.map((damage) => (
-              <li key={`${damage.coverage}-${damage.item}`}>
-                {damage.item}: {damage.description}
-              </li>
-            ))}
-          </ul>
+          {item.claim_draft.damages.length ? (
+            <ul className="space-y-1 px-4 py-3 text-[14px] text-zinc-800">
+              {item.claim_draft.damages.map((damage) => (
+                <li key={`${damage.coverage}-${damage.item}`}>
+                  {damage.item}: {damage.description}
+                  <span className="text-[13px] text-zinc-500">
+                    {" "}
+                    · {COVERAGE_LABEL[damage.coverage]} · {damage.severity}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          <dl className="border-t border-zinc-100 text-[14px]">
+            <Fact
+              label="Hotel (ALE)"
+              value={
+                item.claim_draft.ale_requested ? "Requested" : "Not requested"
+              }
+            />
+            <Fact
+              label="Medical needs"
+              value={
+                item.claim_draft.injuries_or_medical.join("; ") ||
+                "None reported"
+              }
+            />
+            <Fact
+              label="Deductible"
+              value={`$${item.claim_draft.deductible.toLocaleString("en-US")}`}
+            />
+          </dl>
           {item.claim_draft.missing_info.length ? (
             <p className="border-t border-zinc-100 px-4 py-2 text-[13px] text-zinc-500">
               Still needed: {item.claim_draft.missing_info.join(", ")}

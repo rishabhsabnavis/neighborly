@@ -370,6 +370,8 @@ class Flow:
     async def _human(self, case: StoredCase, reason: str) -> None:
         case.human_requested = True
         case.human_request = HumanRequest(requested=True, reason=reason, ts=now_iso())
+        if case.status in {"pending", "texted"}:
+            case.status = "replied"
         if case.status != "calling":
             case.channel = "human"
         self.steps.add(
