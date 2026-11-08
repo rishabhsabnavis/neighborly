@@ -22,7 +22,7 @@ Every framework, library, API, and service used (hackathon rule: keep this compl
 | Tooling | uv, pnpm, Ruff, Prettier, ESLint, pytest, just |
 | Hosting | Vercel, Cloudflare Tunnel |
 | APIs / AI | NVIDIA Nemotron (nemotron-3.5-super-vl, nemotron-3.5-lightning), OpenFEMA API, OpenStreetMap tiles, plotly county GeoJSON |
-| Sponsor tech | NVIDIA Nemotron, Photon (spectrum-ts iMessage SDK, Photon Voice SIP), ElevenLabs Agents |
+| Sponsor tech | NVIDIA Nemotron, Photon 2.0 (photonhq-api Python SDK: iMessage + Voice SIP), ElevenLabs Agents |
 | Dev assistance | Claude Code |
 
 ## Challenges we ran into

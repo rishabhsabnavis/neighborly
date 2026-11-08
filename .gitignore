@@ -41,3 +41,7 @@ npm-debug.log*
 
 # spikes
 spikes/photon/node_modules/
+
+# Photon phone -> conversation cache (contains phone numbers)
+backend/.photon_routes.json
+backend/.photon_routes.tmp
