@@ -128,7 +128,14 @@ class StoredCase(APIModel):
 def sort_key(case: StoredCase) -> tuple:
     urgency_rank = -case.urgency if case.urgency is not None else 1
     contact = case.last_contact_at or "9999-12-31T23:59:59Z"
-    return (0 if case.human_requested else 1, urgency_rank, contact, case.id)
+    live_human_first = 0 if case.human_requested and case.live else 1
+    return (
+        0 if case.human_requested else 1,
+        live_human_first,
+        urgency_rank,
+        contact,
+        case.id,
+    )
 
 
 def make_counts(cases: list[StoredCase]) -> Counts:

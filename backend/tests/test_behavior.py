@@ -153,6 +153,18 @@ def test_dashboard_sort_and_unknown_case(client) -> None:
     assert missing.json()["detail"] == "unknown policyholder"
 
 
+def test_live_human_request_tops_queue(client) -> None:
+    client.post("/checkins/run", json={"disaster_number": 4955})
+    reply = client.post(
+        "/dev/simulate-reply", json={"policyholder_id": "ph_017", "text": "0"}
+    )
+    assert reply.status_code == 200
+    rows = client.get("/dashboard").json()["policyholders"]
+    assert rows[0]["id"] == "ph_017"
+    assert rows[0]["human_requested"] is True
+    assert sum(1 for row in rows if row["human_requested"]) == 6
+
+
 def test_full_fake_run(client, monkeypatch) -> None:
     monkeypatch.setenv("NO_REPLY_SECONDS", "60")
     started = client.post("/checkins/run", json={"disaster_number": 4955})

@@ -108,7 +108,7 @@ Request: `{"disaster_number": 4955}` · Response 200: `{"run_id":"run_01","queue
   ]
 }
 ```
-Sorted by `human_requested` first, then urgency (descending), then `last_contact_at` (oldest first). `urgency` and `claim_id` may be null. `address` and `policy_type` are included for the console table; older payloads may omit them.
+Sorted by `human_requested` first (live cases ahead of seeded ones within that group), then urgency (descending), then `last_contact_at` (oldest first). `urgency` and `claim_id` may be null. `address` and `policy_type` are included for the console table; older payloads may omit them.
 
 ### `GET /cases/{id}`
 ```json
