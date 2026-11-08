@@ -1,0 +1,54 @@
+{
+  "policyholder": {
+    "id": "ph_037",
+    "name": "Ada Okonkwo",
+    "address": "581 Dogwood Dr, Bonifay, FL",
+    "county": "Holmes"
+  },
+  "policy": {
+    "number": "SF-HO-80037",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 581 Dogwood Dr"
+    ],
+    "coverages": {
+      "dwelling": 380000,
+      "contents": 190000,
+      "ale": 16000
+    },
+    "deductible": 2500,
+    "household": {
+      "size": 2,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_037_m1",
+      "ts": "2026-11-07T19:51:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Ada, this is State Farm. Hurricane Isaias hit Holmes County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_037_m2",
+      "ts": "2026-11-07T19:52:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "Garage door is stuck and a window is cracked. We can stay."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 2,
+    "label": "moderate",
+    "needs": [
+      "repairs"
+    ],
+    "summary": "Garage door stuck",
+    "action": "Ask a follow-up",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": null
+}

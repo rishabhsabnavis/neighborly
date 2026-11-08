@@ -1,0 +1,52 @@
+{
+  "policyholder": {
+    "id": "ph_039",
+    "name": "Nina Volkov",
+    "address": "607 Cypress St, Monticello, FL",
+    "county": "Jefferson"
+  },
+  "policy": {
+    "number": "SF-HO-80039",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 607 Cypress St"
+    ],
+    "coverages": {
+      "dwelling": 420000,
+      "contents": 210000,
+      "ale": 20000
+    },
+    "deductible": 2500,
+    "household": {
+      "size": 4,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_039_m1",
+      "ts": "2026-11-07T19:57:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Nina, this is State Farm. Hurricane Isaias hit Jefferson County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_039_m2",
+      "ts": "2026-11-07T19:58:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "All good, just leaves and small branches."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 1,
+    "label": "safe",
+    "needs": [],
+    "summary": "Safe, yard debris",
+    "action": "No help needed",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": null
+}

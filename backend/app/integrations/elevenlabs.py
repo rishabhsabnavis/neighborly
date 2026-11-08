@@ -33,7 +33,7 @@ CallReason = Literal["requested", "no_reply", "emergency"]
 REASON_TEXT: dict[str, str] = {
     "requested": "the policyholder asked us to call them",
     "no_reply": "the policyholder has not replied to our check-in text",
-    "emergency": "the policyholder reported an emergency",
+    "emergency": "EMERGENCY: the policyholder reported a life-safety emergency. Ask ONLY safety questions (who is hurt, exact location, medical needs such as oxygen or power, can they get out). No claim or coverage talk. Keep it short",
 }
 # Voicemail greetings and menus that the speech-to-text transcribes as "user" turns
 _MACHINE_PHRASES = (
@@ -109,11 +109,19 @@ def build_dynamic_variables(ctx: CallContext) -> dict[str, str]:
     elif ctx.reason == "no_reply":
         opening = "We sent you a text after Hurricane Isaias and wanted to make sure you're okay."
     elif ctx.reason == "emergency":
-        opening = "You told us you have an emergency, so we're calling right away."
+        opening = "If you're in danger, hang up and call 911 now."  # SPEC Emergency path step 4
     else:
         opening = "You asked us to give you a call."
+    name = first_name(ctx.name)
+    if ctx.reason == "emergency":
+        # SPEC Emergency path step 4: the 911 line comes first.
+        first = f"If you're in danger, hang up and call 911 now. {name}, this is State Farm. Is anyone hurt or trapped?"
+    else:
+        hi = f"Hi {name}," if name != "there" else "Hi,"
+        first = f"{hi} this is State Farm's storm check-in line. {opening} Are you and everyone with you safe right now?"
     return {
-        "first_name": first_name(ctx.name),
+        "first_message": first,
+        "first_name": name,
         "case_opening": opening,
         "call_reason": REASON_TEXT.get(ctx.reason, ctx.reason),
         "case_summary": summary,

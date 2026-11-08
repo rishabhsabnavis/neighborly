@@ -1,0 +1,30 @@
+{
+  "policyholder": {
+    "id": "ph_014",
+    "name": "Evan Walsh",
+    "address": "282 Cedar Ct, DeFuniak Springs, FL",
+    "county": "Walton"
+  },
+  "policy": {
+    "number": "SF-HO-80014",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 282 Cedar Ct"
+    ],
+    "coverages": {
+      "dwelling": 400000,
+      "contents": 200000,
+      "ale": 20000
+    },
+    "deductible": 1000,
+    "household": {
+      "size": 3,
+      "notes": []
+    }
+  },
+  "messages": [],
+  "calls": [],
+  "triage": null,
+  "human_request": null,
+  "claim_draft": null
+}

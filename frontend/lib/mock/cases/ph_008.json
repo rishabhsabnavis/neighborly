@@ -1,0 +1,93 @@
+{
+  "policyholder": {
+    "id": "ph_008",
+    "name": "Andre Willis",
+    "address": "204 Maple Ave, Marianna, FL",
+    "county": "Jackson"
+  },
+  "policy": {
+    "number": "SF-HO-80008",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 204 Maple Ave"
+    ],
+    "coverages": {
+      "dwelling": 280000,
+      "contents": 140000,
+      "ale": 18000
+    },
+    "deductible": 1000,
+    "household": {
+      "size": 1,
+      "notes": [
+        "Mother, 76, home oxygen",
+        "Uses a wheelchair"
+      ]
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_008_m1",
+      "ts": "2026-11-07T18:24:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Andre, this is State Farm. Hurricane Isaias hit Jackson County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_008_m2",
+      "ts": "2026-11-07T18:25:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "Mom is on oxygen and the power is out."
+    }
+  ],
+  "calls": [
+    {
+      "call_id": "conv_ph_008",
+      "reason": "emergency",
+      "status": "done",
+      "duration_s": 25,
+      "transcript_summary": "Voicemail left."
+    }
+  ],
+  "triage": {
+    "urgency": 4,
+    "label": "critical",
+    "needs": [
+      "medical",
+      "power"
+    ],
+    "summary": "No answer after an emergency text",
+    "action": "Welfare check recommended",
+    "source": "seed"
+  },
+  "human_request": {
+    "requested": true,
+    "reason": "Emergency",
+    "ts": "2026-11-07T18:25:00Z"
+  },
+  "claim_draft": {
+    "claim_id": "SF-4955-0008",
+    "status": "draft",
+    "policy_number": "SF-HO-80008",
+    "date_of_loss": "2026-10-27",
+    "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+    "loss_location": "204 Maple Ave, Marianna, FL",
+    "damages": [],
+    "ale_requested": false,
+    "injuries_or_medical": [
+      "Mother, 76, home oxygen",
+      "Uses a wheelchair"
+    ],
+    "deductible": 1000,
+    "missing_info": [
+      "Photos of damage",
+      "Estimated repair cost"
+    ],
+    "evidence": [
+      "ph_008_m1",
+      "ph_008_m2",
+      "conv_ph_008"
+    ]
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "policyholder": {
+    "id": "ph_011",
+    "name": "Lila Brooks",
+    "address": "243 Palm Ave, Crestview, FL",
+    "county": "Okaloosa"
+  },
+  "policy": {
+    "number": "SF-RN-50011",
+    "type": "renters",
+    "covered_property": [
+      "Contents: 243 Palm Ave"
+    ],
+    "coverages": {
+      "contents": 40000,
+      "ale": 8000
+    },
+    "deductible": 1000,
+    "household": {
+      "size": 4,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_011_m1",
+      "ts": "2026-11-07T18:33:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Lila, this is State Farm. Hurricane Isaias hit Okaloosa County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_011_m2",
+      "ts": "2026-11-07T18:34:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "The roof is open and rain soaked our couch. We cannot stay here tonight."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 3,
+    "label": "high",
+    "needs": [
+      "shelter"
+    ],
+    "summary": "Renters, roof open, couch soaked",
+    "action": "Coverage review for the building",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": {
+    "claim_id": "SF-4955-0011",
+    "status": "draft",
+    "policy_number": "SF-RN-50011",
+    "date_of_loss": "2026-10-27",
+    "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+    "loss_location": "243 Palm Ave, Crestview, FL",
+    "damages": [
+      {
+        "item": "Living room contents",
+        "description": "Damaged belongings",
+        "coverage": "contents",
+        "severity": "moderate"
+      }
+    ],
+    "ale_requested": true,
+    "injuries_or_medical": [],
+    "deductible": 1000,
+    "missing_info": [
+      "Coverage review: roof",
+      "Photos of damage",
+      "Estimated repair cost"
+    ],
+    "evidence": [
+      "ph_011_m1",
+      "ph_011_m2"
+    ]
+  }
+}

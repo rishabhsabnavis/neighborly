@@ -1,0 +1,2990 @@
+{
+  "disaster": {
+    "number": 4955,
+    "name": "Hurricane Isaias",
+    "state": "FL",
+    "counties": [
+      "Bay",
+      "Calhoun",
+      "Escambia",
+      "Franklin",
+      "Gadsden",
+      "Gulf",
+      "Holmes",
+      "Jackson",
+      "Jefferson",
+      "Liberty",
+      "Okaloosa",
+      "Santa Rosa",
+      "Wakulla",
+      "Walton",
+      "Washington"
+    ]
+  },
+  "policyholders": [
+    {
+      "id": "ph_001",
+      "name": "Amina Brooks",
+      "phone": "+15555550001",
+      "phone_masked": "***-***-0001",
+      "address": "113 Palm Ave, Panama City, FL",
+      "county": "Bay",
+      "lat": 30.24,
+      "lng": -85.72,
+      "live": false,
+      "opted_in": false,
+      "status": "safe",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 1,
+      "summary": "Safe, no help needed",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T18:04:00Z",
+      "policy": {
+        "number": "SF-HO-80001",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 113 Palm Ave"
+        ],
+        "coverages": {
+          "dwelling": 300000,
+          "contents": 150000,
+          "ale": 14000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 2,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_001_m1",
+          "ts": "2026-11-07T18:03:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Amina, this is State Farm. Hurricane Isaias hit Bay County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_001_m2",
+          "ts": "2026-11-07T18:04:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "1"
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 1,
+        "label": "safe",
+        "needs": [],
+        "summary": "Safe, no help needed",
+        "action": "No help needed",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T18:03:00Z",
+      "followups_sent": 0,
+      "phase": "closed",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_002",
+      "name": "Luis Ortega",
+      "phone": "+15555550002",
+      "phone_masked": "***-***-0002",
+      "address": "126 Bayou Rd, Blountstown, FL",
+      "county": "Calhoun",
+      "lat": 30.53,
+      "lng": -85.26,
+      "live": false,
+      "opted_in": false,
+      "status": "safe",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 1,
+      "summary": "Safe, branches down",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T18:07:00Z",
+      "policy": {
+        "number": "SF-HO-80002",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 126 Bayou Rd"
+        ],
+        "coverages": {
+          "dwelling": 320000,
+          "contents": 160000,
+          "ale": 16000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 3,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_002_m1",
+          "ts": "2026-11-07T18:06:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Luis, this is State Farm. Hurricane Isaias hit Calhoun County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_002_m2",
+          "ts": "2026-11-07T18:07:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "All good, just some branches in the yard"
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 1,
+        "label": "safe",
+        "needs": [],
+        "summary": "Safe, branches down",
+        "action": "No help needed",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T18:06:00Z",
+      "followups_sent": 0,
+      "phase": "closed",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_003",
+      "name": "Helen Cho",
+      "phone": "+15555550003",
+      "phone_masked": "***-***-0003",
+      "address": "139 Pine Ln, Pensacola, FL",
+      "county": "Escambia",
+      "lat": 30.61,
+      "lng": -87.37,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": true,
+      "urgency": 4,
+      "summary": "Father on oxygen, power out",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T18:10:00Z",
+      "policy": {
+        "number": "SF-HO-80003",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 139 Pine Ln"
+        ],
+        "coverages": {
+          "dwelling": 340000,
+          "contents": 170000,
+          "ale": 18000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 4,
+          "notes": [
+            "Father, 80, home oxygen"
+          ]
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_003_m1",
+          "ts": "2026-11-07T18:09:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Helen, this is State Farm. Hurricane Isaias hit Escambia County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_003_m2",
+          "ts": "2026-11-07T18:10:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "Dad is on oxygen and the power is out. We're still at the house."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 4,
+        "label": "critical",
+        "needs": [
+          "medical",
+          "power"
+        ],
+        "summary": "Father on oxygen, power out",
+        "action": "Emergency",
+        "source": "seed"
+      },
+      "human_request": {
+        "requested": true,
+        "reason": "Emergency",
+        "ts": "2026-11-07T18:10:00Z"
+      },
+      "claim_draft": null,
+      "texted_at": "2026-11-07T18:09:00Z",
+      "followups_sent": 1,
+      "phase": "followup",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_004",
+      "name": "Marcus Hale",
+      "phone": "+15555550004",
+      "phone_masked": "***-***-0004",
+      "address": "152 Cedar Ct, Apalachicola, FL",
+      "county": "Franklin",
+      "lat": 29.96,
+      "lng": -84.9,
+      "live": false,
+      "opted_in": false,
+      "status": "texted",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T18:12:00Z",
+      "policy": {
+        "number": "SF-HO-80004",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 152 Cedar Ct"
+        ],
+        "coverages": {
+          "dwelling": 360000,
+          "contents": 180000,
+          "ale": 20000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 1,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_004_m1",
+          "ts": "2026-11-07T18:12:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Marcus, this is State Farm. Hurricane Isaias hit Franklin County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        }
+      ],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T18:12:00Z",
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_005",
+      "name": "Priya Shah",
+      "phone": "+15555550005",
+      "phone_masked": "***-***-0005",
+      "address": "165 Magnolia St, Quincy, FL",
+      "county": "Gadsden",
+      "lat": 30.56,
+      "lng": -84.59,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "human",
+      "human_requested": true,
+      "urgency": 3,
+      "summary": "Roof damage, asked for a person",
+      "claim_id": "SF-4955-0005",
+      "last_contact_at": "2026-11-07T18:16:00Z",
+      "policy": {
+        "number": "SF-HO-80005",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 165 Magnolia St"
+        ],
+        "coverages": {
+          "dwelling": 380000,
+          "contents": 190000,
+          "ale": 12000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 2,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_005_m1",
+          "ts": "2026-11-07T18:15:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Priya, this is State Farm. Hurricane Isaias hit Gadsden County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_005_m2",
+          "ts": "2026-11-07T18:16:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "The roof caved in. I want to talk to a person."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 3,
+        "label": "high",
+        "needs": [
+          "shelter"
+        ],
+        "summary": "Roof damage, asked for a person",
+        "action": "A person will call within 15 min",
+        "source": "seed"
+      },
+      "human_request": {
+        "requested": true,
+        "reason": "Asked for a person",
+        "ts": "2026-11-07T18:16:00Z"
+      },
+      "claim_draft": {
+        "claim_id": "SF-4955-0005",
+        "status": "draft",
+        "policy_number": "SF-HO-80005",
+        "date_of_loss": "2026-10-27",
+        "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+        "loss_location": "165 Magnolia St, Quincy, FL",
+        "damages": [
+          {
+            "item": "Roof",
+            "description": "Caved in",
+            "coverage": "dwelling",
+            "severity": "major"
+          }
+        ],
+        "ale_requested": false,
+        "injuries_or_medical": [],
+        "deductible": 2500,
+        "missing_info": [
+          "Photos of damage",
+          "Estimated repair cost"
+        ],
+        "evidence": [
+          "ph_005_m1",
+          "ph_005_m2"
+        ]
+      },
+      "texted_at": "2026-11-07T18:15:00Z",
+      "followups_sent": 2,
+      "phase": "claim_confirm",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_006",
+      "name": "Owen Blake",
+      "phone": "+15555550006",
+      "phone_masked": "***-***-0006",
+      "address": "178 Gulf Blvd, Port St. Joe, FL",
+      "county": "Gulf",
+      "lat": 30.06,
+      "lng": -85.18,
+      "live": false,
+      "opted_in": false,
+      "status": "pending",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": null,
+      "policy": {
+        "number": "SF-HO-80006",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 178 Gulf Blvd"
+        ],
+        "coverages": {
+          "dwelling": 400000,
+          "contents": 200000,
+          "ale": 14000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 3,
+          "notes": []
+        }
+      },
+      "messages": [],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": null,
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_007",
+      "name": "Nora Feldman",
+      "phone": "+15555550007",
+      "phone_masked": "***-***-0007",
+      "address": "191 Dogwood Dr, Bonifay, FL",
+      "county": "Holmes",
+      "lat": 30.84,
+      "lng": -85.72,
+      "live": false,
+      "opted_in": false,
+      "status": "calling",
+      "channel": "voice",
+      "human_requested": true,
+      "urgency": 4,
+      "summary": "Trapped upstairs, water rising",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T18:22:00Z",
+      "policy": {
+        "number": "SF-HO-80007",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 191 Dogwood Dr"
+        ],
+        "coverages": {
+          "dwelling": 420000,
+          "contents": 210000,
+          "ale": 16000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 4,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_007_m1",
+          "ts": "2026-11-07T18:21:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Nora, this is State Farm. Hurricane Isaias hit Holmes County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_007_m2",
+          "ts": "2026-11-07T18:22:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "We're trapped upstairs and the water is rising."
+        }
+      ],
+      "calls": [
+        {
+          "call_id": "conv_ph_007",
+          "reason": "emergency",
+          "status": "calling",
+          "duration_s": null,
+          "transcript_summary": null
+        }
+      ],
+      "triage": {
+        "urgency": 4,
+        "label": "critical",
+        "needs": [
+          "trapped"
+        ],
+        "summary": "Trapped upstairs, water rising",
+        "action": "Emergency",
+        "source": "seed"
+      },
+      "human_request": {
+        "requested": true,
+        "reason": "Emergency",
+        "ts": "2026-11-07T18:22:00Z"
+      },
+      "claim_draft": null,
+      "texted_at": "2026-11-07T18:21:00Z",
+      "followups_sent": 1,
+      "phase": "followup",
+      "emergency_attempts": 1,
+      "emergency_retry_at": null,
+      "active_call_id": "conv_ph_007"
+    },
+    {
+      "id": "ph_008",
+      "name": "Andre Willis",
+      "phone": "+15555550008",
+      "phone_masked": "***-***-0008",
+      "address": "204 Maple Ave, Marianna, FL",
+      "county": "Jackson",
+      "lat": 30.88,
+      "lng": -85.09,
+      "live": false,
+      "opted_in": false,
+      "status": "unreachable",
+      "channel": "voice",
+      "human_requested": true,
+      "urgency": 4,
+      "summary": "No answer after an emergency text",
+      "claim_id": "SF-4955-0008",
+      "last_contact_at": "2026-11-07T18:25:00Z",
+      "policy": {
+        "number": "SF-HO-80008",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 204 Maple Ave"
+        ],
+        "coverages": {
+          "dwelling": 280000,
+          "contents": 140000,
+          "ale": 18000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 1,
+          "notes": [
+            "Mother, 76, home oxygen",
+            "Uses a wheelchair"
+          ]
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_008_m1",
+          "ts": "2026-11-07T18:24:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Andre, this is State Farm. Hurricane Isaias hit Jackson County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_008_m2",
+          "ts": "2026-11-07T18:25:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "Mom is on oxygen and the power is out."
+        }
+      ],
+      "calls": [
+        {
+          "call_id": "conv_ph_008",
+          "reason": "emergency",
+          "status": "done",
+          "duration_s": 25,
+          "transcript_summary": "Voicemail left."
+        }
+      ],
+      "triage": {
+        "urgency": 4,
+        "label": "critical",
+        "needs": [
+          "medical",
+          "power"
+        ],
+        "summary": "No answer after an emergency text",
+        "action": "Welfare check recommended",
+        "source": "seed"
+      },
+      "human_request": {
+        "requested": true,
+        "reason": "Emergency",
+        "ts": "2026-11-07T18:25:00Z"
+      },
+      "claim_draft": {
+        "claim_id": "SF-4955-0008",
+        "status": "draft",
+        "policy_number": "SF-HO-80008",
+        "date_of_loss": "2026-10-27",
+        "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+        "loss_location": "204 Maple Ave, Marianna, FL",
+        "damages": [],
+        "ale_requested": false,
+        "injuries_or_medical": [
+          "Mother, 76, home oxygen",
+          "Uses a wheelchair"
+        ],
+        "deductible": 1000,
+        "missing_info": [
+          "Photos of damage",
+          "Estimated repair cost"
+        ],
+        "evidence": [
+          "ph_008_m1",
+          "ph_008_m2",
+          "conv_ph_008"
+        ]
+      },
+      "texted_at": "2026-11-07T18:24:00Z",
+      "followups_sent": 2,
+      "phase": "claim_confirm",
+      "emergency_attempts": 2,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_009",
+      "name": "Grace Ibarra",
+      "phone": "+15555550009",
+      "phone_masked": "***-***-0009",
+      "address": "217 Cypress St, Monticello, FL",
+      "county": "Jefferson",
+      "lat": 30.4,
+      "lng": -84.0,
+      "live": false,
+      "opted_in": false,
+      "status": "texted",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T18:27:00Z",
+      "policy": {
+        "number": "SF-HO-80009",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 217 Cypress St"
+        ],
+        "coverages": {
+          "dwelling": 300000,
+          "contents": 150000,
+          "ale": 20000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 2,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_009_m1",
+          "ts": "2026-11-07T18:27:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Grace, this is State Farm. Hurricane Isaias hit Jefferson County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        }
+      ],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T18:27:00Z",
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_010",
+      "name": "Seth Nguyen",
+      "phone": "+15555550010",
+      "phone_masked": "***-***-0010",
+      "address": "230 Oak St, Bristol, FL",
+      "county": "Liberty",
+      "lat": 30.33,
+      "lng": -84.95,
+      "live": false,
+      "opted_in": false,
+      "status": "pending",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": null,
+      "policy": {
+        "number": "SF-HO-80010",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 230 Oak St"
+        ],
+        "coverages": {
+          "dwelling": 320000,
+          "contents": 160000,
+          "ale": 12000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 3,
+          "notes": []
+        }
+      },
+      "messages": [],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": null,
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_011",
+      "name": "Lila Brooks",
+      "phone": "+15555550011",
+      "phone_masked": "***-***-0011",
+      "address": "243 Palm Ave, Crestview, FL",
+      "county": "Okaloosa",
+      "lat": 30.64,
+      "lng": -86.63,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 3,
+      "summary": "Renters, roof open, couch soaked",
+      "claim_id": "SF-4955-0011",
+      "last_contact_at": "2026-11-07T18:34:00Z",
+      "policy": {
+        "number": "SF-RN-50011",
+        "type": "renters",
+        "covered_property": [
+          "Contents: 243 Palm Ave"
+        ],
+        "coverages": {
+          "contents": 40000,
+          "ale": 8000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 4,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_011_m1",
+          "ts": "2026-11-07T18:33:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Lila, this is State Farm. Hurricane Isaias hit Okaloosa County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_011_m2",
+          "ts": "2026-11-07T18:34:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "The roof is open and rain soaked our couch. We cannot stay here tonight."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 3,
+        "label": "high",
+        "needs": [
+          "shelter"
+        ],
+        "summary": "Renters, roof open, couch soaked",
+        "action": "Coverage review for the building",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": {
+        "claim_id": "SF-4955-0011",
+        "status": "draft",
+        "policy_number": "SF-RN-50011",
+        "date_of_loss": "2026-10-27",
+        "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+        "loss_location": "243 Palm Ave, Crestview, FL",
+        "damages": [
+          {
+            "item": "Living room contents",
+            "description": "Damaged belongings",
+            "coverage": "contents",
+            "severity": "moderate"
+          }
+        ],
+        "ale_requested": true,
+        "injuries_or_medical": [],
+        "deductible": 1000,
+        "missing_info": [
+          "Coverage review: roof",
+          "Photos of damage",
+          "Estimated repair cost"
+        ],
+        "evidence": [
+          "ph_011_m1",
+          "ph_011_m2"
+        ]
+      },
+      "texted_at": "2026-11-07T18:33:00Z",
+      "followups_sent": 2,
+      "phase": "claim_confirm",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_012",
+      "name": "Jonah Patel",
+      "phone": "+15555550012",
+      "phone_masked": "***-***-0012",
+      "address": "256 Bayou Rd, Milton, FL",
+      "county": "Santa Rosa",
+      "lat": 30.77,
+      "lng": -87.03,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "human",
+      "human_requested": true,
+      "urgency": 3,
+      "summary": "Water inside, asked for a person",
+      "claim_id": "SF-4955-0012",
+      "last_contact_at": "2026-11-07T18:37:00Z",
+      "policy": {
+        "number": "SF-HO-80012",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 256 Bayou Rd"
+        ],
+        "coverages": {
+          "dwelling": 360000,
+          "contents": 180000,
+          "ale": 16000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 1,
+          "notes": [
+            "Infant in the home"
+          ]
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_012_m1",
+          "ts": "2026-11-07T18:36:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Jonah, this is State Farm. Hurricane Isaias hit Santa Rosa County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_012_m2",
+          "ts": "2026-11-07T18:37:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "Rain is in the living room and the roof is leaking. I need a person."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 3,
+        "label": "high",
+        "needs": [
+          "shelter"
+        ],
+        "summary": "Water inside, asked for a person",
+        "action": "A person will call within 15 min",
+        "source": "seed"
+      },
+      "human_request": {
+        "requested": true,
+        "reason": "Asked for a person",
+        "ts": "2026-11-07T18:37:00Z"
+      },
+      "claim_draft": {
+        "claim_id": "SF-4955-0012",
+        "status": "draft",
+        "policy_number": "SF-HO-80012",
+        "date_of_loss": "2026-10-27",
+        "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+        "loss_location": "256 Bayou Rd, Milton, FL",
+        "damages": [
+          {
+            "item": "Roof",
+            "description": "Caved in",
+            "coverage": "dwelling",
+            "severity": "major"
+          }
+        ],
+        "ale_requested": false,
+        "injuries_or_medical": [],
+        "deductible": 1000,
+        "missing_info": [
+          "Photos of damage",
+          "Estimated repair cost"
+        ],
+        "evidence": [
+          "ph_012_m1",
+          "ph_012_m2"
+        ]
+      },
+      "texted_at": "2026-11-07T18:36:00Z",
+      "followups_sent": 2,
+      "phase": "claim_confirm",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_013",
+      "name": "Rosa Kim",
+      "phone": "+15555550013",
+      "phone_masked": "***-***-0013",
+      "address": "269 Pine Ln, Crawfordville, FL",
+      "county": "Wakulla",
+      "lat": 30.09,
+      "lng": -84.38,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 3,
+      "summary": "Roof caved in, needs a hotel",
+      "claim_id": "SF-4955-0013",
+      "last_contact_at": "2026-11-07T18:40:00Z",
+      "policy": {
+        "number": "SF-HO-80013",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 269 Pine Ln"
+        ],
+        "coverages": {
+          "dwelling": 380000,
+          "contents": 190000,
+          "ale": 18000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 2,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_013_m1",
+          "ts": "2026-11-07T18:39:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Rosa, this is State Farm. Hurricane Isaias hit Wakulla County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_013_m2",
+          "ts": "2026-11-07T18:40:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "The roof caved in and rain is in the living room. We need a hotel tonight."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 3,
+        "label": "high",
+        "needs": [
+          "shelter"
+        ],
+        "summary": "Roof caved in, needs a hotel",
+        "action": "Offer a call and draft a claim",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": {
+        "claim_id": "SF-4955-0013",
+        "status": "draft",
+        "policy_number": "SF-HO-80013",
+        "date_of_loss": "2026-10-27",
+        "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+        "loss_location": "269 Pine Ln, Crawfordville, FL",
+        "damages": [
+          {
+            "item": "Roof",
+            "description": "Caved in",
+            "coverage": "dwelling",
+            "severity": "major"
+          }
+        ],
+        "ale_requested": true,
+        "injuries_or_medical": [],
+        "deductible": 2500,
+        "missing_info": [
+          "Photos of damage",
+          "Estimated repair cost"
+        ],
+        "evidence": [
+          "ph_013_m1",
+          "ph_013_m2"
+        ]
+      },
+      "texted_at": "2026-11-07T18:39:00Z",
+      "followups_sent": 2,
+      "phase": "claim_confirm",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_014",
+      "name": "Evan Walsh",
+      "phone": "+15555550014",
+      "phone_masked": "***-***-0014",
+      "address": "282 Cedar Ct, DeFuniak Springs, FL",
+      "county": "Walton",
+      "lat": 30.66,
+      "lng": -86.12,
+      "live": false,
+      "opted_in": false,
+      "status": "pending",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": null,
+      "policy": {
+        "number": "SF-HO-80014",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 282 Cedar Ct"
+        ],
+        "coverages": {
+          "dwelling": 400000,
+          "contents": 200000,
+          "ale": 20000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 3,
+          "notes": []
+        }
+      },
+      "messages": [],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": null,
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_015",
+      "name": "Maya Chen",
+      "phone": "+15555550015",
+      "phone_masked": "***-***-0015",
+      "address": "295 Magnolia St, Chipley, FL",
+      "county": "Washington",
+      "lat": 30.54,
+      "lng": -85.59,
+      "live": false,
+      "opted_in": false,
+      "status": "texted",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T18:45:00Z",
+      "policy": {
+        "number": "SF-HO-80015",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 295 Magnolia St"
+        ],
+        "coverages": {
+          "dwelling": 420000,
+          "contents": 210000,
+          "ale": 12000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 4,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_015_m1",
+          "ts": "2026-11-07T18:45:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Maya, this is State Farm. Hurricane Isaias hit Washington County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        }
+      ],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T18:45:00Z",
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_016",
+      "name": "Theo Barker",
+      "phone": "+15555550016",
+      "phone_masked": "***-***-0016",
+      "address": "308 Gulf Blvd, Panama City, FL",
+      "county": "Bay",
+      "lat": 30.29,
+      "lng": -85.52,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 3,
+      "summary": "Tree through the roof, cannot stay",
+      "claim_id": "SF-4955-0016",
+      "last_contact_at": "2026-11-07T18:49:00Z",
+      "policy": {
+        "number": "SF-HO-80016",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 308 Gulf Blvd"
+        ],
+        "coverages": {
+          "dwelling": 280000,
+          "contents": 140000,
+          "ale": 14000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 1,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_016_m1",
+          "ts": "2026-11-07T18:48:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Theo, this is State Farm. Hurricane Isaias hit Bay County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_016_m2",
+          "ts": "2026-11-07T18:49:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "A pine came through the roof. Water is in the living room. We cannot stay."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 3,
+        "label": "high",
+        "needs": [
+          "shelter"
+        ],
+        "summary": "Tree through the roof, cannot stay",
+        "action": "Offer a call and draft a claim",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": {
+        "claim_id": "SF-4955-0016",
+        "status": "draft",
+        "policy_number": "SF-HO-80016",
+        "date_of_loss": "2026-10-27",
+        "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+        "loss_location": "308 Gulf Blvd, Panama City, FL",
+        "damages": [
+          {
+            "item": "Roof",
+            "description": "Caved in",
+            "coverage": "dwelling",
+            "severity": "major"
+          },
+          {
+            "item": "Living room contents",
+            "description": "Water intrusion",
+            "coverage": "contents",
+            "severity": "moderate"
+          }
+        ],
+        "ale_requested": true,
+        "injuries_or_medical": [],
+        "deductible": 1000,
+        "missing_info": [
+          "Photos of damage",
+          "Estimated repair cost"
+        ],
+        "evidence": [
+          "ph_016_m1",
+          "ph_016_m2"
+        ]
+      },
+      "texted_at": "2026-11-07T18:48:00Z",
+      "followups_sent": 2,
+      "phase": "claim_confirm",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_017",
+      "name": "Maria Lopez",
+      "phone": "+15555554410",
+      "phone_masked": "***-***-4410",
+      "address": "412 Harbor Dr, Panama City, FL",
+      "county": "Bay",
+      "lat": 30.16,
+      "lng": -85.66,
+      "live": true,
+      "opted_in": false,
+      "status": "pending",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": null,
+      "policy": {
+        "number": "SF-HO-88213",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 412 Harbor Dr",
+          "2019 Toyota Camry"
+        ],
+        "coverages": {
+          "dwelling": 320000,
+          "contents": 160000,
+          "ale": 18000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 3,
+          "notes": [
+            "Mother, 74, home oxygen"
+          ]
+        }
+      },
+      "messages": [],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": null,
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_018",
+      "name": "Imani Scott",
+      "phone": "+15555550018",
+      "phone_masked": "***-***-0018",
+      "address": "334 Maple Ave, Pensacola, FL",
+      "county": "Escambia",
+      "lat": 30.66,
+      "lng": -87.42,
+      "live": false,
+      "opted_in": false,
+      "status": "pending",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": null,
+      "policy": {
+        "number": "SF-HO-80018",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 334 Maple Ave"
+        ],
+        "coverages": {
+          "dwelling": 320000,
+          "contents": 160000,
+          "ale": 18000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 3,
+          "notes": []
+        }
+      },
+      "messages": [],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": null,
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_019",
+      "name": "Felix Navarro",
+      "phone": "+15555550019",
+      "phone_masked": "***-***-0019",
+      "address": "347 Cypress St, Apalachicola, FL",
+      "county": "Franklin",
+      "lat": 29.76,
+      "lng": -84.95,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 3,
+      "summary": "Roof open, power out, needs a hotel",
+      "claim_id": "SF-4955-0019",
+      "last_contact_at": "2026-11-07T18:58:00Z",
+      "policy": {
+        "number": "SF-HO-80019",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 347 Cypress St"
+        ],
+        "coverages": {
+          "dwelling": 340000,
+          "contents": 170000,
+          "ale": 20000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 4,
+          "notes": [
+            "Grandmother, 82, lives in the home"
+          ]
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_019_m1",
+          "ts": "2026-11-07T18:57:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Felix, this is State Farm. Hurricane Isaias hit Franklin County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_019_m2",
+          "ts": "2026-11-07T18:58:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "The roof is open over the kitchen and the power is out. We need a hotel."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 3,
+        "label": "high",
+        "needs": [
+          "shelter"
+        ],
+        "summary": "Roof open, power out, needs a hotel",
+        "action": "Offer a call and draft a claim",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": {
+        "claim_id": "SF-4955-0019",
+        "status": "draft",
+        "policy_number": "SF-HO-80019",
+        "date_of_loss": "2026-10-27",
+        "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+        "loss_location": "347 Cypress St, Apalachicola, FL",
+        "damages": [
+          {
+            "item": "Roof",
+            "description": "Caved in",
+            "coverage": "dwelling",
+            "severity": "major"
+          }
+        ],
+        "ale_requested": true,
+        "injuries_or_medical": [],
+        "deductible": 2500,
+        "missing_info": [
+          "Photos of damage",
+          "Estimated repair cost"
+        ],
+        "evidence": [
+          "ph_019_m1",
+          "ph_019_m2"
+        ]
+      },
+      "texted_at": "2026-11-07T18:57:00Z",
+      "followups_sent": 2,
+      "phase": "claim_confirm",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_020",
+      "name": "Clara Singh",
+      "phone": "+15555550020",
+      "phone_masked": "***-***-0020",
+      "address": "360 Oak St, Quincy, FL",
+      "county": "Gadsden",
+      "lat": 30.61,
+      "lng": -84.64,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 3,
+      "summary": "Roof leak, needs a hotel",
+      "claim_id": "SF-4955-0020",
+      "last_contact_at": "2026-11-07T19:01:00Z",
+      "policy": {
+        "number": "SF-HO-80020",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 360 Oak St"
+        ],
+        "coverages": {
+          "dwelling": 360000,
+          "contents": 180000,
+          "ale": 12000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 1,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_020_m1",
+          "ts": "2026-11-07T19:00:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Clara, this is State Farm. Hurricane Isaias hit Gadsden County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_020_m2",
+          "ts": "2026-11-07T19:01:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "Windows blew in and the roof is leaking into the living room. We need a hotel."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 3,
+        "label": "high",
+        "needs": [
+          "shelter"
+        ],
+        "summary": "Roof leak, needs a hotel",
+        "action": "Offer a call and draft a claim",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": {
+        "claim_id": "SF-4955-0020",
+        "status": "draft",
+        "policy_number": "SF-HO-80020",
+        "date_of_loss": "2026-10-27",
+        "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+        "loss_location": "360 Oak St, Quincy, FL",
+        "damages": [
+          {
+            "item": "Roof",
+            "description": "Caved in",
+            "coverage": "dwelling",
+            "severity": "major"
+          }
+        ],
+        "ale_requested": true,
+        "injuries_or_medical": [],
+        "deductible": 1000,
+        "missing_info": [
+          "Photos of damage",
+          "Estimated repair cost"
+        ],
+        "evidence": [
+          "ph_020_m1",
+          "ph_020_m2"
+        ]
+      },
+      "texted_at": "2026-11-07T19:00:00Z",
+      "followups_sent": 2,
+      "phase": "claim_confirm",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_021",
+      "name": "Miles Abbott",
+      "phone": "+15555550021",
+      "phone_masked": "***-***-0021",
+      "address": "373 Palm Ave, Port St. Joe, FL",
+      "county": "Gulf",
+      "lat": 29.86,
+      "lng": -85.23,
+      "live": false,
+      "opted_in": false,
+      "status": "pending",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": null,
+      "policy": {
+        "number": "SF-HO-80021",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 373 Palm Ave"
+        ],
+        "coverages": {
+          "dwelling": 380000,
+          "contents": 190000,
+          "ale": 14000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 2,
+          "notes": []
+        }
+      },
+      "messages": [],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": null,
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_022",
+      "name": "June Harlow",
+      "phone": "+15555550022",
+      "phone_masked": "***-***-0022",
+      "address": "386 Bayou Rd, Bonifay, FL",
+      "county": "Holmes",
+      "lat": 30.89,
+      "lng": -85.77,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 3,
+      "summary": "Carport roof collapsed, needs shelter",
+      "claim_id": "SF-4955-0022",
+      "last_contact_at": "2026-11-07T19:07:00Z",
+      "policy": {
+        "number": "SF-HO-80022",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 386 Bayou Rd"
+        ],
+        "coverages": {
+          "dwelling": 400000,
+          "contents": 200000,
+          "ale": 16000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 3,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_022_m1",
+          "ts": "2026-11-07T19:06:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "June, this is State Farm. Hurricane Isaias hit Holmes County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_022_m2",
+          "ts": "2026-11-07T19:07:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "The carport roof collapsed onto the house. Rain is in the living room. We need shelter."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 3,
+        "label": "high",
+        "needs": [
+          "shelter"
+        ],
+        "summary": "Carport roof collapsed, needs shelter",
+        "action": "Offer a call and draft a claim",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": {
+        "claim_id": "SF-4955-0022",
+        "status": "draft",
+        "policy_number": "SF-HO-80022",
+        "date_of_loss": "2026-10-27",
+        "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+        "loss_location": "386 Bayou Rd, Bonifay, FL",
+        "damages": [
+          {
+            "item": "Roof",
+            "description": "Caved in",
+            "coverage": "dwelling",
+            "severity": "major"
+          }
+        ],
+        "ale_requested": true,
+        "injuries_or_medical": [],
+        "deductible": 1000,
+        "missing_info": [
+          "Coverage review: vehicle",
+          "Photos of damage",
+          "Estimated repair cost"
+        ],
+        "evidence": [
+          "ph_022_m1",
+          "ph_022_m2"
+        ]
+      },
+      "texted_at": "2026-11-07T19:06:00Z",
+      "followups_sent": 2,
+      "phase": "claim_confirm",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_023",
+      "name": "Omar Haddad",
+      "phone": "+15555550023",
+      "phone_masked": "***-***-0023",
+      "address": "399 Pine Ln, Marianna, FL",
+      "county": "Jackson",
+      "lat": 30.68,
+      "lng": -85.14,
+      "live": false,
+      "opted_in": false,
+      "status": "texted",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T19:09:00Z",
+      "policy": {
+        "number": "SF-HO-80023",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 399 Pine Ln"
+        ],
+        "coverages": {
+          "dwelling": 420000,
+          "contents": 210000,
+          "ale": 18000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 4,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_023_m1",
+          "ts": "2026-11-07T19:09:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Omar, this is State Farm. Hurricane Isaias hit Jackson County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        }
+      ],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T19:09:00Z",
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_024",
+      "name": "Pearl Donovan",
+      "phone": "+15555550024",
+      "phone_masked": "***-***-0024",
+      "address": "412 Cedar Ct, Monticello, FL",
+      "county": "Jefferson",
+      "lat": 30.45,
+      "lng": -83.8,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 3,
+      "summary": "Roof gone, belongings soaked",
+      "claim_id": "SF-4955-0024",
+      "last_contact_at": "2026-11-07T19:13:00Z",
+      "policy": {
+        "number": "SF-HO-80024",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 412 Cedar Ct"
+        ],
+        "coverages": {
+          "dwelling": 280000,
+          "contents": 140000,
+          "ale": 20000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 1,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_024_m1",
+          "ts": "2026-11-07T19:12:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Pearl, this is State Farm. Hurricane Isaias hit Jefferson County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_024_m2",
+          "ts": "2026-11-07T19:13:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "A big section of roof is gone. Belongings are soaked. We need a hotel tonight."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 3,
+        "label": "high",
+        "needs": [
+          "shelter"
+        ],
+        "summary": "Roof gone, belongings soaked",
+        "action": "Offer a call and draft a claim",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": {
+        "claim_id": "SF-4955-0024",
+        "status": "draft",
+        "policy_number": "SF-HO-80024",
+        "date_of_loss": "2026-10-27",
+        "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+        "loss_location": "412 Cedar Ct, Monticello, FL",
+        "damages": [
+          {
+            "item": "Roof",
+            "description": "Caved in",
+            "coverage": "dwelling",
+            "severity": "major"
+          },
+          {
+            "item": "Living room contents",
+            "description": "Damaged belongings",
+            "coverage": "contents",
+            "severity": "moderate"
+          }
+        ],
+        "ale_requested": true,
+        "injuries_or_medical": [],
+        "deductible": 1000,
+        "missing_info": [
+          "Photos of damage",
+          "Estimated repair cost"
+        ],
+        "evidence": [
+          "ph_024_m1",
+          "ph_024_m2"
+        ]
+      },
+      "texted_at": "2026-11-07T19:12:00Z",
+      "followups_sent": 2,
+      "phase": "claim_confirm",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_025",
+      "name": "Nico Alvarez",
+      "phone": "+15555550025",
+      "phone_masked": "***-***-0025",
+      "address": "425 Magnolia St, Bristol, FL",
+      "county": "Liberty",
+      "lat": 30.13,
+      "lng": -85.0,
+      "live": false,
+      "opted_in": false,
+      "status": "pending",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": null,
+      "policy": {
+        "number": "SF-HO-80025",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 425 Magnolia St"
+        ],
+        "coverages": {
+          "dwelling": 300000,
+          "contents": 150000,
+          "ale": 12000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 2,
+          "notes": []
+        }
+      },
+      "messages": [],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": null,
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_026",
+      "name": "Sasha Reid",
+      "phone": "+15555550026",
+      "phone_masked": "***-***-0026",
+      "address": "438 Gulf Blvd, Crestview, FL",
+      "county": "Okaloosa",
+      "lat": 30.69,
+      "lng": -86.68,
+      "live": false,
+      "opted_in": false,
+      "status": "safe",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 1,
+      "summary": "Safe, a few shingles",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T19:19:00Z",
+      "policy": {
+        "number": "SF-HO-80026",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 438 Gulf Blvd"
+        ],
+        "coverages": {
+          "dwelling": 320000,
+          "contents": 160000,
+          "ale": 14000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 3,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_026_m1",
+          "ts": "2026-11-07T19:18:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Sasha, this is State Farm. Hurricane Isaias hit Okaloosa County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_026_m2",
+          "ts": "2026-11-07T19:19:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "We're fine. Lost a few shingles and that's all."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 1,
+        "label": "safe",
+        "needs": [],
+        "summary": "Safe, a few shingles",
+        "action": "No help needed",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T19:18:00Z",
+      "followups_sent": 0,
+      "phase": "closed",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_027",
+      "name": "Bea Forrest",
+      "phone": "+15555550027",
+      "phone_masked": "***-***-0027",
+      "address": "451 Dogwood Dr, Milton, FL",
+      "county": "Santa Rosa",
+      "lat": 30.82,
+      "lng": -87.08,
+      "live": false,
+      "opted_in": false,
+      "status": "safe",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 1,
+      "summary": "Safe, house is dry",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T19:22:00Z",
+      "policy": {
+        "number": "SF-HO-80027",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 451 Dogwood Dr"
+        ],
+        "coverages": {
+          "dwelling": 340000,
+          "contents": 170000,
+          "ale": 16000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 4,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_027_m1",
+          "ts": "2026-11-07T19:21:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Bea, this is State Farm. Hurricane Isaias hit Santa Rosa County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_027_m2",
+          "ts": "2026-11-07T19:22:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "All good here. The house is dry."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 1,
+        "label": "safe",
+        "needs": [],
+        "summary": "Safe, house is dry",
+        "action": "No help needed",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T19:21:00Z",
+      "followups_sent": 0,
+      "phase": "closed",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_028",
+      "name": "Colin Mercer",
+      "phone": "+15555550028",
+      "phone_masked": "***-***-0028",
+      "address": "464 Maple Ave, Crawfordville, FL",
+      "county": "Wakulla",
+      "lat": 30.14,
+      "lng": -84.43,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 2,
+      "summary": "Tree hit the Honda Civic",
+      "claim_id": "SF-4955-0028",
+      "last_contact_at": "2026-11-07T19:25:00Z",
+      "policy": {
+        "number": "SF-AU-30028",
+        "type": "auto",
+        "covered_property": [
+          "2014 Honda Civic"
+        ],
+        "coverages": {
+          "auto": 15000
+        },
+        "deductible": 500,
+        "household": {
+          "size": 1,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_028_m1",
+          "ts": "2026-11-07T19:24:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Colin, this is State Farm. Hurricane Isaias hit Wakulla County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_028_m2",
+          "ts": "2026-11-07T19:25:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "A tree hit our Honda Civic and it will not start."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 2,
+        "label": "moderate",
+        "needs": [
+          "repairs"
+        ],
+        "summary": "Tree hit the Honda Civic",
+        "action": "Auto claim draft",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": {
+        "claim_id": "SF-4955-0028",
+        "status": "draft",
+        "policy_number": "SF-AU-30028",
+        "date_of_loss": "2026-10-27",
+        "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+        "loss_location": "464 Maple Ave, Crawfordville, FL",
+        "damages": [
+          {
+            "item": "Vehicle",
+            "description": "Vehicle damage",
+            "coverage": "auto",
+            "severity": "major"
+          }
+        ],
+        "ale_requested": false,
+        "injuries_or_medical": [],
+        "deductible": 500,
+        "missing_info": [
+          "Photos of damage",
+          "Estimated repair cost"
+        ],
+        "evidence": [
+          "ph_028_m1",
+          "ph_028_m2"
+        ]
+      },
+      "texted_at": "2026-11-07T19:24:00Z",
+      "followups_sent": 2,
+      "phase": "claim_confirm",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_029",
+      "name": "Hana Suzuki",
+      "phone": "+15555550029",
+      "phone_masked": "***-***-0029",
+      "address": "477 Cypress St, DeFuniak Springs, FL",
+      "county": "Walton",
+      "lat": 30.71,
+      "lng": -86.17,
+      "live": false,
+      "opted_in": false,
+      "status": "pending",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": null,
+      "policy": {
+        "number": "SF-HO-80029",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 477 Cypress St"
+        ],
+        "coverages": {
+          "dwelling": 380000,
+          "contents": 190000,
+          "ale": 20000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 2,
+          "notes": []
+        }
+      },
+      "messages": [],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": null,
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_030",
+      "name": "Victor Lang",
+      "phone": "+15555550030",
+      "phone_masked": "***-***-0030",
+      "address": "490 Oak St, Chipley, FL",
+      "county": "Washington",
+      "lat": 30.59,
+      "lng": -85.64,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 2,
+      "summary": "Shingles and a cracked window",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T19:31:00Z",
+      "policy": {
+        "number": "SF-HO-80030",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 490 Oak St"
+        ],
+        "coverages": {
+          "dwelling": 400000,
+          "contents": 200000,
+          "ale": 12000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 3,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_030_m1",
+          "ts": "2026-11-07T19:30:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Victor, this is State Farm. Hurricane Isaias hit Washington County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_030_m2",
+          "ts": "2026-11-07T19:31:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "Some shingles came off and a window cracked, but we can stay."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 2,
+        "label": "moderate",
+        "needs": [
+          "repairs"
+        ],
+        "summary": "Shingles and a cracked window",
+        "action": "Ask a follow-up",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T19:30:00Z",
+      "followups_sent": 1,
+      "phase": "followup",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_031",
+      "name": "Eden Price",
+      "phone": "+15555550031",
+      "phone_masked": "***-***-0031",
+      "address": "503 Palm Ave, Panama City, FL",
+      "county": "Bay",
+      "lat": 30.34,
+      "lng": -85.57,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 2,
+      "summary": "Fence down, window cracked",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T19:34:00Z",
+      "policy": {
+        "number": "SF-HO-80031",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 503 Palm Ave"
+        ],
+        "coverages": {
+          "dwelling": 420000,
+          "contents": 210000,
+          "ale": 14000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 4,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_031_m1",
+          "ts": "2026-11-07T19:33:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Eden, this is State Farm. Hurricane Isaias hit Bay County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_031_m2",
+          "ts": "2026-11-07T19:34:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "The fence is down and one window is cracked. We can stay."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 2,
+        "label": "moderate",
+        "needs": [
+          "repairs"
+        ],
+        "summary": "Fence down, window cracked",
+        "action": "Ask a follow-up",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T19:33:00Z",
+      "followups_sent": 1,
+      "phase": "followup",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_032",
+      "name": "Malik Jordan",
+      "phone": "+15555550032",
+      "phone_masked": "***-***-0032",
+      "address": "516 Bayou Rd, Blountstown, FL",
+      "county": "Calhoun",
+      "lat": 30.38,
+      "lng": -85.11,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 2,
+      "summary": "Small closet leak, can stay",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T19:37:00Z",
+      "policy": {
+        "number": "SF-HO-80032",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 516 Bayou Rd"
+        ],
+        "coverages": {
+          "dwelling": 280000,
+          "contents": 140000,
+          "ale": 16000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 1,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_032_m1",
+          "ts": "2026-11-07T19:36:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Malik, this is State Farm. Hurricane Isaias hit Calhoun County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_032_m2",
+          "ts": "2026-11-07T19:37:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "A small leak in the closet. We can stay and wait on repairs."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 2,
+        "label": "moderate",
+        "needs": [
+          "repairs"
+        ],
+        "summary": "Small closet leak, can stay",
+        "action": "Ask a follow-up",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T19:36:00Z",
+      "followups_sent": 1,
+      "phase": "followup",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_033",
+      "name": "Ruth Keller",
+      "phone": "+15555550033",
+      "phone_masked": "***-***-0033",
+      "address": "529 Pine Ln, Pensacola, FL",
+      "county": "Escambia",
+      "lat": 30.71,
+      "lng": -87.22,
+      "live": false,
+      "opted_in": false,
+      "status": "pending",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": null,
+      "policy": {
+        "number": "SF-HO-80033",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 529 Pine Ln"
+        ],
+        "coverages": {
+          "dwelling": 300000,
+          "contents": 150000,
+          "ale": 18000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 2,
+          "notes": []
+        }
+      },
+      "messages": [],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": null,
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_034",
+      "name": "Simon Adeyemi",
+      "phone": "+15555550034",
+      "phone_masked": "***-***-0034",
+      "address": "542 Cedar Ct, Apalachicola, FL",
+      "county": "Franklin",
+      "lat": 29.81,
+      "lng": -85.0,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 2,
+      "summary": "Siding damage, power is back",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T19:43:00Z",
+      "policy": {
+        "number": "SF-HO-80034",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 542 Cedar Ct"
+        ],
+        "coverages": {
+          "dwelling": 320000,
+          "contents": 160000,
+          "ale": 20000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 3,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_034_m1",
+          "ts": "2026-11-07T19:42:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Simon, this is State Farm. Hurricane Isaias hit Franklin County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_034_m2",
+          "ts": "2026-11-07T19:43:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "Siding is damaged and we lost power for an hour. We're ok now and can stay."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 2,
+        "label": "moderate",
+        "needs": [
+          "repairs"
+        ],
+        "summary": "Siding damage, power is back",
+        "action": "Ask a follow-up",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T19:42:00Z",
+      "followups_sent": 1,
+      "phase": "followup",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_035",
+      "name": "Willa Grant",
+      "phone": "+15555550035",
+      "phone_masked": "***-***-0035",
+      "address": "555 Magnolia St, Quincy, FL",
+      "county": "Gadsden",
+      "lat": 30.66,
+      "lng": -84.69,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 2,
+      "summary": "Porch damage, can stay",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T19:46:00Z",
+      "policy": {
+        "number": "SF-HO-80035",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 555 Magnolia St"
+        ],
+        "coverages": {
+          "dwelling": 340000,
+          "contents": 170000,
+          "ale": 12000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 4,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_035_m1",
+          "ts": "2026-11-07T19:45:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Willa, this is State Farm. Hurricane Isaias hit Gadsden County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_035_m2",
+          "ts": "2026-11-07T19:46:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "Branches hit the porch. No water inside. We can stay."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 2,
+        "label": "moderate",
+        "needs": [
+          "repairs"
+        ],
+        "summary": "Porch damage, can stay",
+        "action": "Ask a follow-up",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T19:45:00Z",
+      "followups_sent": 1,
+      "phase": "followup",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_036",
+      "name": "Pedro Santos",
+      "phone": "+15555550036",
+      "phone_masked": "***-***-0036",
+      "address": "568 Gulf Blvd, Port St. Joe, FL",
+      "county": "Gulf",
+      "lat": 29.91,
+      "lng": -85.28,
+      "live": false,
+      "opted_in": false,
+      "status": "pending",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": null,
+      "policy": {
+        "number": "SF-HO-80036",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 568 Gulf Blvd"
+        ],
+        "coverages": {
+          "dwelling": 360000,
+          "contents": 180000,
+          "ale": 14000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 1,
+          "notes": []
+        }
+      },
+      "messages": [],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": null,
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_037",
+      "name": "Ada Okonkwo",
+      "phone": "+15555550037",
+      "phone_masked": "***-***-0037",
+      "address": "581 Dogwood Dr, Bonifay, FL",
+      "county": "Holmes",
+      "lat": 30.94,
+      "lng": -85.82,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 2,
+      "summary": "Garage door stuck",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T19:52:00Z",
+      "policy": {
+        "number": "SF-HO-80037",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 581 Dogwood Dr"
+        ],
+        "coverages": {
+          "dwelling": 380000,
+          "contents": 190000,
+          "ale": 16000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 2,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_037_m1",
+          "ts": "2026-11-07T19:51:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Ada, this is State Farm. Hurricane Isaias hit Holmes County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_037_m2",
+          "ts": "2026-11-07T19:52:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "Garage door is stuck and a window is cracked. We can stay."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 2,
+        "label": "moderate",
+        "needs": [
+          "repairs"
+        ],
+        "summary": "Garage door stuck",
+        "action": "Ask a follow-up",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T19:51:00Z",
+      "followups_sent": 1,
+      "phase": "followup",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_038",
+      "name": "Harvey Bloom",
+      "phone": "+15555550038",
+      "phone_masked": "***-***-0038",
+      "address": "594 Maple Ave, Marianna, FL",
+      "county": "Jackson",
+      "lat": 30.73,
+      "lng": -85.19,
+      "live": false,
+      "opted_in": false,
+      "status": "safe",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 1,
+      "summary": "Safe, no help needed",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T19:55:00Z",
+      "policy": {
+        "number": "SF-HO-80038",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 594 Maple Ave"
+        ],
+        "coverages": {
+          "dwelling": 400000,
+          "contents": 200000,
+          "ale": 18000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 3,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_038_m1",
+          "ts": "2026-11-07T19:54:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Harvey, this is State Farm. Hurricane Isaias hit Jackson County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_038_m2",
+          "ts": "2026-11-07T19:55:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "1"
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 1,
+        "label": "safe",
+        "needs": [],
+        "summary": "Safe, no help needed",
+        "action": "No help needed",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T19:54:00Z",
+      "followups_sent": 0,
+      "phase": "closed",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_039",
+      "name": "Nina Volkov",
+      "phone": "+15555550039",
+      "phone_masked": "***-***-0039",
+      "address": "607 Cypress St, Monticello, FL",
+      "county": "Jefferson",
+      "lat": 30.5,
+      "lng": -83.85,
+      "live": false,
+      "opted_in": false,
+      "status": "safe",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 1,
+      "summary": "Safe, yard debris",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T19:58:00Z",
+      "policy": {
+        "number": "SF-HO-80039",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 607 Cypress St"
+        ],
+        "coverages": {
+          "dwelling": 420000,
+          "contents": 210000,
+          "ale": 20000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 4,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_039_m1",
+          "ts": "2026-11-07T19:57:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Nina, this is State Farm. Hurricane Isaias hit Jefferson County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_039_m2",
+          "ts": "2026-11-07T19:58:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "All good, just leaves and small branches."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 1,
+        "label": "safe",
+        "needs": [],
+        "summary": "Safe, yard debris",
+        "action": "No help needed",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T19:57:00Z",
+      "followups_sent": 0,
+      "phase": "closed",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_040",
+      "name": "Ira Solomon",
+      "phone": "+15555550040",
+      "phone_masked": "***-***-0040",
+      "address": "620 Oak St, Bristol, FL",
+      "county": "Liberty",
+      "lat": 30.18,
+      "lng": -84.8,
+      "live": false,
+      "opted_in": false,
+      "status": "pending",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": null,
+      "policy": {
+        "number": "SF-HO-80040",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 620 Oak St"
+        ],
+        "coverages": {
+          "dwelling": 280000,
+          "contents": 140000,
+          "ale": 12000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 1,
+          "notes": []
+        }
+      },
+      "messages": [],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": null,
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_041",
+      "name": "Helen Park",
+      "phone": "+15555550041",
+      "phone_masked": "***-***-0041",
+      "address": "220 Cypress St, DeFuniak Springs, FL",
+      "county": "Walton",
+      "lat": 30.72,
+      "lng": -86.12,
+      "live": true,
+      "opted_in": false,
+      "status": "pending",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": null,
+      "summary": null,
+      "claim_id": null,
+      "last_contact_at": null,
+      "policy": {
+        "number": "SF-HO-80041",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 220 Cypress St"
+        ],
+        "coverages": {
+          "dwelling": 300000,
+          "contents": 150000,
+          "ale": 14000
+        },
+        "deductible": 2500,
+        "household": {
+          "size": 2,
+          "notes": [
+            "Lives alone"
+          ]
+        }
+      },
+      "messages": [],
+      "calls": [],
+      "triage": null,
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": null,
+      "followups_sent": 0,
+      "phase": "menu",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    },
+    {
+      "id": "ph_042",
+      "name": "Gia Moretti",
+      "phone": "+15555550042",
+      "phone_masked": "***-***-0042",
+      "address": "646 Bayou Rd, Milton, FL",
+      "county": "Santa Rosa",
+      "lat": 30.62,
+      "lng": -87.13,
+      "live": false,
+      "opted_in": false,
+      "status": "replied",
+      "channel": "imessage",
+      "human_requested": false,
+      "urgency": 2,
+      "summary": "Screen porch torn",
+      "claim_id": null,
+      "last_contact_at": "2026-11-07T20:07:00Z",
+      "policy": {
+        "number": "SF-HO-80042",
+        "type": "homeowners",
+        "covered_property": [
+          "Dwelling: 646 Bayou Rd"
+        ],
+        "coverages": {
+          "dwelling": 320000,
+          "contents": 160000,
+          "ale": 16000
+        },
+        "deductible": 1000,
+        "household": {
+          "size": 3,
+          "notes": []
+        }
+      },
+      "messages": [
+        {
+          "id": "ph_042_m1",
+          "ts": "2026-11-07T20:06:00Z",
+          "from": "agent",
+          "channel": "imessage",
+          "text": "Gia, this is State Farm. Hurricane Isaias hit Santa Rosa County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+        },
+        {
+          "id": "ph_042_m2",
+          "ts": "2026-11-07T20:07:00Z",
+          "from": "policyholder",
+          "channel": "imessage",
+          "text": "Screen porch is torn up. The house is fine and we can stay."
+        }
+      ],
+      "calls": [],
+      "triage": {
+        "urgency": 2,
+        "label": "moderate",
+        "needs": [
+          "repairs"
+        ],
+        "summary": "Screen porch torn",
+        "action": "Ask a follow-up",
+        "source": "seed"
+      },
+      "human_request": null,
+      "claim_draft": null,
+      "texted_at": "2026-11-07T20:06:00Z",
+      "followups_sent": 1,
+      "phase": "followup",
+      "emergency_attempts": 0,
+      "emergency_retry_at": null,
+      "active_call_id": null
+    }
+  ]
+}

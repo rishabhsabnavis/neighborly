@@ -1,0 +1,86 @@
+{
+  "policyholder": {
+    "id": "ph_016",
+    "name": "Theo Barker",
+    "address": "308 Gulf Blvd, Panama City, FL",
+    "county": "Bay"
+  },
+  "policy": {
+    "number": "SF-HO-80016",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 308 Gulf Blvd"
+    ],
+    "coverages": {
+      "dwelling": 280000,
+      "contents": 140000,
+      "ale": 14000
+    },
+    "deductible": 1000,
+    "household": {
+      "size": 1,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_016_m1",
+      "ts": "2026-11-07T18:48:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Theo, this is State Farm. Hurricane Isaias hit Bay County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_016_m2",
+      "ts": "2026-11-07T18:49:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "A pine came through the roof. Water is in the living room. We cannot stay."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 3,
+    "label": "high",
+    "needs": [
+      "shelter"
+    ],
+    "summary": "Tree through the roof, cannot stay",
+    "action": "Offer a call and draft a claim",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": {
+    "claim_id": "SF-4955-0016",
+    "status": "draft",
+    "policy_number": "SF-HO-80016",
+    "date_of_loss": "2026-10-27",
+    "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+    "loss_location": "308 Gulf Blvd, Panama City, FL",
+    "damages": [
+      {
+        "item": "Roof",
+        "description": "Caved in",
+        "coverage": "dwelling",
+        "severity": "major"
+      },
+      {
+        "item": "Living room contents",
+        "description": "Water intrusion",
+        "coverage": "contents",
+        "severity": "moderate"
+      }
+    ],
+    "ale_requested": true,
+    "injuries_or_medical": [],
+    "deductible": 1000,
+    "missing_info": [
+      "Photos of damage",
+      "Estimated repair cost"
+    ],
+    "evidence": [
+      "ph_016_m1",
+      "ph_016_m2"
+    ]
+  }
+}

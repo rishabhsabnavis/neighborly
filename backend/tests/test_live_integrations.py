@@ -143,7 +143,14 @@ def test_dynamic_variables_per_reason():
     )
     assert v["first_name"] == "Maria"
     assert "text" in v["case_opening"] and v["case_summary"] == "Roof caved in"
-    assert set(v) == {"first_name", "case_opening", "call_reason", "case_summary"}
+    assert set(v) == {
+        "first_message",
+        "first_name",
+        "case_opening",
+        "call_reason",
+        "case_summary",
+    }
+    assert v["first_message"].startswith("Hi Maria, this is State Farm")
     assert (
         build_dynamic_variables(CallContext(name="", reason="requested"))[
             "case_summary"
@@ -333,3 +340,12 @@ def test_photon_send_without_join_raises(tmp_path):
             raise AssertionError("expected PhotonError")
 
     asyncio.run(run())
+
+
+def test_emergency_call_opens_with_911_line():
+    v = build_dynamic_variables(CallContext(name="Maria", reason="emergency"))
+    assert v["case_opening"] == "If you're in danger, hang up and call 911 now."
+    assert "ONLY safety questions" in v["call_reason"]
+    assert v["first_message"].startswith(
+        "If you're in danger, hang up and call 911 now."
+    )

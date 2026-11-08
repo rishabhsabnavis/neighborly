@@ -96,3 +96,7 @@ voice-outbound *args:
 # Nemotron claim-draft + policy-aware follow-up quality (SPEC risk #2)
 spike-claim:
     PYTHONUNBUFFERED=1 uv run spikes/nemotron_claim.py
+
+# voice demo rehearsal through the real backend modules (costs ElevenLabs credits per call)
+voice-rehearse *args:
+    cd backend && PYTHONUNBUFFERED=1 uv run python ../spikes/voice_rehearse.py {{args}}

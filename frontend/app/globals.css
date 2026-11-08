@@ -128,3 +128,33 @@
     @apply font-sans;
   }
 }
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  background: #eef0f3;
+  font-family: inherit;
+}
+
+.map-muted {
+  filter: grayscale(1) contrast(0.9) brightness(1.15);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.12);
+}
+
+@keyframes pin-pulse {
+  0%,
+  100% {
+    stroke-opacity: 1;
+  }
+  50% {
+    stroke-opacity: 0.25;
+  }
+}
+
+.pin-calling {
+  animation: pin-pulse 1.2s ease-in-out infinite;
+}

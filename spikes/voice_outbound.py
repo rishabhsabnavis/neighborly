@@ -190,24 +190,29 @@ print(
 )
 
 # ---------- 3. Agent: case-aware greeting via dynamic variables ----------
-FIRST_MESSAGE = (
-    "Hi {{first_name}}, this is State Farm's storm check-in line. {{case_opening}} "
-    "Are you and everyone with you safe right now?"
-)
+# The whole first line is built in code (backend/app/integrations/elevenlabs.py) so the
+# emergency call can open with the 911 line (SPEC "Emergency path" step 4).
+FIRST_MESSAGE = "{{first_message}}"
 PROMPT = (
     "You are a calm, brief State Farm catastrophe check-in agent after Hurricane Isaias. "
     "Why we are calling: {{call_reason}}. What we know so far: {{case_summary}}. "
-    "Do not ask again for what you already know. Ask one question at a time: is anyone injured or trapped, "
+    "Do not ask again for what you already know. "
+    "Never drop a need the person told you about (for example insulin, oxygen, someone hurt): if they later say "
+    "they're okay, ask about that specific need before moving on, and repeat it back when you close the call. "
+    "If the reason starts with EMERGENCY: ask only safety questions (who is hurt, exact location, "
+    "medical needs such as oxygen or power, can they get out), keep it short, and never talk about claims or coverage. "
+    "Otherwise ask one question at a time: is anyone injured or trapped, "
     "do they have power, water and needed medication, what is damaged (home, car, belongings), "
     "and do they need a place to stay tonight. If anyone is in immediate danger, tell them to hang up and call 911 now. "
     "If they ask for a person, say a State Farm agent will contact them within 15 minutes. "
-    "Keep every reply under two sentences. Never promise claim payments."
+    "Keep every reply under two sentences. Never quote dollar amounts or promise claim payments."
 )
 VOICEMAIL_MESSAGE = (
     "Hi {{first_name}}, this is State Farm checking on you after Hurricane Isaias. "
     "Please text us back, or call us at 7 0 1, 8 8 8, 0 2 8 2. If you are in danger, call 9 1 1."
 )
 DEFAULTS = {
+    "first_message": "Hi, this is State Farm's storm check-in line after Hurricane Isaias. Are you and everyone with you safe right now?",
     "first_name": "there",
     "case_opening": "We're checking on everyone affected by Hurricane Isaias.",
     "call_reason": "a routine storm check-in",
@@ -262,6 +267,7 @@ if SETUP_ONLY:
 
 # ---------- 4. Outbound call ----------
 case = {
+    "first_message": f"Hi {os.getenv('CALL_NAME', 'Maria')}, this is State Farm's storm check-in line. You texted us that your roof caved in and there's water in the living room. Are you and everyone with you safe right now?",
     "first_name": os.getenv("CALL_NAME", "Maria"),
     "case_opening": "You texted us that your roof caved in and there's water in the living room.",
     "call_reason": "the policyholder replied 4, asking for a call",

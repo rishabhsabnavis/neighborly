@@ -1,0 +1,82 @@
+{
+  "policyholder": {
+    "id": "ph_019",
+    "name": "Felix Navarro",
+    "address": "347 Cypress St, Apalachicola, FL",
+    "county": "Franklin"
+  },
+  "policy": {
+    "number": "SF-HO-80019",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 347 Cypress St"
+    ],
+    "coverages": {
+      "dwelling": 340000,
+      "contents": 170000,
+      "ale": 20000
+    },
+    "deductible": 2500,
+    "household": {
+      "size": 4,
+      "notes": [
+        "Grandmother, 82, lives in the home"
+      ]
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_019_m1",
+      "ts": "2026-11-07T18:57:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Felix, this is State Farm. Hurricane Isaias hit Franklin County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_019_m2",
+      "ts": "2026-11-07T18:58:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "The roof is open over the kitchen and the power is out. We need a hotel."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 3,
+    "label": "high",
+    "needs": [
+      "shelter"
+    ],
+    "summary": "Roof open, power out, needs a hotel",
+    "action": "Offer a call and draft a claim",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": {
+    "claim_id": "SF-4955-0019",
+    "status": "draft",
+    "policy_number": "SF-HO-80019",
+    "date_of_loss": "2026-10-27",
+    "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+    "loss_location": "347 Cypress St, Apalachicola, FL",
+    "damages": [
+      {
+        "item": "Roof",
+        "description": "Caved in",
+        "coverage": "dwelling",
+        "severity": "major"
+      }
+    ],
+    "ale_requested": true,
+    "injuries_or_medical": [],
+    "deductible": 2500,
+    "missing_info": [
+      "Photos of damage",
+      "Estimated repair cost"
+    ],
+    "evidence": [
+      "ph_019_m1",
+      "ph_019_m2"
+    ]
+  }
+}
