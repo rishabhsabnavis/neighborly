@@ -1,0 +1,54 @@
+{
+  "policyholder": {
+    "id": "ph_030",
+    "name": "Victor Lang",
+    "address": "490 Oak St, Chipley, FL",
+    "county": "Washington"
+  },
+  "policy": {
+    "number": "SF-HO-80030",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 490 Oak St"
+    ],
+    "coverages": {
+      "dwelling": 400000,
+      "contents": 200000,
+      "ale": 12000
+    },
+    "deductible": 1000,
+    "household": {
+      "size": 3,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_030_m1",
+      "ts": "2026-11-07T19:30:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Victor, this is State Farm. Hurricane Isaias hit Washington County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_030_m2",
+      "ts": "2026-11-07T19:31:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "Some shingles came off and a window cracked, but we can stay."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 2,
+    "label": "moderate",
+    "needs": [
+      "repairs"
+    ],
+    "summary": "Shingles and a cracked window",
+    "action": "Ask a follow-up",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": null
+}

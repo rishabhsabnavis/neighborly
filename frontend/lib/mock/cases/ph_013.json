@@ -1,0 +1,80 @@
+{
+  "policyholder": {
+    "id": "ph_013",
+    "name": "Rosa Kim",
+    "address": "269 Pine Ln, Crawfordville, FL",
+    "county": "Wakulla"
+  },
+  "policy": {
+    "number": "SF-HO-80013",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 269 Pine Ln"
+    ],
+    "coverages": {
+      "dwelling": 380000,
+      "contents": 190000,
+      "ale": 18000
+    },
+    "deductible": 2500,
+    "household": {
+      "size": 2,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_013_m1",
+      "ts": "2026-11-07T18:39:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Rosa, this is State Farm. Hurricane Isaias hit Wakulla County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_013_m2",
+      "ts": "2026-11-07T18:40:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "The roof caved in and rain is in the living room. We need a hotel tonight."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 3,
+    "label": "high",
+    "needs": [
+      "shelter"
+    ],
+    "summary": "Roof caved in, needs a hotel",
+    "action": "Offer a call and draft a claim",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": {
+    "claim_id": "SF-4955-0013",
+    "status": "draft",
+    "policy_number": "SF-HO-80013",
+    "date_of_loss": "2026-10-27",
+    "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+    "loss_location": "269 Pine Ln, Crawfordville, FL",
+    "damages": [
+      {
+        "item": "Roof",
+        "description": "Caved in",
+        "coverage": "dwelling",
+        "severity": "major"
+      }
+    ],
+    "ale_requested": true,
+    "injuries_or_medical": [],
+    "deductible": 2500,
+    "missing_info": [
+      "Photos of damage",
+      "Estimated repair cost"
+    ],
+    "evidence": [
+      "ph_013_m1",
+      "ph_013_m2"
+    ]
+  }
+}

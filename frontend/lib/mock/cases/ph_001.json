@@ -1,0 +1,52 @@
+{
+  "policyholder": {
+    "id": "ph_001",
+    "name": "Amina Brooks",
+    "address": "113 Palm Ave, Panama City, FL",
+    "county": "Bay"
+  },
+  "policy": {
+    "number": "SF-HO-80001",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 113 Palm Ave"
+    ],
+    "coverages": {
+      "dwelling": 300000,
+      "contents": 150000,
+      "ale": 14000
+    },
+    "deductible": 2500,
+    "household": {
+      "size": 2,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_001_m1",
+      "ts": "2026-11-07T18:03:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "Amina, this is State Farm. Hurricane Isaias hit Bay County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_001_m2",
+      "ts": "2026-11-07T18:04:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "1"
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 1,
+    "label": "safe",
+    "needs": [],
+    "summary": "Safe, no help needed",
+    "action": "No help needed",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": null
+}

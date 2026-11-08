@@ -1,0 +1,81 @@
+{
+  "policyholder": {
+    "id": "ph_022",
+    "name": "June Harlow",
+    "address": "386 Bayou Rd, Bonifay, FL",
+    "county": "Holmes"
+  },
+  "policy": {
+    "number": "SF-HO-80022",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 386 Bayou Rd"
+    ],
+    "coverages": {
+      "dwelling": 400000,
+      "contents": 200000,
+      "ale": 16000
+    },
+    "deductible": 1000,
+    "household": {
+      "size": 3,
+      "notes": []
+    }
+  },
+  "messages": [
+    {
+      "id": "ph_022_m1",
+      "ts": "2026-11-07T19:06:00Z",
+      "from": "agent",
+      "channel": "imessage",
+      "text": "June, this is State Farm. Hurricane Isaias hit Holmes County. Reply 1 Safe, 2 Need help, 3 Emergency, 4 Call me, 0 Talk to a person."
+    },
+    {
+      "id": "ph_022_m2",
+      "ts": "2026-11-07T19:07:00Z",
+      "from": "policyholder",
+      "channel": "imessage",
+      "text": "The carport roof collapsed onto the house. Rain is in the living room. We need shelter."
+    }
+  ],
+  "calls": [],
+  "triage": {
+    "urgency": 3,
+    "label": "high",
+    "needs": [
+      "shelter"
+    ],
+    "summary": "Carport roof collapsed, needs shelter",
+    "action": "Offer a call and draft a claim",
+    "source": "seed"
+  },
+  "human_request": null,
+  "claim_draft": {
+    "claim_id": "SF-4955-0022",
+    "status": "draft",
+    "policy_number": "SF-HO-80022",
+    "date_of_loss": "2026-10-27",
+    "cause_of_loss": "Hurricane Isaias (FEMA-4955): wind + water",
+    "loss_location": "386 Bayou Rd, Bonifay, FL",
+    "damages": [
+      {
+        "item": "Roof",
+        "description": "Caved in",
+        "coverage": "dwelling",
+        "severity": "major"
+      }
+    ],
+    "ale_requested": true,
+    "injuries_or_medical": [],
+    "deductible": 1000,
+    "missing_info": [
+      "Coverage review: vehicle",
+      "Photos of damage",
+      "Estimated repair cost"
+    ],
+    "evidence": [
+      "ph_022_m1",
+      "ph_022_m2"
+    ]
+  }
+}

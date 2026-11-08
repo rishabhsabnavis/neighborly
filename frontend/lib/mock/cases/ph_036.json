@@ -1,0 +1,30 @@
+{
+  "policyholder": {
+    "id": "ph_036",
+    "name": "Pedro Santos",
+    "address": "568 Gulf Blvd, Port St. Joe, FL",
+    "county": "Gulf"
+  },
+  "policy": {
+    "number": "SF-HO-80036",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 568 Gulf Blvd"
+    ],
+    "coverages": {
+      "dwelling": 360000,
+      "contents": 180000,
+      "ale": 14000
+    },
+    "deductible": 1000,
+    "household": {
+      "size": 1,
+      "notes": []
+    }
+  },
+  "messages": [],
+  "calls": [],
+  "triage": null,
+  "human_request": null,
+  "claim_draft": null
+}

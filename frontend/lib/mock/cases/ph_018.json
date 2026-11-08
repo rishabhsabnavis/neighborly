@@ -1,0 +1,30 @@
+{
+  "policyholder": {
+    "id": "ph_018",
+    "name": "Imani Scott",
+    "address": "334 Maple Ave, Pensacola, FL",
+    "county": "Escambia"
+  },
+  "policy": {
+    "number": "SF-HO-80018",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 334 Maple Ave"
+    ],
+    "coverages": {
+      "dwelling": 320000,
+      "contents": 160000,
+      "ale": 18000
+    },
+    "deductible": 1000,
+    "household": {
+      "size": 3,
+      "notes": []
+    }
+  },
+  "messages": [],
+  "calls": [],
+  "triage": null,
+  "human_request": null,
+  "claim_draft": null
+}

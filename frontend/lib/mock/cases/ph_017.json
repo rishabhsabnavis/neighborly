@@ -1,0 +1,33 @@
+{
+  "policyholder": {
+    "id": "ph_017",
+    "name": "Maria Lopez",
+    "address": "412 Harbor Dr, Panama City, FL",
+    "county": "Bay"
+  },
+  "policy": {
+    "number": "SF-HO-88213",
+    "type": "homeowners",
+    "covered_property": [
+      "Dwelling: 412 Harbor Dr",
+      "2019 Toyota Camry"
+    ],
+    "coverages": {
+      "dwelling": 320000,
+      "contents": 160000,
+      "ale": 18000
+    },
+    "deductible": 2500,
+    "household": {
+      "size": 3,
+      "notes": [
+        "Mother, 74, home oxygen"
+      ]
+    }
+  },
+  "messages": [],
+  "calls": [],
+  "triage": null,
+  "human_request": null,
+  "claim_draft": null
+}
